@@ -1,0 +1,6 @@
+# public/_redirects — copied into dist/ at build time.
+#
+# /api/* routing lives in netlify.toml (single source of truth) so that
+# `force = true` is honored. This file only handles the SPA client-side
+# routing fallback for everything that isn't a static asset.
+/*  /index.html  200

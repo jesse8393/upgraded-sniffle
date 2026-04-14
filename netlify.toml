@@ -1,0 +1,29 @@
+# netlify.toml — Fieldhorse production deploy configuration
+#
+# Build:    Vite outputs the static SPA into dist/
+# Functions: Netlify auto-discovers .js files in netlify/functions/
+# Routing:  /api/* is rewritten to the function. SPA fallback handles
+#           every other unknown path.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+# ── Function route ──────────────────────────────────────────
+# /api/ai is rewritten to the deployed function at /.netlify/functions/ai.
+# `force = true` makes this rule win over any later catch-all rule, so the
+# SPA fallback below cannot accidentally swallow API requests.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+# ── SPA fallback ────────────────────────────────────────────
+# Everything that isn't a static asset or an /api/* request gets the
+# index.html so client-side React Router can handle the route.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

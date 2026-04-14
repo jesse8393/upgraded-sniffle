@@ -1,0 +1,9 @@
+{
+  "name": "Fieldhorse",
+  "short_name": "FH",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#C9963A",
+  "background_color": "#F2EDE4",
+  "icons": []
+}
