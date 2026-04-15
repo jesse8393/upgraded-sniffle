@@ -23,13 +23,13 @@ const S = {
   async set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* quota / private mode */ } },
 };
 
-// Per-user data key — every user has their own dataset.
-// Reads currentUser from localStorage so any screen can call this without prop drilling.
+// Per-user data key — every user has their own isolated dataset.
+// v2 prefix forces a clean slate (abandons any v1 data contaminated with seed content).
 const getCurrentDataKey = () => {
   try {
     const u = JSON.parse(localStorage.getItem("fh_current_user") || "null");
-    return u?.id ? `fieldcap:data:${u.id}` : getCurrentDataKey();
-  } catch { return getCurrentDataKey(); }
+    return u?.id ? `fieldcap:data:v2:${u.id}` : null;
+  } catch { return null; }
 };
 
 // ─── AI CALL ─────────────────────────────────────────────
@@ -103,6 +103,13 @@ const INIT = {
     { id:"ev5", job:"Mark Stevens",    desc:"Concrete pour — driveway and walkway",      day:3, time:"7:30 AM",  date:"" },
     { id:"ev6", job:"David Park",      desc:"Initial site walkthrough for pergola",      day:4, time:"11:00 AM", date:"" },
   ],
+};
+
+// Blank starting state for all non-Jesse users.
+// Partner/Inspect data lives in Supabase (already scoped by owner).
+const BLANK_INIT = {
+  contacts: [], notes: [], messages: [], subs: [],
+  mileageLog: [], referrals: [], scheduled: [], weeklyTarget: 45000,
 };
 
 // Domain config (STATUS_CFG / TYPE_CFG / MILESTONES / RATES / INSPECTION_TYPES_BY_JOB_TYPE)
@@ -2182,8 +2189,19 @@ function App({ currentUser, setCurrentUser }) {
     if (!currentUser?.id) return;
     setLoaded(false);
     (async () => {
-      let d = await S.get(getCurrentDataKey());
-      if (!d) { d = INIT; await S.set(getCurrentDataKey(), d); }
+      const key = `fieldcap:data:v2:${currentUser.id}`;
+      let d = await S.get(key);
+      if (!d) {
+        if (currentUser.id === "jesse") {
+          // Migrate Jesse's old v1 data if it exists, otherwise use the sample seed.
+          const legacy = await S.get(`fieldcap:data:jesse`);
+          d = legacy || INIT;
+        } else {
+          // All other users (partner, guest) start with a completely blank slate.
+          d = BLANK_INIT;
+        }
+        await S.set(key, d);
+      }
       setData(d);
       setLoaded(true);
     })();
