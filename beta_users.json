@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Jesse",
+    "email": "jesse@parkerconstructioncompany.com",
+    "org_name": "Parker Construction Co.",
+    "services": ["full_gc", "new_construction", "renovation", "concrete", "outdoor_living", "insurance_restoration", "roofing"],
+    "role": "owner",
+    "preserve_data": true
+  },
+  {
+    "name": "Matthew McNeal",
+    "email": "mcnealroofingtn@gmail.com",
+    "org_name": "McNeal Roofing & Construction",
+    "services": ["roofing", "full_gc"],
+    "role": "owner",
+    "preserve_data": false
+  },
+  {
+    "name": "Peyton",
+    "email": "peyton@p2electricalcontracting.com",
+    "org_name": "P2 Electrical Contracting",
+    "services": ["electrical"],
+    "role": "owner",
+    "preserve_data": false
+  },
+  {
+    "name": "Jason",
+    "email": "completeconcretetn@gmail.com",
+    "org_name": "Complete Concrete TN",
+    "services": [],
+    "role": "owner",
+    "preserve_data": false,
+    "note": "Jason picks his own services during onboarding — leave services empty so onboarding flow prompts him"
+  }
+]
