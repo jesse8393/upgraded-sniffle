@@ -302,8 +302,9 @@ export default function InspectionTracker({ currentUser }) {
   const saveTimer = useRef(null);
   const skipNextSave = useRef(false);
   // Guard against undefined currentUser prop
-  const user = currentUser || { name: "Jesse", company: "Parker Construction Co.", role: "owner", id: "fallback" };
+  const user = currentUser || { name: "", company: "", role: "owner", id: "fallback" };
   const userName = user.name;
+  const orgId = user.org_id || null;
 
   // Load — with safety timeout so the screen never hangs.
   useEffect(() => {
@@ -324,11 +325,17 @@ export default function InspectionTracker({ currentUser }) {
 
     (async () => {
       try {
-        console.log("[InspectionTracker] querying fh_inspections…");
+        if (!orgId) {
+          console.warn("[InspectionTracker] no org_id on currentUser — aborting load");
+          finish("No organization on this account. Sign out and sign back in.");
+          clearTimeout(timeout);
+          return;
+        }
+        console.log("[InspectionTracker] querying fh_inspections…", { orgId });
         const { data, error } = await supabase
           .from("fh_inspections")
           .select("*")
-          .eq("owner", userName)
+          .eq("org_id", orgId)
           .order("updated_at", { ascending: false })
           .limit(1);
         if (error) {
@@ -351,7 +358,7 @@ export default function InspectionTracker({ currentUser }) {
               inspection_data: [],
               updated_at: iso(),
               updated_by: userName,
-              owner: userName,
+              org_id: orgId,
             })
             .select()
             .single();
@@ -372,22 +379,23 @@ export default function InspectionTracker({ currentUser }) {
 
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [orgId]);
 
   // Realtime — wrapped in try/catch so a broken subscription
   // doesn't crash the whole component.
   useEffect(() => {
+    if (!orgId) return;
     let channel;
     try {
       channel = supabase
         .channel("fh_inspections_sync")
         .on(
           "postgres_changes",
-          { event: "*", schema: "public", table: "fh_inspections", filter: `owner=eq.${userName}` },
+          { event: "*", schema: "public", table: "fh_inspections", filter: `org_id=eq.${orgId}` },
           (payload) => {
             const newRow = payload.new;
             if (!newRow) return;
-            if (newRow.owner !== userName) return;
+            if (newRow.org_id !== orgId) return;
             if (newRow.updated_by === userName) return;
             const arr = Array.isArray(newRow.inspection_data) ? newRow.inspection_data : [];
             skipNextSave.current = true;
@@ -404,7 +412,7 @@ export default function InspectionTracker({ currentUser }) {
         try { supabase.removeChannel(channel); } catch { /* cleanup */ }
       }
     };
-  }, [userName]);
+  }, [orgId, userName]);
 
   // Debounced save
   useEffect(() => {
@@ -428,13 +436,14 @@ export default function InspectionTracker({ currentUser }) {
             .eq("id", rowId);
           if (error) throw error;
         } else {
+          if (!orgId) throw new Error("no org_id — cannot save");
           const { data, error } = await supabase
             .from("fh_inspections")
             .insert({
               inspection_data: inspections,
               updated_at: iso(),
               updated_by: userName,
-              owner: userName,
+              org_id: orgId,
             })
             .select()
             .single();
@@ -451,7 +460,7 @@ export default function InspectionTracker({ currentUser }) {
     return () => {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
-  }, [inspections, rowId, loading, userName]);
+  }, [inspections, rowId, loading, userName, orgId]);
 
   const addHistory = (insp, action) => ({
     ...insp,

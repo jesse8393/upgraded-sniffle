@@ -166,8 +166,9 @@ export default function PartnerTracker({ currentUser }) {
   const saveTimer = useRef(null);
   const skipNextSave = useRef(false);
   // Guard against undefined currentUser prop
-  const user = currentUser || { name: "Jesse", company: "Parker Construction Co.", role: "owner", id: "fallback" };
+  const user = currentUser || { name: "", company: "", role: "owner", id: "fallback" };
   const userName = user.name;
+  const orgId = user.org_id || null;
 
   // Load row — with safety timeout so the screen never hangs.
   useEffect(() => {
@@ -189,11 +190,17 @@ export default function PartnerTracker({ currentUser }) {
 
     (async () => {
       try {
-        console.log("[PartnerTracker] querying fh_partner_jobs…");
+        if (!orgId) {
+          console.warn("[PartnerTracker] no org_id on currentUser — aborting load");
+          finish("No organization on this account. Sign out and sign back in.");
+          clearTimeout(timeout);
+          return;
+        }
+        console.log("[PartnerTracker] querying fh_partner_jobs…", { orgId });
         const { data, error } = await supabase
           .from("fh_partner_jobs")
           .select("*")
-          .eq("owner", userName)
+          .eq("org_id", orgId)
           .order("updated_at", { ascending: false })
           .limit(1);
         if (error) {
@@ -217,7 +224,7 @@ export default function PartnerTracker({ currentUser }) {
               job_data: [],
               updated_at: iso(),
               updated_by: userName,
-              owner: userName,
+              org_id: orgId,
             })
             .select()
             .single();
@@ -238,22 +245,23 @@ export default function PartnerTracker({ currentUser }) {
 
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [orgId]);
 
   // Realtime channel — wrapped in try/catch so a broken subscription
   // doesn't crash the whole component.
   useEffect(() => {
+    if (!orgId) return;
     let channel;
     try {
       channel = supabase
         .channel("fh_partner_jobs_sync")
         .on(
           "postgres_changes",
-          { event: "*", schema: "public", table: "fh_partner_jobs", filter: `owner=eq.${userName}` },
+          { event: "*", schema: "public", table: "fh_partner_jobs", filter: `org_id=eq.${orgId}` },
           (payload) => {
             const newRow = payload.new;
             if (!newRow) return;
-            if (newRow.owner !== userName) return;
+            if (newRow.org_id !== orgId) return;
             if (newRow.updated_by === userName) return;
             const arr = Array.isArray(newRow.job_data) ? newRow.job_data : [];
             skipNextSave.current = true;
@@ -270,7 +278,7 @@ export default function PartnerTracker({ currentUser }) {
         try { supabase.removeChannel(channel); } catch { /* cleanup */ }
       }
     };
-  }, [userName]);
+  }, [orgId, userName]);
 
   // Debounced save
   useEffect(() => {
@@ -294,13 +302,14 @@ export default function PartnerTracker({ currentUser }) {
             .eq("id", rowId);
           if (error) throw error;
         } else {
+          if (!orgId) throw new Error("no org_id — cannot save");
           const { data, error } = await supabase
             .from("fh_partner_jobs")
             .insert({
               job_data: jobs,
               updated_at: iso(),
               updated_by: userName,
-              owner: userName,
+              org_id: orgId,
             })
             .select()
             .single();
@@ -317,7 +326,7 @@ export default function PartnerTracker({ currentUser }) {
     return () => {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
-  }, [jobs, rowId, loading, userName]);
+  }, [jobs, rowId, loading, userName, orgId]);
 
   // Strict per-user visibility: you see a job ONLY if your name is
   // in its collaborators array. No legacy exceptions, no "show to everyone".
@@ -566,27 +575,29 @@ function OverviewTab({ job, updateJob, deleteJob, currentUser }) {
   const ownerName = job.owner || job.createdBy || currentUser?.name;
   const isOwner = ownerName === currentUser?.name;
 
-  // Load available partners from fh_users on mount
+  // Load available partners from fh_users (scoped to the same org)
   useEffect(() => {
+    const orgId = currentUser?.org_id;
+    if (!orgId) { setPartnerList([]); return; }
     (async () => {
       try {
         const { data, error } = await supabase
           .from("fh_users")
           .select("name")
+          .eq("org_id", orgId)
           .neq("name", currentUser?.name || "");
         if (!error && data) {
           setPartnerList(data.map(u => u.name));
         } else {
           console.warn("[PartnerTracker] could not load partner list:", error?.message);
-          // Local fallback so the dropdown still works
-          setPartnerList(["Jesse", "Buddy", "Matthew McNeal", "Peyton"].filter(n => n !== currentUser?.name));
+          setPartnerList([]);
         }
       } catch (e) {
         console.warn("[PartnerTracker] partner list exception:", e);
-        setPartnerList(["Jesse", "Buddy", "Matthew McNeal", "Peyton"].filter(n => n !== currentUser?.name));
+        setPartnerList([]);
       }
     })();
-  }, [currentUser?.name]);
+  }, [currentUser?.name, currentUser?.org_id]);
 
   // Available partners = everyone NOT already a collaborator on this job
   const invitable = partnerList.filter(p => !collaborators.includes(p));
