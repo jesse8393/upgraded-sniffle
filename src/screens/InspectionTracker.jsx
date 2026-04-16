@@ -688,8 +688,8 @@ export default function InspectionTracker({ currentUser }) {
       {filtered.length === 0 && (
         <EmptyState
           icon={<Icon name="clipboard" size={32} />}
-          title="No inspections"
-          body="Tap a trade above to start a new inspection log."
+          title="No inspections yet"
+          body="Tap a trade above to log your first inspection."
         />
       )}
       <div style={{ display: "flex", flexDirection: "column", gap: SP[2] }}>

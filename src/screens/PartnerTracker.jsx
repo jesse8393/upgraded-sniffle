@@ -484,8 +484,22 @@ export default function PartnerTracker({ currentUser }) {
       </div>
 
       {!selected && (
-        <div style={{ ...s.card, textAlign: "center", padding: "30px 20px", color: "var(--text-muted)" }}>
-          {visibleJobs.length === 0 ? "No partner jobs yet. Add one above." : "Select a job to view details."}
+        <div style={{ ...s.card, textAlign: "center", padding: "48px 20px" }}>
+          {visibleJobs.length === 0 ? (
+            <>
+              <div style={{ fontSize: 32, marginBottom: 12, opacity: 0.5 }}>⚒</div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary)", marginBottom: 6 }}>
+                No partner jobs yet
+              </div>
+              <div style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                Tap <span style={{ color: GOLD, fontWeight: 700 }}>+ NEW JOB</span> above to start one.
+              </div>
+            </>
+          ) : (
+            <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
+              Select a job to view details.
+            </div>
+          )}
         </div>
       )}
 

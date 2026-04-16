@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import FieldhorseLogo from "./components/FieldhorseLogo";
 import LoginScreen from "./components/LoginScreen";
+import OnboardingFlow from "./components/OnboardingFlow";
+import PasswordResetScreen from "./components/PasswordResetScreen";
 import Icon from "./components/Icon";
 import PartnerTracker from "./screens/PartnerTracker";
 import InspectionTracker from "./screens/InspectionTracker";
 import { useTheme } from "./context/ThemeContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 // Design system — tokens, primitives, domain config — single source of truth.
 import {
   T, SP, R, FS, LS, MO, FF, ELEV,
@@ -24,11 +27,11 @@ const S = {
 };
 
 // Per-user data key — every user has their own isolated dataset.
-// v2 prefix forces a clean slate (abandons any v1 data contaminated with seed content).
+// v3 prefix = multi-tenant era (keyed on auth_user_id, not PIN-era id).
 const getCurrentDataKey = () => {
   try {
     const u = JSON.parse(localStorage.getItem("fh_current_user") || "null");
-    return u?.id ? `fieldcap:data:v2:${u.id}` : null;
+    return u?.id ? `fieldcap:data:v3:${u.id}` : null;
   } catch { return null; }
 };
 
@@ -508,7 +511,13 @@ function HomeScreen({ data, setScreen, setSel, currentUser }) {
             </Card>
           ))}
           {contacts.filter(c=>["follow-up","new"].includes(c.status)).length === 0 && (
-            <EmptyState title="Nothing in queue" body="Customers needing follow-up will appear here." />
+            <EmptyState
+              icon={<Icon name="briefcase" size={32} />}
+              title={contacts.length === 0 ? "Welcome to Fieldhorse." : "Nothing in queue"}
+              body={contacts.length === 0
+                ? "No jobs yet. Tap Jobs & CRM above to add your first."
+                : "Customers needing follow-up will appear here."}
+            />
           )}
         </div>
       </div>
@@ -616,7 +625,7 @@ function CaptureScreen({ data, setData }) {
           <EmptyState
             icon={<Icon name="note" size={32} />}
             title="No notes yet"
-            body="Capture a thought above. AI will parse it into a structured note."
+            body="Capture a note to get started. AI parses it into a structured entry."
           />
         )}
         {notes.map(n => {
@@ -841,8 +850,8 @@ function LeadsScreen({ data, setData, setScreen, setSel }) {
         {filtered.length===0 && (
           <EmptyState
             icon={<Icon name="briefcase" size={32} />}
-            title="No contacts"
-            body="Add a new contact to start building your pipeline."
+            title="No contacts yet"
+            body="Tap + to add your first lead."
           />
         )}
       </div>
@@ -1486,7 +1495,7 @@ function ScheduleScreen({ data, setData }) {
         <EmptyState
           icon={<Icon name="calendar" size={32} />}
           title="Nothing scheduled"
-          body="Tap the + button to add an event for this day."
+          body="Tap a day to add an event."
         />
       ) : (
         <div style={{ display:"flex", flexDirection:"column", gap:SP[2], marginBottom:SP[5] }}>
@@ -2138,42 +2147,70 @@ function SettingsScreen({ companyName, setCompanyName, currentUser, onSwitchUser
 }
 
 // ─── AUTH WRAPPER ────────────────────────────────────────
+// Exports <AuthProvider>-wrapped root. Inside the provider, <AuthGate/>
+// decides between Login / Onboarding / PasswordReset / the main <App/>.
 export default function AuthWrapper() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [checking, setChecking] = useState(true);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("fh_current_user");
-      if (raw) {
-        const u = JSON.parse(raw);
-        if (u && u.id && u.name) setCurrentUser(u);
-      }
-    } catch { /* corrupt session — fall through to login */ }
-    setChecking(false);
-  }, []);
-
-  if (checking) return (
-    <div style={{ minHeight:"100vh", background:"#0d0d0d", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-      <FieldhorseLogo size={36} surface="dark" showSub={true} />
-    </div>
+  return (
+    <AuthProvider>
+      <AuthGate />
+    </AuthProvider>
   );
+}
 
-  if (!currentUser) {
+function AuthGate() {
+  const { status, isAuthenticated, currentUser, needsProvisioning } = useAuth();
+  const [mode, setMode] = useState("signin"); // 'signin' | 'signup'
+
+  // Keep the old localStorage mirror so per-user data keys stay stable
+  // for code paths (setSel, data loaders) that still read it.
+  useEffect(() => {
+    if (isAuthenticated && currentUser?.auth_user_id) {
+      localStorage.setItem(
+        "fh_current_user",
+        JSON.stringify({
+          id: currentUser.auth_user_id,
+          name: currentUser.name,
+          company: currentUser.org_name || currentUser.company,
+          role: currentUser.role,
+          email: currentUser.email,
+          org_id: currentUser.org_id,
+        })
+      );
+    } else if (status === "anonymous") {
+      localStorage.removeItem("fh_current_user");
+    }
+  }, [isAuthenticated, currentUser, status]);
+
+  if (status === "loading") {
     return (
-      <LoginScreen
-        onLogin={(user) => {
-          localStorage.setItem("fh_current_user", JSON.stringify(user));
-          setCurrentUser(user);
-        }}
-      />
+      <div style={{ minHeight:"100vh", background:"#0d0d0d", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+        <FieldhorseLogo size={36} surface="dark" showSub={true} />
+      </div>
     );
   }
 
-  return <App currentUser={currentUser} setCurrentUser={setCurrentUser} />;
+  // Signed in but no fh_users row yet → finish onboarding
+  if (needsProvisioning) {
+    return <OnboardingFlow onCancel={() => { /* stuck in provisioning */ }} />;
+  }
+
+  if (!isAuthenticated) {
+    if (mode === "signup") {
+      return <OnboardingFlow onCancel={() => setMode("signin")} />;
+    }
+    return <LoginScreen onRequestSignup={() => setMode("signup")} />;
+  }
+
+  if (currentUser?.must_reset_password) {
+    return <PasswordResetScreen />;
+  }
+
+  return <App />;
 }
 
-function App({ currentUser, setCurrentUser }) {
+function App() {
+  const { currentUser, signOut } = useAuth();
+  const setCurrentUser = () => { /* deprecated — AuthContext owns this now */ };
   const [screen, setScreen] = useState("home");
   const [sel, setSel] = useState(null);
   const [data, setData] = useState({ contacts:[], notes:[], messages:[], subs:[], mileageLog:[], weeklyTarget:45000, scheduled:[] });
@@ -2182,22 +2219,29 @@ function App({ currentUser, setCurrentUser }) {
 
   const switchUser = () => {
     localStorage.removeItem("fh_current_user");
-    setCurrentUser(null);
+    signOut();
   };
 
+  // Stable per-user data key. Before: keyed on legacy tile id ("jesse"/"buddy").
+  // Now: keyed on Supabase auth_user_id — unique across the platform.
+  const userKey = currentUser?.auth_user_id || currentUser?.id;
+
   useEffect(() => {
-    if (!currentUser?.id) return;
+    if (!userKey) return;
     setLoaded(false);
     (async () => {
-      const key = `fieldcap:data:v2:${currentUser.id}`;
+      const key = `fieldcap:data:v3:${userKey}`;
       let d = await S.get(key);
       if (!d) {
-        if (currentUser.id === "jesse") {
-          // Migrate Jesse's old v1 data if it exists, otherwise use the sample seed.
-          const legacy = await S.get(`fieldcap:data:jesse`);
-          d = legacy || INIT;
+        // Preserve Jesse's seed dataset across migrations by detecting his email.
+        // Everyone else starts with a truly blank slate.
+        const isJesse =
+          (currentUser?.email || "").toLowerCase() === "jesse@parkerconstructioncompany.com";
+        if (isJesse) {
+          const legacyV2 = await S.get(`fieldcap:data:v2:jesse`);
+          const legacyV1 = await S.get(`fieldcap:data:jesse`);
+          d = legacyV2 || legacyV1 || INIT;
         } else {
-          // All other users (partner, guest) start with a completely blank slate.
           d = BLANK_INIT;
         }
         await S.set(key, d);
@@ -2205,7 +2249,7 @@ function App({ currentUser, setCurrentUser }) {
       setData(d);
       setLoaded(true);
     })();
-  }, [currentUser?.id]);
+  }, [userKey, currentUser?.email]);
 
   useEffect(() => {
     if (currentUser?.company) setCompanyName(currentUser.company);
