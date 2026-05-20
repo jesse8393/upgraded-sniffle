@@ -8,6 +8,23 @@
 const log = (...args) => console.log("[fh-ai]", ...args);
 const errLog = (...args) => console.error("[fh-ai]", ...args);
 
+// Input guards — keep one shared API key from being abused by oversized or
+// runaway requests. These are deliberately generous for the app's real use
+// (note parsing, bids, compose) but cap pathological payloads.
+const MAX_PROMPT_CHARS = 24000;
+const MAX_SYSTEM_CHARS = 8000;
+const MAX_TOKENS = 4096;
+const MIN_TOKENS = 1;
+
+// Only these models may be requested. Defaults to Sonnet for the app's
+// text tasks; callers can opt into Opus/Haiku but nothing off-list.
+const DEFAULT_MODEL = "claude-sonnet-4-6";
+const ALLOWED_MODELS = new Set([
+  "claude-opus-4-7",
+  "claude-sonnet-4-6",
+  "claude-haiku-4-5-20251001",
+]);
+
 export default async (req) => {
   const t0 = Date.now();
 
@@ -33,13 +50,31 @@ export default async (req) => {
     return jsonResponse(400, { error: "Invalid JSON body", detail: e?.message });
   }
 
-  const { system = "", prompt = "", tokens = 1024 } = body || {};
+  const { system = "", prompt = "", tokens = 1024, model } = body || {};
   if (!prompt || typeof prompt !== "string") {
     errLog("missing prompt", { prompt });
     return jsonResponse(400, { error: "Missing or invalid prompt" });
   }
+  if (typeof system !== "string") {
+    return jsonResponse(400, { error: "Invalid system prompt" });
+  }
+  if (prompt.length > MAX_PROMPT_CHARS || system.length > MAX_SYSTEM_CHARS) {
+    errLog("payload too large", { promptLen: prompt.length, systemLen: system.length });
+    return jsonResponse(413, {
+      error: "Request too large",
+      detail: `prompt ≤ ${MAX_PROMPT_CHARS} chars, system ≤ ${MAX_SYSTEM_CHARS} chars`,
+    });
+  }
 
-  log("→ anthropic", { promptLen: prompt.length, systemLen: system.length, tokens });
+  // Clamp tokens into a sane range; ignore non-numeric input.
+  const reqTokens = Number(tokens);
+  const maxTokens = Number.isFinite(reqTokens)
+    ? Math.min(MAX_TOKENS, Math.max(MIN_TOKENS, Math.floor(reqTokens)))
+    : 1024;
+
+  const chosenModel = ALLOWED_MODELS.has(model) ? model : DEFAULT_MODEL;
+
+  log("→ anthropic", { model: chosenModel, promptLen: prompt.length, systemLen: system.length, maxTokens });
 
   try {
     const upstream = await fetch("https://api.anthropic.com/v1/messages", {
@@ -50,8 +85,8 @@ export default async (req) => {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: tokens,
+        model: chosenModel,
+        max_tokens: maxTokens,
         system,
         messages: [{ role: "user", content: prompt }],
       }),
