@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../lib/supabase";
+import { ai } from "../lib/ai";
 import { T, SP, R, FS, LS, MO, FF } from "../ui/tokens";
 import { Card, Btn, Pill, Stat, SectionHeader, EmptyState } from "../ui/primitives";
 import Icon from "../components/Icon";
@@ -751,6 +752,43 @@ export default function InspectionTracker({ currentUser }) {
 function InspectionDetail({ inspection, onBack, onUpdate, onDelete }) {
   const def = TRADE_DEFS[inspection.trade] || { label: inspection.trade, icon: "clipboard" };
   const [newPhoto, setNewPhoto] = useState({ label: "", notes: "" });
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiError, setAiError] = useState("");
+
+  // AI re-inspection punch list — turns failed/NA checkpoints into a clean,
+  // contractor-ready summary the inspector or crew can act on.
+  const generateSummary = async () => {
+    setAiBusy(true);
+    setAiError("");
+    const failed = (inspection.checkpoints || []).filter((cp) => cp.status === "fail");
+    const na = (inspection.checkpoints || []).filter((cp) => cp.status === "na");
+    const passCount = (inspection.checkpoints || []).filter((cp) => cp.status === "pass").length;
+
+    const lines = [
+      `Trade: ${def.label}`,
+      `Job: ${inspection.jobName || "—"}`,
+      `Inspection type: ${inspection.inspectionType || "—"}`,
+      `Passed checkpoints: ${passCount}`,
+      failed.length
+        ? `Failed:\n${failed.map((cp) => `- ${cp.label}${cp.critical ? " (CRITICAL)" : ""}${cp.notes ? `: ${cp.notes}` : ""}`).join("\n")}`
+        : "Failed: none",
+      na.length ? `N/A: ${na.map((cp) => cp.label).join(", ")}` : "",
+      inspection.inspectorNotes ? `Inspector notes: ${inspection.inspectorNotes}` : "",
+    ].filter(Boolean);
+
+    const text = await ai(
+      "You are a construction inspection assistant. Write a concise, professional re-inspection punch list in plain text. Use short bullet points grouped by priority (Critical first). No markdown headers, no preamble. If nothing failed, say the inspection is ready to pass and note any N/A items to confirm.",
+      lines.join("\n"),
+      { tokens: 700 }
+    );
+
+    if (text) {
+      onUpdate(inspection.id, { aiSummary: text, aiSummaryAt: iso() }, "Generated AI summary");
+    } else {
+      setAiError("Could not generate summary. Check AI configuration and try again.");
+    }
+    setAiBusy(false);
+  };
 
   const setCheckpointStatus = (cpId, status) => {
     const cps = inspection.checkpoints.map((cp) =>
@@ -976,6 +1014,41 @@ function InspectionDetail({ inspection, onBack, onUpdate, onDelete }) {
             </div>
           );
         })}
+      </div>
+
+      <div style={s.card}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: SP[2] }}>
+          <div style={{ ...s.label, marginBottom: 0 }}>AI Summary</div>
+          <button
+            style={{ ...s.smallBtn, color: GOLD, borderColor: T.goldBorder, opacity: aiBusy ? 0.6 : 1 }}
+            disabled={aiBusy}
+            onClick={generateSummary}
+          >
+            {aiBusy ? "Generating…" : inspection.aiSummary ? "Regenerate" : "Generate punch list"}
+          </button>
+        </div>
+        {aiError && (
+          <div style={{ fontSize: FS.meta, color: RED, marginBottom: SP[2] }}>{aiError}</div>
+        )}
+        {inspection.aiSummary ? (
+          <>
+            <div style={{
+              fontSize: FS.body, color: T.text, lineHeight: 1.55, whiteSpace: "pre-wrap",
+              background: "var(--bg-input)", borderRadius: R.md, padding: SP[3],
+            }}>
+              {inspection.aiSummary}
+            </div>
+            {inspection.aiSummaryAt && (
+              <div style={{ fontSize: FS.meta - 1, color: T.textMuted, marginTop: SP[2] }}>
+                Generated {new Date(inspection.aiSummaryAt).toLocaleString()}
+              </div>
+            )}
+          </>
+        ) : (
+          <div style={{ fontSize: FS.meta, color: T.textMuted }}>
+            Generate a re-inspection punch list from the checklist results above.
+          </div>
+        )}
       </div>
 
       <div style={s.card}>
