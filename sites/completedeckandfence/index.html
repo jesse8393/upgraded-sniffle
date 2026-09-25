@@ -41,6 +41,7 @@
   </script>
 </head>
 <body>
+  <div class="sentinel" data-sentinel aria-hidden="true"></div>
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="site-header" data-header>
@@ -71,7 +72,7 @@
         <h1 class="display reveal" style="--d:80ms">Make outside<br> feel <span class="nowrap">complete.</span></h1>
         <p class="lede reveal" style="--d:160ms">Custom decks. Beautiful fences. Better weekends.</p>
         <div class="hero-actions reveal" style="--d:240ms">
-          <a class="btn btn-red" href="#estimate">Plan your project <span class="arrow" aria-hidden="true"></span></a>
+          <a class="btn btn-red magnetic" href="#estimate">Plan your project <span class="arrow" aria-hidden="true"></span></a>
           <a class="btn btn-ghost" href="#decks">See what we build</a>
         </div>
       </div>
@@ -81,6 +82,14 @@
         <figcaption class="tag">Backyard deck concept</figcaption>
       </figure>
     </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-group"><span class="marquee-item">Custom decks</span><span class="marquee-item">Privacy fences</span><span class="marquee-item">Stairs and railings</span><span class="marquee-item">Walk gates</span><span class="marquee-item">Repairs</span><span class="marquee-item">Middle Tennessee</span><span class="marquee-item">Custom decks</span><span class="marquee-item">Privacy fences</span><span class="marquee-item">Stairs and railings</span><span class="marquee-item">Walk gates</span><span class="marquee-item">Repairs</span><span class="marquee-item">Middle Tennessee</span></div>
+        <div class="marquee-group"><span class="marquee-item">Custom decks</span><span class="marquee-item">Privacy fences</span><span class="marquee-item">Stairs and railings</span><span class="marquee-item">Walk gates</span><span class="marquee-item">Repairs</span><span class="marquee-item">Middle Tennessee</span><span class="marquee-item">Custom decks</span><span class="marquee-item">Privacy fences</span><span class="marquee-item">Stairs and railings</span><span class="marquee-item">Walk gates</span><span class="marquee-item">Repairs</span><span class="marquee-item">Middle Tennessee</span></div>
+      </div>
+    </div>
 
     <!-- SERVICES -->
     <section class="services wrap" aria-labelledby="services-title">
@@ -139,7 +148,7 @@
     <section class="approach wrap" id="approach" aria-labelledby="approach-title">
       <div class="section-head">
         <p class="eyebrow">Our approach</p>
-        <h2 id="approach-title" class="h2">Simple from the first call <br class="br-lg">to the final board.</h2>
+        <h2 id="approach-title" class="h2">Simple from the first call to the final board.</h2>
       </div>
       <ol class="steps">
         <li class="step">
@@ -197,7 +206,7 @@
           <input type="hidden" name="form-name" value="estimate">
           <p class="hp" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
 
-          <fieldset class="field">
+          <fieldset class="field" data-project-field>
             <legend>What are we building?</legend>
             <div class="chips">
               <label class="chip"><input type="radio" name="project" value="Deck" required><span>Deck</span></label>
@@ -205,6 +214,7 @@
               <label class="chip"><input type="radio" name="project" value="Deck and fence"><span>Both</span></label>
               <label class="chip"><input type="radio" name="project" value="Repair"><span>Repair</span></label>
             </div>
+            <p class="field-error">Pick the type of project.</p>
           </fieldset>
 
           <fieldset class="field">
@@ -219,21 +229,27 @@
           <div class="row">
             <div class="field">
               <label for="f-name">Your name</label>
-              <input id="f-name" name="name" autocomplete="name" required>
+              <input id="f-name" name="name" autocomplete="name" required aria-describedby="f-name-err">
+              <p class="field-error" id="f-name-err">Please add your name.</p>
             </div>
             <div class="field">
               <label for="f-phone">Phone</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="f-phone-err f-phone-help">
+              <p class="help" id="f-phone-help">We only call about your project.</p>
+              <p class="field-error" id="f-phone-err">Please add a phone number we can reach.</p>
             </div>
           </div>
           <div class="row">
             <div class="field">
               <label for="f-email">Email</label>
-              <input id="f-email" name="email" type="email" autocomplete="email" required>
+              <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-err">
+              <p class="field-error" id="f-email-err">Please check that email address.</p>
             </div>
             <div class="field">
               <label for="f-zip">ZIP code</label>
-              <input id="f-zip" name="zip" autocomplete="postal-code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" required>
+              <input id="f-zip" name="zip" autocomplete="postal-code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" required aria-describedby="f-zip-err f-zip-help">
+              <p class="help" id="f-zip-help">So we can confirm we serve your area.</p>
+              <p class="field-error" id="f-zip-err">Please enter a five digit ZIP code.</p>
             </div>
           </div>
           <div class="field">
@@ -241,7 +257,7 @@
             <textarea id="f-notes" name="notes" rows="4" placeholder="Size, materials, anything you have seen and loved"></textarea>
           </div>
 
-          <button class="btn btn-red btn-block" type="submit">Request my estimate <span class="arrow" aria-hidden="true"></span></button>
+          <button class="btn btn-red btn-block" type="submit" data-submit>Request my estimate <span class="arrow" aria-hidden="true"></span></button>
           <p class="form-status" role="status" aria-live="polite" data-status></p>
         </form>
       </div>

@@ -40,18 +40,40 @@ menuBtn.addEventListener("click", () => setMenu(menuBtn.getAttribute("aria-expan
 nav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
+// Header shadow and the mobile CTA react to what is on screen, not to scroll events.
 const mobileCta = document.querySelector("[data-mobile-cta]");
-const estimate = document.getElementById("estimate");
-let estimateVisible = false;
-const onScroll = () => {
-  const y = window.scrollY;
-  header.classList.toggle("is-scrolled", y > 8);
-  mobileCta.classList.toggle("is-shown", y > 520 && !estimateVisible);
+const seen = { top: true, hero: true, estimate: false };
+const sync = () => {
+  header.classList.toggle("is-scrolled", !seen.top);
+  mobileCta.classList.toggle("is-shown", !seen.hero && !seen.estimate);
 };
-new IntersectionObserver(([entry]) => { estimateVisible = entry.isIntersecting; onScroll(); }, { threshold: 0.05 })
-  .observe(estimate);
-window.addEventListener("scroll", onScroll, { passive: true });
-onScroll();
+const watch = (el, key, opts) =>
+  new IntersectionObserver(([entry]) => { seen[key] = entry.isIntersecting; sync(); }, opts).observe(el);
+watch(document.querySelector("[data-sentinel]"), "top");
+watch(document.querySelector(".hero"), "hero");
+watch(document.getElementById("estimate"), "estimate", { threshold: 0.05 });
+
+// ── Magnetic buttons (mouse only) ───────────
+const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
+const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (finePointer && !calm) {
+  document.querySelectorAll(".magnetic").forEach((btn) => {
+    let frame = 0;
+    btn.addEventListener("pointermove", (e) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const r = btn.getBoundingClientRect();
+        btn.style.setProperty("--mx", `${((e.clientX - r.left) / r.width - 0.5) * 12}px`);
+        btn.style.setProperty("--my", `${((e.clientY - r.top) / r.height - 0.5) * 10}px`);
+      });
+    });
+    btn.addEventListener("pointerleave", () => {
+      cancelAnimationFrame(frame);
+      btn.style.setProperty("--mx", "0px");
+      btn.style.setProperty("--my", "0px");
+    });
+  });
+}
 
 // ── Scroll reveals ──────────────────────────
 const revealTargets = [
@@ -92,35 +114,47 @@ const setStatus = (msg, kind) => {
   status.className = `form-status${kind ? ` is-${kind}` : ""}`;
 };
 
+const projectField = form.querySelector("[data-project-field]");
+
+const markField = (input, ok) => {
+  input.setAttribute("aria-invalid", String(!ok));
+  input.closest(".field").classList.toggle("is-invalid", !ok);
+};
+
 const validate = () => {
   let firstBad = null;
-  const project = form.querySelector('input[name="project"]:checked');
-  const chips = form.querySelector('input[name="project"]').closest(".chips");
-  chips.classList.toggle("is-invalid", !project);
-  if (!project) firstBad = chips.querySelector("input");
+  const hasProject = !!form.querySelector('input[name="project"]:checked');
+  projectField.classList.toggle("is-invalid", !hasProject);
+  projectField.querySelector(".chips").classList.toggle("is-invalid", !hasProject);
+  if (!hasProject) firstBad = projectField.querySelector("input");
 
   form.querySelectorAll("input[required]:not([type=radio])").forEach((input) => {
     const ok = input.checkValidity() && input.value.trim() !== "";
-    input.setAttribute("aria-invalid", String(!ok));
+    markField(input, ok);
     if (!ok && !firstBad) firstBad = input;
   });
   return firstBad;
 };
 
 form.addEventListener("change", (e) => {
-  if (e.target.name === "project") e.target.closest(".chips").classList.remove("is-invalid");
+  if (e.target.name === "project") {
+    projectField.classList.remove("is-invalid");
+    projectField.querySelector(".chips").classList.remove("is-invalid");
+  }
 });
 form.addEventListener("input", (e) => {
-  if (e.target.getAttribute("aria-invalid") === "true" && e.target.checkValidity()) {
-    e.target.setAttribute("aria-invalid", "false");
-  }
+  if (e.target.getAttribute("aria-invalid") === "true" && e.target.checkValidity()) markField(e.target, true);
+});
+form.addEventListener("focusout", (e) => {
+  const input = e.target;
+  if (input.matches("input[required]:not([type=radio])") && input.value.trim() !== "") markField(input, input.checkValidity());
 });
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const bad = validate();
   if (bad) {
-    setStatus("Please fill in the highlighted fields.", "error");
+    setStatus("A few details need a second look.", "error");
     bad.focus();
     return;
   }
@@ -129,11 +163,11 @@ form.addEventListener("submit", async (e) => {
   delete data.company;
   delete data["form-name"];
 
-  const button = form.querySelector("button[type=submit]");
+  const button = form.querySelector("[data-submit]");
 
   if (SITE.formEndpoint) {
-    button.disabled = true;
-    setStatus("Sending…");
+    button.setAttribute("aria-busy", "true");
+    setStatus("Sending your request…");
     try {
       const res = await fetch(SITE.formEndpoint, {
         method: "POST",
@@ -146,7 +180,7 @@ form.addEventListener("submit", async (e) => {
     } catch {
       setStatus("Something went wrong sending that. Please try again in a moment.", "error");
     } finally {
-      button.disabled = false;
+      button.removeAttribute("aria-busy");
     }
     return;
   }
