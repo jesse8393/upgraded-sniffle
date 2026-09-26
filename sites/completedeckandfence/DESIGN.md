@@ -53,6 +53,7 @@ One orchestrated moment on load: the headline rises, the photo settles, and the 
 * Article layout: a readable column up to 70 characters wide, with an "On this page" list and an estimate button pinned beside it on wide screens.
 * Related links: three columns of plain link lists on paper 2, each under a 2px ink rule.
 * County grid: cities grouped by county, used on the home page, the service hubs, and the service area page.
+* Work gallery: real project photos cropped to 4:3, each under a 2px ink rule with a bold caption and an optional muted note. Two columns on phones (a set of three leads with one full width photo), three columns for three photos from 900px, four columns for four photos from 1100px.
 
 ## Checks
 

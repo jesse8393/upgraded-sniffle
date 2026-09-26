@@ -14,22 +14,22 @@ export const work = {
   vinylPrivacy: {
     src: vinylPrivacy,
     caption: "Vinyl privacy fence following a slope",
-    alt: "Light colored vinyl privacy fence stepping along a long sloping fence line beside a barn with a green metal roof",
+    alt: "Light colored vinyl privacy fence running along a long sloping fence line beside a barn with a green metal roof",
   },
   horizontalBoard: {
     src: horizontalBoard,
     caption: "Horizontal board fence",
-    alt: "New horizontal board fence in pressure treated pine running from the corner of a house toward a detached garage",
+    alt: "New horizontal board fence in pressure treated pine running from the corner of a house and turning along the side yard",
   },
   blackMetal: {
     src: blackMetal,
     caption: "Black metal fence around a front yard",
-    alt: "Black metal picket fence enclosing the front yard of a red brick ranch house, open at the front walk",
+    alt: "Black metal picket fence around the front yard of a red brick ranch house",
   },
   boardGarden: {
     src: boardGarden,
-    caption: "Board fence and walk gate around a garden",
-    alt: "New wood board fence with a walk gate enclosing a large backyard vegetable garden",
+    caption: "Wood rail fence around a garden",
+    alt: "New wood rail fence around a large backyard vegetable garden, with sheds behind it",
   },
 };
 
