@@ -3,7 +3,8 @@ import "../styles/global.css";
 import { Image, getImage } from "astro:assets";
 import logoDark from "../assets/brand/logo-dark.png";
 import logoLight from "../assets/brand/logo-light.png";
-import defaultPhoto from "../assets/photos/deck-hero.jpg";
+import { work } from "../lib/work.js";
+const defaultPhoto = work.woodPrivacy.src;
 import { SITE, paths, absolute, pageTitle, businessSchema, phoneHref, cities, getCityContent } from "../lib/site.js";
 
 const {

@@ -1,0 +1,22 @@
+---
+import { Picture } from "astro:assets";
+const { items = [], heading = "Fences we've built.", id = "work", note } = Astro.props;
+---
+<section class="work" id={id} aria-labelledby={`${id}-title`}>
+  <div class="wrap">
+    <div class="work-head">
+      <h2 id={`${id}-title`} class="h2">{heading}</h2>
+      {note && <p class="work-note">{note}</p>}
+    </div>
+    <ul class="work-grid">
+      {items.map((it) => (
+        <li>
+          <figure>
+            <Picture src={it.src} formats={["avif", "webp"]} quality={60} widths={[480, 800]} sizes="(max-width: 760px) 100vw, 33vw" alt={it.alt} />
+            <figcaption>{it.caption}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -48,17 +48,18 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 1. Never state a fact about the business that the owner has not confirmed.
 2. Phone first, and readable in direct sun.
 3. Every section points toward the estimate form.
-4. Each photo appears once. Concept images stay labeled until real project photos replace them.
+4. Each photo appears once per page. Concept images stay labeled until real project photos replace them. Real customer photos never show house numbers, plates, or faces.
 
 ## Unconfirmed, needs the owner
 
 * Phone number, email, and where estimate requests should go.
-* Exact services, including repairs, composite decking, picket fences, and drive gates.
+* Exact services. The owner's project photos show wood privacy fences with a cap board, horizontal board fences, vinyl privacy fences, black metal fences, and board fences with walk gates. Still unconfirmed: repairs, composite decking, picket fences, and drive gates.
 * Service area towns.
 * Whether estimates are free.
 * The steps that follow when someone reaches out.
 * License, insurance, years in business, and reviews that can be shown.
-* Real project photos.
+* Real deck photos. Five real fence photos are in; the deck pages still use a labeled concept image.
+* Where each fence photo was taken, so photos can be captioned with their town.
 * Whether the crew takes repair work, since the estimate form offers a Repair option.
 * The privacy policy wording, which promises the form data is not sold or shared.
 * Whether Complete Deck & Fence should serve every Parker city, including Chattanooga, which sits outside Middle Tennessee.

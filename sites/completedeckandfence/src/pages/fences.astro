@@ -1,5 +1,10 @@
 ---
 import ServiceHub from "../components/ServiceHub.astro";
-import photo from "../assets/photos/fence-privacy.jpg";
+import { work } from "../lib/work.js";
 ---
-<ServiceHub service="fence" photo={photo} photoAlt="Cedar privacy fence with a matching gate and black hardware" />
+<ServiceHub
+  service="fence"
+  photo={work.woodPrivacy.src}
+  photoAlt={work.woodPrivacy.alt}
+  gallery={[work.vinylPrivacy, work.horizontalBoard, work.blackMetal, work.boardGarden]}
+/>

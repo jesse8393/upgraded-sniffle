@@ -10,6 +10,8 @@ import Faqs from "../components/Faqs.astro";
 import Toc from "../components/Toc.astro";
 import Steps from "../components/Steps.astro";
 import EstimateSection from "../components/EstimateSection.astro";
+import WorkGallery from "../components/WorkGallery.astro";
+import { fencePhotosFor } from "../lib/work.js";
 import {
   cities, cityBySlug, guides, paths, getCityContent, getGuideContent, inlineHtml,
   breadcrumbSchema, faqSchema, serviceSchema,
@@ -130,7 +132,7 @@ const otherLink = kind === "deck"
         </a>
         <a class="hub-service" href={paths.fenceCity(city.slug)}>
           <span class="hub-service-title">Fences in {name}</span>
-          <span class="hub-service-copy">Privacy and picket fences with gates that fit how you use the yard.</span>
+          <span class="hub-service-copy">Wood, vinyl, and metal fences, with gates that fit how you use the yard.</span>
           <span class="text-link as-span">Fence company in {name} <span class="arrow" aria-hidden="true"></span></span>
         </a>
       </div>
@@ -144,6 +146,8 @@ const otherLink = kind === "deck"
     </article>
     <Toc sections={page.sections} faqsId="questions" cta={KIND.cta} />
   </div>
+
+  {kind === "fence" && <WorkGallery items={fencePhotosFor(cities.findIndex((c) => c.slug === city.slug))} heading="Fences we've built." note="Recent fence projects. Ask us about work near you." />}
 
   <section class="related" aria-label="Related pages">
     <div class="wrap related-grid">
