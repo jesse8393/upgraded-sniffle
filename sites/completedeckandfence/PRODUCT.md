@@ -30,6 +30,7 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 ## Owner preferences
 
 * Keep the current fonts: Archivo, Instrument Sans, and Newsreader. The owner finds them easy to read.
+* Keep the current colors. The owner is happy with them, so design passes should not redo the palette.
 * No dashes of any kind in visible copy.
 * No AI slop.
 
