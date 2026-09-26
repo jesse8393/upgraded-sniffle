@@ -6,6 +6,8 @@ register: brand
 
 Marketing site for Complete Deck & Fence at completedeckandfence.com. It has one job: get a Middle Tennessee homeowner to request an estimate for a deck or a fence.
 
+It targets the same 21 cities as parkerconstructioncompany.com, with the same depth per city page (about 1,400 words), and its own backend. No text is shared between the two sites.
+
 ## Users
 
 Homeowners in Middle Tennessee thinking about a new deck, a privacy fence, or both. Many arrive on a phone after seeing a yard sign or an ad. They want three answers fast: does this crew build what I need, do they work near me, and how do I get a price.
@@ -57,3 +59,6 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 * The steps that follow when someone reaches out.
 * License, insurance, years in business, and reviews that can be shown.
 * Real project photos.
+* Whether the crew takes repair work, since the estimate form offers a Repair option.
+* The privacy policy wording, which promises the form data is not sold or shared.
+* Whether Complete Deck & Fence should serve every Parker city, including Chattanooga, which sits outside Middle Tennessee.

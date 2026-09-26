@@ -1,46 +1,75 @@
 # Complete Deck & Fence website
 
-Static site for completedeckandfence.com. No build step: plain HTML, CSS, and JS.
+The full site for completedeckandfence.com, built with Astro as plain static pages: no server, no database, and almost no JavaScript.
 
-## Run locally
+## What gets built
+
+* Home, `/decks/`, `/fences/`, `/service-areas/`, `/guides/`, and a privacy policy
+* For each of the 21 cities in `src/data/cities.json`, three pages:
+  * `/{city}-tn/`, decks and fences in that city
+  * `/deck-builder-{city}-tn/`
+  * `/fence-company-{city}-tn/`
+* Twelve guides at `/guides/{slug}/`, listed in `src/data/guides.json`
+* `sitemap-index.xml`, `robots.txt`, and `llms.txt`
+
+The cities match the ones parkerconstructioncompany.com serves. Every page is written fresh, and none of Parker's text is reused.
+
+## Commands
+
+Run these from this folder:
 
 ```sh
-cd sites/completedeckandfence
-python3 -m http.server 4173
-# open http://localhost:4173
+npm install
+npm run dev        # local preview while editing, http://localhost:4321
+npm run build      # builds the site into dist/
+npm run preview    # serves dist/ exactly as it will ship
+```
+
+Before every deploy, build first and then run all three checks:
+
+```sh
+npm run build
+npm run check:content   # word counts, keywords, honesty rules, repeated phrasing
+npm run check:seo       # titles, descriptions, canonicals, H1s, links, sitemap, schema
+npm run check:slop      # no dashes, hype words, or banned design patterns
 ```
 
 ## Before launch
 
-Fill in `SITE` at the top of `main.js`:
+Fill in `SITE` at the top of `src/lib/site.js`:
 
-* `phone` shows click to call links in the nav, the estimate section, and the footer.
+* `phone` shows click to call links in the header, estimate sections, footer, and structured data.
 * `email` shows in the footer and is the form fallback (it opens an email).
-* `formEndpoint` is a URL that receives estimate requests as a JSON POST (Formspree, a Supabase edge function, and so on).
+* `formEndpoint` is a URL that receives estimate requests as a JSON POST.
 
-Empty values stay hidden, so nothing fake ever shows.
+Empty values stay hidden, so nothing fake ever shows. Then work through the "Unconfirmed, needs the owner" list in `PRODUCT.md`. The biggest items are real project photos and confirming the service list.
 
-Then work through the "Unconfirmed, needs the owner" list in `PRODUCT.md`. The big ones:
+## Editing content
 
-* Photos in `assets/` are cropped from AI concept images and carry a "Concept image" label. Swap in real project photos and remove the labels.
-* Confirm the service lists under Custom decks and Privacy fences.
-* Add specific towns to the service area once confirmed.
+All page copy lives in JSON under `src/content/`. The rules for writing it, including word and keyword targets, are in `docs/CONTENT_SPEC.md`. Check a file after editing it:
 
-## Design rules
-
-* `PRODUCT.md` covers who the site is for, the brand, the tone, and what to avoid.
-* `DESIGN.md` covers colors, type, spacing, motion, and components.
-* `node tools/slop-check.mjs` fails on dashes in visible copy, hype words, and banned CSS patterns. Run it before every deploy.
+```sh
+node tools/content-check.mjs cities murfreesboro
+node tools/content-check.mjs guides fence-on-a-slope
+node tools/content-check.mjs pages decks
+```
 
 ## Deploy
 
-Point any static host at this folder (Vercel, Netlify, Cloudflare Pages). On Vercel, set the project Root Directory to `sites/completedeckandfence` with no build command.
+`vercel.json` is ready for Vercel: set the project Root Directory to `sites/completedeckandfence`. It adds trailing slash redirects, security headers, and long caching for built assets. Any static host works too: build, then publish `dist/`.
+
+After launch, follow `docs/BACKLINKS.md` for Search Console, Google Business Profile, citations, and links.
 
 ## Files
 
-* `index.html`: page markup, SEO meta, LocalBusiness structured data
-* `styles.css`: design tokens and layout
-* `main.js`: contact config, mobile menu, estimate form
-* `fonts/`: self hosted Archivo, Instrument Sans, Newsreader (SIL Open Font License)
-* `assets/`: logo variants, favicon mark, photos
-* `tools/slop-check.mjs`: the anti slop checker
+* `src/pages/`: page templates. `[slug].astro` builds all 63 city pages.
+* `src/components/`: shared pieces such as the estimate form, FAQs, and breadcrumbs
+* `src/layouts/Base.astro`: head tags, structured data, header, and footer
+* `src/lib/site.js`: business details, URLs, titles, and structured data helpers
+* `src/content/`: page copy as JSON
+* `src/data/`: city facts and the guide list
+* `src/styles/global.css`, `src/scripts/site.js`: design and behavior
+* `public/fonts/`: self hosted Archivo, Instrument Sans, and Newsreader, subset to the characters the site uses (SIL Open Font License)
+* `tools/`: the content, SEO, and slop checks
+* `PRODUCT.md`, `DESIGN.md`: who the site is for and how it looks
+* `docs/`: the content spec and the backlink plan

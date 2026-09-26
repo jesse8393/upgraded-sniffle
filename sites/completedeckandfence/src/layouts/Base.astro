@@ -1,0 +1,134 @@
+---
+import "../styles/global.css";
+import { Image, getImage } from "astro:assets";
+import logoDark from "../assets/brand/logo-dark.png";
+import logoLight from "../assets/brand/logo-light.png";
+import defaultPhoto from "../assets/photos/deck-hero.jpg";
+import { SITE, paths, absolute, pageTitle, businessSchema, phoneHref, cities, getCityContent } from "../lib/site.js";
+
+const {
+  title,
+  description,
+  path,
+  schema = [],
+  image,
+  noindex = false,
+  estimateHref = "#estimate",
+  current = "",
+} = Astro.props;
+
+const fullTitle = pageTitle(title);
+if (!description || description.length < 70 || description.length > 160) {
+  throw new Error(`Description for ${path} is ${description?.length ?? 0} characters; keep it between 70 and 160.`);
+}
+const canonical = absolute(path);
+const og = await getImage({ src: image ?? defaultPhoto, width: 1200, height: 630, fit: "cover", format: "jpg" });
+const logoForSchema = await getImage({ src: logoDark, width: 600, format: "png" });
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    businessSchema(absolute(logoForSchema.src), absolute(og.src)),
+    { "@type": "WebSite", "@id": `${SITE.url}/#website`, url: `${SITE.url}/`, name: SITE.name, publisher: { "@id": `${SITE.url}/#business` } },
+    { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: fullTitle, description, isPartOf: { "@id": `${SITE.url}/#website` }, about: { "@id": `${SITE.url}/#business` } },
+    ...schema.filter(Boolean),
+  ],
+};
+const nav = [
+  { href: paths.decks, label: "Decks" },
+  { href: paths.fences, label: "Fences" },
+  { href: paths.areas, label: "Service areas" },
+  { href: paths.guides, label: "Guides" },
+];
+const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) => a.name.localeCompare(b.name));
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{fullTitle}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"}>
+  <meta name="theme-color" content="#1b1615">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content={SITE.name}>
+  <meta property="og:title" content={fullTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={absolute(og.src)}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="/assets/mark.png">
+  <link rel="apple-touch-icon" href="/assets/mark.png">
+  <link rel="sitemap" type="application/xml" href="/sitemap-index.xml">
+  <link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <slot name="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+</head>
+<body>
+  <div class="sentinel" data-sentinel aria-hidden="true"></div>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label={`${SITE.name}, home`}>
+        <Image src={logoDark} width={400} alt={SITE.name} loading="eager" />
+      </a>
+      <nav class="nav" id="site-nav" aria-label="Main">
+        {nav.map((item) => (
+          <a href={item.href} aria-current={current === item.href ? "page" : undefined}>{item.label}</a>
+        ))}
+        {SITE.phone && <a class="nav-phone" href={phoneHref}>{SITE.phone}</a>}
+        <a class="nav-cta" href={estimateHref}>Get an estimate</a>
+      </nav>
+      <a class="btn btn-red btn-sm header-cta" href={estimateHref}>Get an estimate</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
+        <span class="sr-only">Menu</span><span class="menu-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <Image class="footer-logo" src={logoLight} width={440} alt={SITE.name} />
+        <p class="tagline">{SITE.tagline}</p>
+        {SITE.phone && <p><a href={phoneHref}>{SITE.phone}</a></p>}
+        {SITE.email && <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
+      </div>
+      <nav class="footer-col" aria-label="Services">
+        <p class="footer-head">Services</p>
+        <a href={paths.decks}>Decks</a>
+        <a href={paths.fences}>Fences</a>
+        <a href={paths.guides}>Guides</a>
+        <a href={estimateHref}>Get an estimate</a>
+      </nav>
+      <nav class="footer-col footer-cities" aria-label="Cities we serve">
+        <p class="footer-head"><a href={paths.areas}>Service areas</a></p>
+        <div class="footer-city-list">
+          {footerCities.map((c) => <a href={paths.cityHub(c.slug)}>{c.name}</a>)}
+        </div>
+      </nav>
+    </div>
+    <div class="wrap footer-base">
+      <p>&copy; {new Date().getFullYear()} {SITE.name}. Serving {SITE.region}. <a href={paths.privacy}>Privacy policy</a></p>
+    </div>
+  </footer>
+
+  <div class="mobile-cta" data-mobile-cta>
+    <a class="btn btn-red btn-block" href={estimateHref}>Get an estimate</a>
+  </div>
+
+  <script src="../scripts/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+---
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Sections from "../../components/Sections.astro";
+import Faqs from "../../components/Faqs.astro";
+import Toc from "../../components/Toc.astro";
+import EstimateSection from "../../components/EstimateSection.astro";
+import { SITE, paths, guides, getGuideContent, breadcrumbSchema, faqSchema, absolute, BUSINESS_ID, PUBLISHED } from "../../lib/site.js";
+
+export function getStaticPaths() {
+  return guides.filter((g) => getGuideContent(g.slug)).map((g) => ({ params: { slug: g.slug }, props: { slug: g.slug } }));
+}
+const { slug } = Astro.props;
+const guide = guides.find((g) => g.slug === slug);
+const page = getGuideContent(slug);
+const crumbs = [{ name: "Home", href: "/" }, { name: "Guides", href: paths.guides }, { name: guide.title, href: paths.guide(slug) }];
+const serviceHub = guide.service === "fence" ? { href: paths.fences, label: "Fences across Middle Tennessee" } : { href: paths.decks, label: "Decks across Middle Tennessee" };
+const more = guides.filter((g) => g.slug !== slug && (g.service === guide.service || g.service === "both" || guide.service === "both") && getGuideContent(g.slug)).slice(0, 4);
+const project = guide.service === "fence" ? "Fence" : guide.service === "deck" ? "Deck" : "";
+const article = {
+  "@type": "Article",
+  headline: guide.title,
+  description: page.description,
+  datePublished: guide.published ?? PUBLISHED,
+  dateModified: guide.updated ?? guide.published ?? PUBLISHED,
+  author: { "@id": BUSINESS_ID },
+  publisher: { "@id": BUSINESS_ID },
+  mainEntityOfPage: absolute(paths.guide(slug)),
+};
+---
+<Base title={guide.title} description={page.description} path={paths.guide(slug)} schema={[breadcrumbSchema(crumbs), faqSchema(page.faqs), article]} current={paths.guides}>
+  <section class="page-hero page-hero-plain">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <p class="kicker">{guide.service === "deck" ? "Deck guide" : guide.service === "fence" ? "Fence guide" : "Deck and fence guide"}</p>
+      <h1 class="page-title page-title-guide">{guide.title}</h1>
+      <p class="page-lede">{page.dek}</p>
+    </div>
+  </section>
+
+  <div class="wrap article-layout">
+    <article class="article-body">
+      <Sections sections={page.sections} />
+      <Faqs faqs={page.faqs} heading="Quick answers" id="questions" />
+    </article>
+    <Toc sections={page.sections} faqsId="questions" cta="Get an estimate" />
+  </div>
+
+  <section class="related" aria-label="Keep reading">
+    <div class="wrap related-grid related-grid-two">
+      <div>
+        <h2 class="related-title">Keep reading</h2>
+        <ul class="related-list">{more.map((g) => <li><a href={paths.guide(g.slug)}>{g.title}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2 class="related-title">Ready to plan yours?</h2>
+        <ul class="related-list">
+          <li><a href={serviceHub.href}>{serviceHub.label}</a></li>
+          <li><a href={paths.areas}>Every city we serve</a></li>
+          <li><a href={paths.guides}>All guides</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <EstimateSection project={project} />
+</Base>

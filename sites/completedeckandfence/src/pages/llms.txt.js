@@ -1,0 +1,27 @@
+import { SITE, cities, guides, paths, getCityContent, getGuideContent } from "../lib/site.js";
+
+// A plain summary for AI crawlers. Only confirmed facts go here.
+export function GET() {
+  const live = cities.filter((c) => getCityContent(c.slug));
+  const lines = [
+    `# ${SITE.name}`,
+    "",
+    `> ${SITE.name} builds decks and fences for homeowners across ${SITE.region}. ${SITE.tagline}`,
+    "",
+    "## Services",
+    `* [Decks](${SITE.url}${paths.decks}): new decks, replacements, stairs, and railings in wood or composite.`,
+    `* [Fences](${SITE.url}${paths.fences}): privacy and picket fences, walk gates, and drive gates.`,
+    "",
+    "## Cities",
+    ...live.map((c) => `* [${c.name}, TN](${SITE.url}${paths.cityHub(c.slug)}): [decks](${SITE.url}${paths.deckCity(c.slug)}), [fences](${SITE.url}${paths.fenceCity(c.slug)})`),
+    "",
+    "## Guides",
+    ...guides.filter((g) => getGuideContent(g.slug)).map((g) => `* [${g.title}](${SITE.url}${paths.guide(g.slug)})`),
+    "",
+    "## Contact",
+    SITE.phone ? `Phone: ${SITE.phone}` : `Request an estimate at ${SITE.url}/#estimate`,
+    ...(SITE.email ? [`Email: ${SITE.email}`] : []),
+    "",
+  ];
+  return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+}

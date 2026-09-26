@@ -48,7 +48,12 @@ One orchestrated moment on load: the headline rises, the photo settles, and the 
 * Text link: bold, with a 2px red underline and an arrow.
 * Form: labels above inputs, helper text and inline errors below, square chips for single choice.
 * Concept tag: a small dark label on any placeholder photo.
+* Breadcrumbs above every inner page title.
+* Local card on city pages: neighborhoods as small paper chips and nearby cities as links, under a 2px ink rule.
+* Article layout: a readable column up to 70 characters wide, with an "On this page" list and an estimate button pinned beside it on wide screens.
+* Related links: three columns of plain link lists on paper 2, each under a 2px ink rule.
+* County grid: cities grouped by county, used on the home page, the service hubs, and the service area page.
 
 ## Checks
 
-Run `node tools/slop-check.mjs` from this folder before shipping. It fails on dashes in visible copy, banned CSS patterns, and banned words.
+Build, then run `npm run check:slop`, `npm run check:seo`, and `npm run check:content` from this folder before shipping. Together they fail on dashes in visible copy, banned CSS patterns, hype words, broken links, weak titles and descriptions, and thin or repeated content.
