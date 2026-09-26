@@ -3,12 +3,13 @@ import { SITE, phoneHref } from "../lib/site.js";
 const {
   project = "",
   heading = "Let's plan your backyard.",
-  intro = "Tell us a little about the project. We'll get back to you to talk it through.",
+  intro = "Estimates are free. Tell us a little about the project and we'll get back to you to talk it through.",
 } = Astro.props;
 const options = [
   ["Deck", "Deck"],
   ["Fence", "Fence"],
   ["Deck and fence", "Both"],
+  ["Porch or gazebo", "Porch or gazebo"],
   ["Repair", "Repair"],
 ];
 ---
@@ -73,7 +74,7 @@ const options = [
       </div>
       <input type="hidden" name="page" value={Astro.url.pathname}>
 
-      <button class="btn btn-red btn-block" type="submit" data-submit>Request my estimate <span class="arrow" aria-hidden="true"></span></button>
+      <button class="btn btn-red btn-block" type="submit" data-submit>Request my free estimate <span class="arrow" aria-hidden="true"></span></button>
       <p class="form-status" role="status" aria-live="polite" data-status></p>
     </form>
   </div>

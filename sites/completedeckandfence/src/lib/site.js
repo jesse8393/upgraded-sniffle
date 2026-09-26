@@ -34,6 +34,7 @@ export const paths = {
   home: "/",
   decks: "/decks/",
   fences: "/fences/",
+  porches: "/porches/",
   areas: "/service-areas/",
   guides: "/guides/",
   privacy: "/privacy-policy/",
@@ -80,7 +81,7 @@ export function businessSchema(logoUrl, imageUrl) {
     image: imageUrl,
     slogan: SITE.tagline,
     areaServed: cities.map((c) => ({ "@type": "City", name: `${c.name}, TN` })),
-    knowsAbout: ["Deck building", "Deck replacement", "Fence installation", "Privacy fences", "Gates"],
+    knowsAbout: ["Deck building", "Deck replacement", "Deck repair", "Fence installation", "Fence repair", "Privacy fences", "Gates", "Covered porches", "Screened porches", "Gazebos"],
   };
   if (SITE.phone) data.telephone = `+1${phoneDigits.slice(-10)}`;
   if (SITE.email) data.email = SITE.email;
