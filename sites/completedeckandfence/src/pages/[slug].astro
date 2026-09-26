@@ -11,7 +11,7 @@ import Toc from "../components/Toc.astro";
 import Steps from "../components/Steps.astro";
 import EstimateSection from "../components/EstimateSection.astro";
 import WorkGallery from "../components/WorkGallery.astro";
-import { fencePhotosFor } from "../lib/work.js";
+import { fencePhotosFor, deckPhotosFor } from "../lib/work.js";
 import {
   cities, cityBySlug, guides, paths, getCityContent, getGuideContent, inlineHtml,
   breadcrumbSchema, faqSchema, serviceSchema,
@@ -147,6 +147,7 @@ const otherLink = kind === "deck"
     <Toc sections={page.sections} faqsId="questions" cta={KIND.cta} />
   </div>
 
+  {kind === "deck" && <WorkGallery items={deckPhotosFor(cities.findIndex((c) => c.slug === city.slug))} heading="Decks we've built." note="A few decks we have built. Ask what we have built near you." id="work" />}
   {kind === "fence" && <WorkGallery items={fencePhotosFor(cities.findIndex((c) => c.slug === city.slug))} heading="Fences we've built." note="A few fences we have built. Ask what we have built near you." />}
 
   <section class="related" aria-label="Related pages">

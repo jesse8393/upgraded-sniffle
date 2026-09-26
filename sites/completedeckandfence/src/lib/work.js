@@ -8,6 +8,11 @@ import chainCourt from "../assets/photos/work/chain-link-court-gate.jpg";
 import chainDogPark from "../assets/photos/work/chain-link-dog-park.jpg";
 import chainPlayground from "../assets/photos/work/chain-link-playground.jpg";
 import chainCourtWide from "../assets/photos/work/chain-link-court-wide.jpg";
+import deckBalusters from "../assets/photos/work/deck-black-balusters.jpg";
+import deckWirePool from "../assets/photos/work/deck-wire-railing-pool.jpg";
+import whiteDeckPorch from "../assets/photos/work/white-deck-screened-porch.jpg";
+import whiteDeckSide from "../assets/photos/work/white-deck-porch-side.jpg";
+import chainDriveGate from "../assets/photos/work/chain-link-drive-gate.jpg";
 import coveredDeck from "../assets/photos/work/covered-deck-stairs.jpg";
 
 export const work = {
@@ -56,6 +61,31 @@ export const work = {
     caption: "Black chain link fence around a new court",
     alt: "Black chain link fence enclosing a new concrete court on a lawn, with trees and a brick building behind it",
   },
+  deckBalusters: {
+    src: deckBalusters,
+    caption: "Deck frame with black metal balusters",
+    alt: "New pressure treated deck frame with wood rails and black metal balusters beside a brick house, before the decking goes down",
+  },
+  deckWirePool: {
+    src: deckWirePool,
+    caption: "Deck with wire panel railings by a pool",
+    alt: "New pressure treated deck with wire panel railings, dark handrails, and wide steps, beside an above ground pool",
+  },
+  whiteDeckPorch: {
+    src: whiteDeckPorch,
+    caption: "White deck and stairs with a screened porch",
+    alt: "White painted raised deck with stairs and black balusters next to a screened porch on the back of a brick house",
+  },
+  whiteDeckSide: {
+    src: whiteDeckSide,
+    caption: "Raised white deck with stairs",
+    alt: "Raised white deck with a railing and stairs on tall posts, attached to a screened porch on a brick house",
+  },
+  chainDriveGate: {
+    src: chainDriveGate,
+    caption: "Black chain link fence with a drive gate",
+    alt: "Black chain link fence along a yard with a double drive gate across a gravel driveway",
+  },
   coveredDeck: {
     src: coveredDeck,
     caption: "Covered deck with stairs and wood railings",
@@ -63,8 +93,13 @@ export const work = {
   },
 };
 
-const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "chainPlayground", "blackMetal", "chainDogPark", "boardGarden", "chainCourtWide"];
+const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "chainPlayground", "blackMetal", "chainDogPark", "boardGarden", "chainCourtWide", "chainDriveGate"];
 // Three photos per city page, rotated so neighboring cities do not show the same set.
 export function fencePhotosFor(index) {
   return [0, 1, 2].map((k) => work[order[(index * 3 + k * 2) % order.length]]);
+}
+
+const deckOrder = ["deckWirePool", "whiteDeckPorch", "deckBalusters", "whiteDeckSide", "coveredDeck"];
+export function deckPhotosFor(index) {
+  return [0, 1, 2].map((k) => work[deckOrder[(index * 2 + k) % deckOrder.length]]);
 }
