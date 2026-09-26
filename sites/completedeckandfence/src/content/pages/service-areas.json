@@ -1,0 +1,57 @@
+{
+  "description": "Find your city and see how decks and fences change across Middle Tennessee, from city and county rules to HOA review, rocky ground, and lake lots.",
+  "intro": "We build decks and fences for homeowners across Middle Tennessee, in busy suburbs and in small towns with pasture out back. Find your city in the list below. Further down, we cover how yards and local rules tend to shift around the region, and what to do if your town is missing.",
+  "sections": [
+    {
+      "heading": "City limits decide which rules apply to your yard",
+      "paragraphs": [
+        "Before any digging, it helps to know who sets the rules for your lot. Inside city limits, permits and inspections usually go through that city's codes office. Outside them, the county typically handles it, and its requirements may not match the city next door. [Nashville](/nashville-tn/) is different, since the Metro government covers most of Davidson County, though a few small cities inside it, Belle Meade among them, keep their own codes offices. Our [guide to deck permits in Tennessee](/guides/deck-permits-tennessee/) explains how the process usually goes once you know your office."
+      ]
+    },
+    {
+      "heading": "HOA review is common in some areas and rare in others",
+      "paragraphs": [
+        "Newer subdivisions in fast growing towns such as Spring Hill and Mount Juliet often come with covenants and an architectural review committee. Those committees usually want a say on fence style and height, and many ask to see deck plans before work starts. Older in town streets often have no HOA, though a few areas sit inside a historic district or zoning overlay that reviews exterior changes. Downtown Franklin and parts of Nashville are examples. Rural acreage usually has neither. Read your deed restrictions and ask before the plan is final."
+      ]
+    },
+    {
+      "heading": "What the ground is like from town to town",
+      "paragraphs": [
+        "Much of Middle Tennessee has clay soil that swells when wet and shrinks during dry spells. Footings and fence posts need to reach firm ground so that seasonal movement does not push them out of line. In parts of Rutherford and Wilson counties, limestone lies close to the surface, and the cedar glades there are a sign of thin soil over rock. Around [Murfreesboro](/murfreesboro-tn/) and Lebanon, a post hole can stop short at rock. That seldom rules out a project, but breaking rock or changing the footing plan takes longer.",
+        "The ground rolls more as you head east toward Cookeville and McMinnville, closer to the Cumberland Plateau. Wooded hills around Brentwood bring similar slopes nearer to Nashville. On a sloped lot, a deck tends to sit higher at its outer edge, which can mean taller posts and longer stairs. A fence on a grade has to either step down in level sections or follow the ground. Each option gives a different look and leaves different gaps at the bottom."
+      ]
+    },
+    {
+      "heading": "Lake and river lots",
+      "paragraphs": [
+        "Several towns on the list sit on large lakes. Old Hickory Lake borders [Hendersonville](/hendersonville-tn/) and Gallatin, Percy Priest Lake sits near Smyrna and La Vergne, and Center Hill Lake is close to Smithville. The U.S. Army Corps of Engineers manages all three, and shoreline work falls under the Corps, separate from the city or county. Lake yards often slope toward the water, so decks run tall, and many owners want railings and fences that keep the view open. Along rivers like the Duck and the Harpeth, low ground can stay soft after heavy rain, and a lot in a mapped flood zone may need extra review."
+      ]
+    },
+    {
+      "heading": "Acreage and farm country",
+      "paragraphs": [
+        "Lots get bigger once you leave the suburbs. Around Eagleville and Shelbyville, and out toward Manchester and Baxter, many homes sit on acreage with pasture or a barn. Fence work there usually means long runs and gates wide enough for a tractor, often around animals. Calling Tennessee 811 gets utility owned lines marked, but a private line run out to a barn or well usually will not be marked, so point those out before anyone digs."
+      ]
+    },
+    {
+      "heading": "Why we look at the yard before pricing it",
+      "paragraphs": [
+        "Two yards on the same street can need different plans, and a photo rarely shows how much the ground falls away from the back door. Standing in the yard answers that. It also shows where water runs after a storm and whether a trailer can reach the back corner. A visit is a good time to find the property pins and talk through where a gate will get the most use. Those details shape an estimate more than the name of your town does."
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "What if my town is not on the list?",
+      "a": "Send a request anyway through the estimate form below, and tell us your town and the nearest main road. We will let you know whether it is a place we can take on. Until then, the page for the closest listed city is worth reading, since ground conditions often carry across a county line."
+    },
+    {
+      "q": "How can I tell if my home is inside city limits?",
+      "a": "Do not go by your mailing address. Many homes carry a city name on the envelope while sitting in the county. The county property assessor's records often show which city, if any, your parcel belongs to, and a call to city hall with your street address will settle it. The answer tells you which codes office handles your permit and whether city fence rules apply."
+    },
+    {
+      "q": "What changes if my lot backs up to a Corps of Engineers lake?",
+      "a": "On many lake lots, the deeded property ends before the shoreline, and the strip between your line and the water is public land managed by the Corps. A fence or deck should stay on your side of that line, and anything built toward the water may need Corps approval on top of local permits. Contact the Corps office for your lake early, and keep your survey on hand while you plan."
+    }
+  ]
+}
