@@ -36,11 +36,11 @@ Radius 6px on buttons and the form panel, 4px on photos, inputs, and chips. No s
 
 ## Signature
 
-The red C from the logo, used as the bracket that grips the hero photo and as the list bullet. Nowhere else.
+The red C from the logo, used as the list bullet. Nowhere else.
 
 ## Motion
 
-One orchestrated moment on load: the headline rises, the photo settles, and the C draws in. Buttons lift 2px on hover and press to 98 percent. Exponential ease out. Nothing moves on scroll. All motion turns off under reduced motion settings.
+One orchestrated moment on load: the headline rises, and the photo settles. Buttons lift 2px on hover and press to 98 percent. Exponential ease out. Nothing moves on scroll. All motion turns off under reduced motion settings.
 
 ## Components
 

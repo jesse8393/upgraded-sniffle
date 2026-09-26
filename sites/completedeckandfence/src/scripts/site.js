@@ -110,6 +110,10 @@ if (form) {
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(data),
         });
+        if (res.status === 503) {
+          setStatus("Online requests are not connected yet. Please check back soon.", "error");
+          return;
+        }
         if (!res.ok) throw new Error(String(res.status));
         form.reset();
         setStatus("Thank you. We got your request and will be in touch soon.", "ok");
