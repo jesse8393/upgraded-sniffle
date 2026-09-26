@@ -13,6 +13,8 @@ import deckWirePool from "../assets/photos/work/deck-wire-railing-pool.jpg";
 import whiteDeckPorch from "../assets/photos/work/white-deck-screened-porch.jpg";
 import whiteDeckSide from "../assets/photos/work/white-deck-porch-side.jpg";
 import chainDriveGate from "../assets/photos/work/chain-link-drive-gate.jpg";
+import shadowbox from "../assets/photos/work/shadowbox-dumpster-enclosure.jpg";
+import coveredInside from "../assets/photos/work/covered-deck-inside.jpg";
 import coveredDeck from "../assets/photos/work/covered-deck-stairs.jpg";
 
 export const work = {
@@ -89,17 +91,27 @@ export const work = {
   coveredDeck: {
     src: coveredDeck,
     caption: "Covered deck with stairs and wood railings",
-    alt: "New raised pressure treated deck with a covered roof, wood railings, and stairs to the yard on the back of a gray two story house",
+    alt: "Finished raised pressure treated deck with a covered roof, wood railings, and stairs to the yard on the back of a gray two story house",
+  },
+  coveredInside: {
+    src: coveredInside,
+    caption: "Under a covered deck with a wood ceiling",
+    alt: "View along a covered deck with a tongue and groove wood ceiling, wood railings, and a view of open fields",
+  },
+  shadowbox: {
+    src: shadowbox,
+    caption: "Shadowbox wood fence around a dumpster",
+    alt: "New shadowbox style wood fence with gates enclosing a dumpster at a townhome community",
   },
 };
 
-const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "chainPlayground", "blackMetal", "chainDogPark", "boardGarden", "chainCourtWide", "chainDriveGate"];
+const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "chainPlayground", "blackMetal", "chainDogPark", "boardGarden", "chainCourtWide", "chainDriveGate", "shadowbox"];
 // Three photos per city page, rotated so neighboring cities do not show the same set.
 export function fencePhotosFor(index) {
   return [0, 1, 2].map((k) => work[order[(index * 3 + k * 2) % order.length]]);
 }
 
-const deckOrder = ["deckWirePool", "whiteDeckPorch", "deckBalusters", "whiteDeckSide", "coveredDeck"];
+const deckOrder = ["deckWirePool", "coveredInside", "whiteDeckPorch", "deckBalusters", "whiteDeckSide", "coveredDeck"];
 export function deckPhotosFor(index) {
   return [0, 1, 2].map((k) => work[deckOrder[(index * 2 + k) % deckOrder.length]]);
 }
