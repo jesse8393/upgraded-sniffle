@@ -12,7 +12,7 @@ export const SITE = {
   phone: "",          // e.g. "(615) 555 0100"
   email: "",          // e.g. "hello@completedeckandfence.com"
   // Where the estimate form sends requests: any endpoint that accepts a JSON POST.
-  formEndpoint: "/api/estimate",
+  formEndpoint: "/api/estimate/",
 };
 
 export const cities = citiesData;
