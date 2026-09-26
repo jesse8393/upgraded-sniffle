@@ -10,14 +10,13 @@ import chainPlayground from "../assets/photos/work/chain-link-playground.jpg";
 import chainCourtWide from "../assets/photos/work/chain-link-court-wide.jpg";
 import deckBalusters from "../assets/photos/work/deck-black-balusters.jpg";
 import deckWirePool from "../assets/photos/work/deck-wire-railing-pool.jpg";
-import whiteDeckPorch from "../assets/photos/work/white-deck-screened-porch.jpg";
-import whiteDeckSide from "../assets/photos/work/white-deck-porch-side.jpg";
+import whiteDeckStairs from "../assets/photos/work/white-deck-stairs.jpg";
+import whiteDeckSide from "../assets/photos/work/white-deck-side.jpg";
 import chainDriveGate from "../assets/photos/work/chain-link-drive-gate.jpg";
 import shadowbox from "../assets/photos/work/shadowbox-dumpster-enclosure.jpg";
 import coveredInside from "../assets/photos/work/covered-deck-inside.jpg";
 import chainCourtClose from "../assets/photos/work/chain-link-court-close.jpg";
 import shadowboxGates from "../assets/photos/work/shadowbox-enclosure-gates.jpg";
-import gazeboPool from "../assets/photos/work/gazebo-pool-deck.jpg";
 import coveredDeck from "../assets/photos/work/covered-deck-stairs.jpg";
 
 export const work = {
@@ -76,15 +75,15 @@ export const work = {
     caption: "Deck with wire panel railings by a pool",
     alt: "New pressure treated deck with wire panel railings, dark handrails, and wide steps, beside an above ground pool",
   },
-  whiteDeckPorch: {
-    src: whiteDeckPorch,
-    caption: "White deck and stairs with a screened porch",
-    alt: "White painted raised deck with stairs and black balusters next to a screened porch on the back of a brick house",
+  whiteDeckStairs: {
+    src: whiteDeckStairs,
+    caption: "White deck with stairs and black balusters",
+    alt: "White painted raised deck with stairs and black balusters on the back of a brick house",
   },
   whiteDeckSide: {
     src: whiteDeckSide,
     caption: "Raised white deck with stairs",
-    alt: "Raised white deck with a railing and stairs on tall posts, attached to a screened porch on a brick house",
+    alt: "Raised white deck with a railing and stairs on tall posts, on the back of a brick house",
   },
   chainDriveGate: {
     src: chainDriveGate,
@@ -100,11 +99,6 @@ export const work = {
     src: shadowboxGates,
     caption: "Shadowbox wood enclosure with double gates",
     alt: "New shadowbox style wood enclosure with double gates and black strap hinges around a dumpster at a townhome community",
-  },
-  gazeboPool: {
-    src: gazeboPool,
-    caption: "Wood gazebo with a metal roof by a pool",
-    alt: "New wood gazebo with a dark metal roof and knee braces on a concrete pool deck at an apartment community",
   },
   coveredDeck: {
     src: coveredDeck,
@@ -129,7 +123,7 @@ export function fencePhotosFor(index) {
   return [0, 1, 2].map((k) => work[order[(index * 3 + k * 2) % order.length]]);
 }
 
-const deckOrder = ["deckWirePool", "coveredInside", "whiteDeckPorch", "deckBalusters", "whiteDeckSide", "coveredDeck"];
+const deckOrder = ["deckWirePool", "coveredInside", "whiteDeckStairs", "deckBalusters", "whiteDeckSide", "coveredDeck"];
 export function deckPhotosFor(index) {
   return [0, 1, 2].map((k) => work[deckOrder[(index * 2 + k) % deckOrder.length]]);
 }

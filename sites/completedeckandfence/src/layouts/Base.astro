@@ -3,9 +3,10 @@ import "../styles/global.css";
 import { Image, getImage } from "astro:assets";
 import logoDark from "../assets/brand/logo-dark.png";
 import logoLight from "../assets/brand/logo-light.png";
+import { IMG } from "../lib/images.js";
 import { work } from "../lib/work.js";
 const defaultPhoto = work.woodPrivacy.src;
-import { SITE, paths, absolute, pageTitle, businessSchema, phoneHref, cities, getCityContent } from "../lib/site.js";
+import { SITE, paths, absolute, pageTitle, businessSchema, phoneHref, phoneDisplay, cities, getCityContent } from "../lib/site.js";
 
 const {
   title,
@@ -37,7 +38,6 @@ const graph = {
 const nav = [
   { href: paths.decks, label: "Decks" },
   { href: paths.fences, label: "Fences" },
-  { href: paths.porches, label: "Porches" },
   { href: paths.areas, label: "Service areas" },
   { href: paths.guides, label: "Guides" },
 ];
@@ -80,13 +80,13 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
   <header class="site-header" data-header>
     <div class="wrap header-inner">
       <a class="brand" href="/" aria-label={`${SITE.name}, home`}>
-        <Image src={logoDark} width={400} alt={SITE.name} loading="eager" />
+        <Image src={logoDark} widths={IMG.logo.widths} sizes={IMG.logo.sizes} alt={SITE.name} loading="eager" />
       </a>
       <nav class="nav" id="site-nav" aria-label="Main">
         {nav.map((item) => (
           <a href={item.href} aria-current={current === item.href ? "page" : undefined}>{item.label}</a>
         ))}
-        {SITE.phone && <a class="nav-phone" href={phoneHref}>{SITE.phone}</a>}
+        {phoneDisplay && <a class="nav-phone" href={phoneHref}>Call {phoneDisplay}</a>}
         <a class="nav-cta" href={estimateHref}>Get a free estimate</a>
       </nav>
       <a class="btn btn-red btn-sm header-cta" href={estimateHref}>Free estimate</a>
@@ -103,16 +103,15 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <div class="footer-brand">
-        <Image class="footer-logo" src={logoLight} width={440} alt={SITE.name} />
+        <Image class="footer-logo" src={logoLight} width={220} densities={[1, 2]} alt={SITE.name} />
         <p class="tagline">{SITE.tagline}</p>
-        {SITE.phone && <p><a href={phoneHref}>{SITE.phone}</a></p>}
+        {phoneDisplay && <p><a href={phoneHref}>{phoneDisplay}</a></p>}
         {SITE.email && <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
       </div>
       <nav class="footer-col" aria-label="Services">
         <p class="footer-head">Services</p>
         <a href={paths.decks}>Decks</a>
         <a href={paths.fences}>Fences</a>
-        <a href={paths.porches}>Porches and gazebos</a>
         <a href={paths.guides}>Guides</a>
         <a href={estimateHref}>Get an estimate</a>
       </nav>
@@ -129,6 +128,7 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
   </footer>
 
   <div class="mobile-cta" data-mobile-cta>
+    {phoneDisplay && <a class="btn btn-dark mobile-call" href={phoneHref}>Call</a>}
     <a class="btn btn-red btn-block" href={estimateHref}>Get a free estimate</a>
   </div>
 

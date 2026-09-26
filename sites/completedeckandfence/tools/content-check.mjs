@@ -18,7 +18,7 @@ const guides = readJson("src/data/guides.json");
 const cityBySlug = Object.fromEntries(cities.map((c) => [c.slug, c]));
 const guideBySlug = Object.fromEntries(guides.map((g) => [g.slug, g]));
 
-const allowedPaths = new Set(["/", "/decks/", "/fences/", "/porches/", "/service-areas/", "/guides/", "#estimate"]);
+const allowedPaths = new Set(["/", "/decks/", "/fences/", "/service-areas/", "/guides/", "#estimate"]);
 for (const c of cities) {
   allowedPaths.add(`/${c.slug}-tn/`);
   allowedPaths.add(`/deck-builder-${c.slug}-tn/`);
@@ -186,8 +186,6 @@ const PAGE_RULES = {
   decks: { words: [1300, 1700], sections: [5, 9], faqs: 5, intro: true, counts: [["deck words", DECK, 40, 70]], links: [3, 8], descMust: ["deck"],
     linkMust: [["a guide", (h) => h.startsWith("/guides/")]] },
   fences: { words: [1300, 1700], sections: [5, 9], faqs: 5, intro: true, counts: [["fence words", FENCE, 40, 70]], links: [3, 8], descMust: ["fence"],
-    linkMust: [["a guide", (h) => h.startsWith("/guides/")]] },
-  porches: { words: [900, 1400], sections: [4, 7], faqs: 4, intro: true, counts: [["porch words", /\b(porch|porches|gazebo|gazebos|pavilion|pavilions)\b/gi, 20]], links: [3, 6], descMust: ["porch"],
     linkMust: [["a guide", (h) => h.startsWith("/guides/")]] },
   "service-areas": { words: [600, 900], sections: [3, 6], faqs: 3, intro: true, counts: [], links: [2, 6] },
   home: { words: [450, 800], sections: [2, 3], faqs: 4, counts: [["deck words", DECK, 6], ["fence words", FENCE, 6]], links: [2, 6] },

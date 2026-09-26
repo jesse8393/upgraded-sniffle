@@ -62,14 +62,26 @@ node tools/content-check.mjs pages decks
 
 `vercel.json` is ready for Vercel: set the project Root Directory to `sites/completedeckandfence`. It adds trailing slash redirects, security headers, and long caching for built assets. Any static host works too: build, then publish `dist/`.
 
+### Estimate form
+
+`api/estimate.js` receives the form. Set these in Vercel under Project Settings, Environment Variables. They stay on the server and never reach the browser.
+
+* `GHL_PRIVATE_TOKEN`: a GoHighLevel private integration token with the contacts and opportunities read and write scopes
+* `GHL_LOCATION_ID`: the GoHighLevel sub account id
+* `GHL_PIPELINE_ID`, `GHL_STAGE_ID`: optional. Without them the form uses the first pipeline with a stage named New lead.
+
+Each request creates or updates the contact with lead source Website, adds the tag website estimate, saves the details as a note, and opens an opportunity in New lead. Email through Resend still works alongside it with `RESEND_API_KEY` and `LEAD_TO_EMAIL`.
+
 After launch, follow `docs/BACKLINKS.md` for Search Console, Google Business Profile, citations, and links.
 
 ## Files
 
-* `src/pages/`: page templates. `[slug].astro` builds all 63 city pages.
+* `src/pages/`: page templates. `[slug].astro` builds all 60 city pages.
 * `src/components/`: shared pieces such as the estimate form, FAQs, and breadcrumbs
 * `src/layouts/Base.astro`: head tags, structured data, header, and footer
 * `src/lib/site.js`: business details, URLs, titles, and structured data helpers
+* `src/lib/images.js`: image widths and sizes for every photo
+* `api/estimate.js`: the estimate form handler
 * `src/content/`: page copy as JSON
 * `src/data/`: city facts and the guide list
 * `src/styles/global.css`, `src/scripts/site.js`: design and behavior

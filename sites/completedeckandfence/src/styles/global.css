@@ -200,13 +200,6 @@ button, input, textarea { font: inherit; color: inherit; }
 @keyframes settle { from { transform: scale(1.05); } to { transform: scale(1); } }
 
 
-/* Marks placeholder photos until real project photos replace them */
-.tag {
-  position: absolute; right: 14px; bottom: 14px;
-  padding: 7px 9px; border-radius: var(--r-sm);
-  background: rgb(27 22 21 / .82); color: var(--white);
-  font: 500 12px/1 var(--f-body); letter-spacing: .03em;
-}
 
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; min-height: 0; }
@@ -355,6 +348,8 @@ button, input, textarea { font: inherit; color: inherit; }
     transform: translateY(110%); transition: transform .35s var(--ease-out);
   }
   .mobile-cta.is-shown { transform: none; }
+  .mobile-cta:has(.mobile-call) { display: flex; gap: 10px; }
+  .mobile-call { flex: none; padding: 0 22px; }
   .site-footer { padding-bottom: 84px; }
 }
 

@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { Picture, getImage } from "astro:assets";
+import { IMG } from "../lib/images.js";
 import Breadcrumbs from "./Breadcrumbs.astro";
 import Sections from "./Sections.astro";
 import Faqs from "./Faqs.astro";
@@ -11,12 +12,12 @@ import WorkGallery from "./WorkGallery.astro";
 import { work } from "../lib/work.js";
 import { paths, guides, getPageContent, getCityContent, getGuideContent, citiesByCounty, inlineHtml, breadcrumbSchema, faqSchema, serviceSchema } from "../lib/site.js";
 
-const { service, photo, photoAlt, concept = false, gallery = [] } = Astro.props;
+const { service, photo, photoAlt, gallery = [] } = Astro.props;
 const isDeck = service === "deck";
 const page = getPageContent(isDeck ? "decks" : "fences");
 if (!page) throw new Error(`Missing src/content/pages/${isDeck ? "decks" : "fences"}.json`);
 const path = isDeck ? paths.decks : paths.fences;
-const heroPreload = await getImage({ src: photo, format: "avif", quality: 45, widths: [480, 800, 1100] });
+const heroPreload = await getImage({ src: photo, format: "avif", quality: 45, widths: IMG.hubHero.widths });
 const h1 = isDeck ? "Deck builders in Middle Tennessee" : "Fence installation in Middle Tennessee";
 const title = isDeck ? "Deck Builders in Middle Tennessee" : "Fence Company in Middle Tennessee";
 const crumbs = [{ name: "Home", href: "/" }, { name: isDeck ? "Decks" : "Fences", href: path }];
@@ -30,7 +31,7 @@ const schema = [
 ];
 ---
 <Base title={title} description={page.description} path={path} schema={schema} current={path} image={photo}>
-  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroPreload.srcSet.attribute} imagesizes="(max-width: 900px) 100vw, 45vw" fetchpriority="high" />
+  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroPreload.srcSet.attribute} imagesizes={IMG.hubHero.sizes} fetchpriority="high" />
   <section class="page-hero">
     <div class="wrap page-hero-inner">
       <div class="page-hero-copy">
@@ -44,8 +45,7 @@ const schema = [
         </div>
       </div>
       <figure class="page-hero-media">
-        <Picture src={photo} formats={["avif", "webp"]} quality={45} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt={photoAlt} loading="eager" fetchpriority="high" />
-        {concept && <figcaption class="tag">Concept image</figcaption>}
+        <Picture src={photo} formats={["avif", "webp"]} quality={45} widths={IMG.hubHero.widths} sizes={IMG.hubHero.sizes} alt={photoAlt} loading="eager" fetchpriority="high" />
       </figure>
     </div>
   </section>

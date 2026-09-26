@@ -1,4 +1,4 @@
-import { SITE, cities, guides, paths, getCityContent, getGuideContent } from "../lib/site.js";
+import { SITE, phoneDisplay, cities, guides, paths, getCityContent, getGuideContent } from "../lib/site.js";
 
 // A plain summary for AI crawlers. Only confirmed facts go here.
 export function GET() {
@@ -11,7 +11,6 @@ export function GET() {
     "## Services",
     `* [Decks](${SITE.url}${paths.decks}): new decks, replacements, stairs, and railings in wood or composite.`,
     `* [Fences](${SITE.url}${paths.fences}): wood privacy fences, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences, and rail fences.`,
-    `* [Porches](${SITE.url}${paths.porches}): covered porches, screened porches, gazebos, and roofs over existing decks.`,
     "* Repairs for decks and fences. Estimates are free.",
     "",
     "## Cities",
@@ -21,7 +20,7 @@ export function GET() {
     ...guides.filter((g) => getGuideContent(g.slug)).map((g) => `* [${g.title}](${SITE.url}${paths.guide(g.slug)})`),
     "",
     "## Contact",
-    SITE.phone ? `Phone: ${SITE.phone}` : `Request an estimate at ${SITE.url}/#estimate`,
+    phoneDisplay ? `Phone: ${phoneDisplay}` : `Request an estimate at ${SITE.url}/#estimate`,
     ...(SITE.email ? [`Email: ${SITE.email}`] : []),
     "",
   ];

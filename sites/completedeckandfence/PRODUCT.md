@@ -54,7 +54,7 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 ## Unconfirmed, needs the owner
 
 * Phone number, email, and where estimate requests should go.
-* Confirmed by the owner: free estimates, deck and fence repairs, covered porches, screened porches, gazebos, and keeping Chattanooga in the service area.
+* Confirmed by the owner: free estimates and deck and fence repairs. The site does not offer porches or gazebos. The service area is the 20 cities in src/data/cities.json near Murfreesboro; Chattanooga is not served.
 * Exact services. The owner's project photos show wood privacy fences with a cap board, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences (including a court and an apartment dog park), rail fences, a chain link double drive gate, and decks (covered, painted white with stairs, wire panel railings, black metal balusters). Still unconfirmed: composite decking installs and picket fences.
 * Service area towns.
 * The steps that follow when someone reaches out.

@@ -8,7 +8,12 @@
     { "source": "/sitemap.xml", "destination": "/sitemap-index.xml", "permanent": true },
     { "source": "/fencing/", "destination": "/fences/", "permanent": true },
     { "source": "/deck/", "destination": "/decks/", "permanent": true },
-    { "source": "/fence/", "destination": "/fences/", "permanent": true }
+    { "source": "/fence/", "destination": "/fences/", "permanent": true },
+    { "source": "/porches/", "destination": "/", "permanent": true },
+    { "source": "/porches", "destination": "/", "permanent": true },
+    { "source": "/chattanooga-tn/", "destination": "/service-areas/", "permanent": true },
+    { "source": "/deck-builder-chattanooga-tn/", "destination": "/decks/", "permanent": true },
+    { "source": "/fence-company-chattanooga-tn/", "destination": "/fences/", "permanent": true }
   ],
   "headers": [
     {

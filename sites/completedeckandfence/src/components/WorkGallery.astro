@@ -1,14 +1,8 @@
 ---
 import { Picture } from "astro:assets";
+import { gallerySizes, galleryWidths } from "../lib/images.js";
 const { items = [], heading = "Fences we've built.", id = "work", note } = Astro.props;
 const count = items.length;
-// Match the image sizes to the grid columns set in global.css.
-const sizesFor = (i) => {
-  if (count === 4) return "(max-width: 1099px) 50vw, 25vw";
-  if (count === 6) return "(max-width: 899px) 50vw, 33vw";
-  if (count === 3 && i === 0) return "(max-width: 899px) 100vw, 33vw";
-  return "(max-width: 899px) 50vw, 33vw";
-};
 ---
 <section class="work" id={id} aria-labelledby={`${id}-title`}>
   <div class="wrap">
@@ -20,7 +14,7 @@ const sizesFor = (i) => {
       {items.map((it, i) => (
         <li>
           <figure>
-            <Picture src={it.src} formats={["avif", "webp"]} quality={60} widths={[400, 800]} sizes={sizesFor(i)} alt={it.alt} />
+            <Picture src={it.src} formats={["avif", "webp"]} quality={60} widths={galleryWidths} sizes={gallerySizes(count, i)} alt={it.alt} />
             <figcaption>{it.caption}</figcaption>
           </figure>
         </li>

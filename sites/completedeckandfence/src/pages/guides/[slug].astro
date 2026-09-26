@@ -6,6 +6,7 @@ import Faqs from "../../components/Faqs.astro";
 import Toc from "../../components/Toc.astro";
 import EstimateSection from "../../components/EstimateSection.astro";
 import { Picture } from "astro:assets";
+import { IMG } from "../../lib/images.js";
 import { guideImages } from "../../lib/illustrations.js";
 import { SITE, paths, guides, getGuideContent, breadcrumbSchema, faqSchema, absolute, BUSINESS_ID, PUBLISHED } from "../../lib/site.js";
 
@@ -44,7 +45,7 @@ const article = {
   {image && (
     <div class="wrap guide-figure-wrap">
       <figure class="guide-figure">
-        <Picture src={image.src} formats={["avif", "webp"]} quality={55} widths={[480, 800, 1200]} sizes="(max-width: 1240px) 100vw, 1160px" alt={image.alt} loading="eager" fetchpriority="high" />
+        <Picture src={image.src} formats={["avif", "webp"]} quality={55} widths={IMG.guide.widths} sizes={IMG.guide.sizes} alt={image.alt} loading="eager" fetchpriority="high" />
       </figure>
     </div>
   )}

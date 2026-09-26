@@ -9,7 +9,7 @@ export const SITE = {
   url: "https://completedeckandfence.com",
   tagline: "Built for better backyards.",
   region: "Middle Tennessee",
-  phone: "",          // e.g. "(615) 555 0100"
+  phone: "",          // any format, e.g. "615 555 0100"; shown everywhere as (615) 555 0100
   email: "",          // e.g. "hello@completedeckandfence.com"
   // Where the estimate form sends requests: any endpoint that accepts a JSON POST.
   formEndpoint: "/api/estimate/",
@@ -34,7 +34,6 @@ export const paths = {
   home: "/",
   decks: "/decks/",
   fences: "/fences/",
-  porches: "/porches/",
   areas: "/service-areas/",
   guides: "/guides/",
   privacy: "/privacy-policy/",
@@ -55,8 +54,11 @@ export function pageTitle(text) {
   throw new Error(`Title over 60 characters: "${text}"`);
 }
 
-export const phoneDigits = SITE.phone.replace(/\D/g, "");
-export const phoneHref = phoneDigits ? `tel:+1${phoneDigits.slice(-10)}` : "";
+// One phone format everywhere: visible links, the call button, llms.txt, and the business schema.
+export const phoneDigits = SITE.phone.replace(/\D/g, "").slice(-10);
+if (SITE.phone && phoneDigits.length !== 10) throw new Error(`SITE.phone needs a ten digit US number, got "${SITE.phone}"`);
+export const phoneDisplay = phoneDigits ? `(${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3, 6)} ${phoneDigits.slice(6)}` : "";
+export const phoneHref = phoneDigits ? `tel:+1${phoneDigits}` : "";
 
 // Counties in the order the service area page lists them.
 export function citiesByCounty() {
@@ -81,9 +83,9 @@ export function businessSchema(logoUrl, imageUrl) {
     image: imageUrl,
     slogan: SITE.tagline,
     areaServed: cities.map((c) => ({ "@type": "City", name: `${c.name}, TN` })),
-    knowsAbout: ["Deck building", "Deck replacement", "Deck repair", "Fence installation", "Fence repair", "Privacy fences", "Gates", "Covered porches", "Screened porches", "Gazebos"],
+    knowsAbout: ["Deck building", "Deck replacement", "Deck repair", "Fence installation", "Fence repair", "Privacy fences", "Gates"],
   };
-  if (SITE.phone) data.telephone = `+1${phoneDigits.slice(-10)}`;
+  if (phoneDisplay) data.telephone = phoneDisplay;
   if (SITE.email) data.email = SITE.email;
   return data;
 }

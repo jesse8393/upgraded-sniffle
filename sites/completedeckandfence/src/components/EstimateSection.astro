@@ -1,5 +1,5 @@
 ---
-import { SITE, phoneHref } from "../lib/site.js";
+import { SITE, phoneHref, phoneDisplay } from "../lib/site.js";
 const {
   project = "",
   heading = "Let's plan your backyard.",
@@ -9,7 +9,6 @@ const options = [
   ["Deck", "Deck"],
   ["Fence", "Fence"],
   ["Deck and fence", "Both"],
-  ["Porch or gazebo", "Porch or gazebo"],
   ["Repair", "Repair"],
 ];
 ---
@@ -18,7 +17,7 @@ const options = [
     <div class="estimate-intro">
       <h2 id="estimate-title" class="h2">{heading}</h2>
       <p>{intro}</p>
-      {SITE.phone && <p class="contact-line">Rather talk? Call <a href={phoneHref}>{SITE.phone}</a></p>}
+      {phoneDisplay && <p class="contact-line">Rather talk? Call <a href={phoneHref}>{phoneDisplay}</a></p>}
     </div>
 
     <form class="planner" name="estimate" method="POST" data-planner data-endpoint={SITE.formEndpoint} data-email={SITE.email} novalidate>

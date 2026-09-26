@@ -8,26 +8,27 @@ import EstimateSection from "../components/EstimateSection.astro";
 import WorkGallery from "../components/WorkGallery.astro";
 import { work } from "../lib/work.js";
 import yardSign from "../assets/photos/yard-sign.jpg";
+import { IMG } from "../lib/images.js";
 import { paths, guides, getPageContent, getGuideContent, getCityContent, faqSchema, citiesByCounty } from "../lib/site.js";
 
 const home = getPageContent("home");
 // Start the hero photo download before the browser reaches the <img>.
-const heroPreload = await getImage({ src: work.woodPrivacy.src, format: "avif", quality: 45, widths: [480, 800, 1100, 1400] });
+const heroPreload = await getImage({ src: work.woodPrivacy.src, format: "avif", quality: 45, widths: IMG.homeHero.widths });
 const groups = citiesByCounty().map((g) => ({ ...g, cities: g.cities.filter((c) => getCityContent(c.slug)) })).filter((g) => g.cities.length);
 const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "deck-cost-middle-tennessee", "fence-on-a-slope"]
   .map((slug) => guides.find((g) => g.slug === slug)).filter((g) => g && getGuideContent(g.slug));
 ---
 <Base
   title=""
-  description="Custom decks, fences, and covered porches for Middle Tennessee homes, from Murfreesboro and Nashville to Chattanooga. Request a free estimate."
+  description="Custom decks and fences for Murfreesboro, Nashville, Franklin, and nearby Middle Tennessee cities. Deck and fence repairs too. Free estimates."
   path="/"
   schema={[faqSchema(home?.faqs)]}
 >
-  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroPreload.srcSet.attribute} imagesizes="(max-width: 900px) 100vw, 55vw" fetchpriority="high" />
+  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroPreload.srcSet.attribute} imagesizes={IMG.homeHero.sizes} fetchpriority="high" />
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <p class="kicker rise">Middle Tennessee</p>
-      <h1 id="hero-title" class="display rise" style="--d:60ms">Make outside<br> feel <span class="nowrap">complete.</span></h1>
+      <h1 id="hero-title" class="kicker rise">Custom decks and fences in Middle Tennessee</h1>
+      <p class="display rise" style="--d:60ms">Make outside<br> feel <span class="nowrap">complete.</span></p>
       <p class="lede rise" style="--d:120ms">Custom decks. Beautiful fences. Better weekends.</p>
       <div class="hero-actions rise" style="--d:180ms">
         <a class="btn btn-red" href="#estimate">Plan your project <span class="arrow" aria-hidden="true"></span></a>
@@ -35,7 +36,7 @@ const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "d
       </div>
     </div>
     <figure class="hero-media">
-      <Picture src={work.woodPrivacy.src} formats={["avif", "webp"]} quality={45} widths={[480, 800, 1100, 1400]} sizes="(max-width: 900px) 100vw, 55vw" alt={work.woodPrivacy.alt} loading="eager" fetchpriority="high" />
+      <Picture src={work.woodPrivacy.src} formats={["avif", "webp"]} quality={45} widths={IMG.homeHero.widths} sizes={IMG.homeHero.sizes} alt={work.woodPrivacy.alt} loading="eager" fetchpriority="high" />
     </figure>
   </section>
 
@@ -50,7 +51,6 @@ const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "d
             <li>New decks and replacements</li>
             <li>Stairs and railings</li>
             <li>Wood or composite boards</li>
-            <li><a href={paths.porches}>Covered and screened porches</a></li>
             <li>Deck repairs</li>
           </ul>
           <a class="text-link" href={paths.decks}>See our deck work <span class="arrow" aria-hidden="true"></span></a>
@@ -79,7 +79,7 @@ const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "d
     </div>
     <div class="band-media">
       <figure class="wrap">
-        <Picture src={work.vinylPrivacy.src} formats={["avif", "webp"]} quality={62} widths={[480, 720, 960, 1240]} sizes="(max-width: 1240px) 100vw, 1240px" alt={work.vinylPrivacy.alt} />
+        <Picture src={work.vinylPrivacy.src} formats={["avif", "webp"]} quality={62} widths={IMG.band.widths} sizes={IMG.band.sizes} alt={work.vinylPrivacy.alt} />
       </figure>
     </div>
   </section>
@@ -99,7 +99,7 @@ const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "d
   <section class="area" id="area" aria-labelledby="area-title">
     <div class="wrap area-inner">
       <figure class="area-media">
-        <Picture src={yardSign} formats={["avif", "webp"]} quality={62} widths={[480, 720, 960, 1280]} sizes="(max-width: 860px) 100vw, 50vw" alt="Complete Deck and Fence yard sign reading Built for better backyards, in front of a finished deck" />
+        <Picture src={yardSign} formats={["avif", "webp"]} quality={62} widths={IMG.yardSign.widths} sizes={IMG.yardSign.sizes} alt="Complete Deck and Fence yard sign reading Built for better backyards, in front of a finished deck" />
       </figure>
       <div class="area-copy">
         <h2 id="area-title" class="h2">Seen our sign in your neighborhood?</h2>
