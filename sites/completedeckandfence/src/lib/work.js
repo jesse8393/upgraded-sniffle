@@ -6,6 +6,8 @@ import blackMetal from "../assets/photos/work/black-metal-fence-front-yard.jpg";
 import boardGarden from "../assets/photos/work/board-fence-garden-gate.jpg";
 import chainCourt from "../assets/photos/work/chain-link-court-gate.jpg";
 import chainDogPark from "../assets/photos/work/chain-link-dog-park.jpg";
+import chainPlayground from "../assets/photos/work/chain-link-playground.jpg";
+import chainCourtWide from "../assets/photos/work/chain-link-court-wide.jpg";
 import coveredDeck from "../assets/photos/work/covered-deck-stairs.jpg";
 
 export const work = {
@@ -44,6 +46,16 @@ export const work = {
     caption: "Black chain link fence around a dog park",
     alt: "Black chain link fence around a dog park with a gravel strip and a bench, beside a sidewalk at an apartment community",
   },
+  chainPlayground: {
+    src: chainPlayground,
+    caption: "Black chain link fence around a playground",
+    alt: "Black chain link fence around a grassy play area with a shaded playground behind it",
+  },
+  chainCourtWide: {
+    src: chainCourtWide,
+    caption: "Black chain link fence around a new court",
+    alt: "Black chain link fence enclosing a new concrete court on a lawn, with trees and a brick building behind it",
+  },
   coveredDeck: {
     src: coveredDeck,
     caption: "Covered deck with stairs and wood railings",
@@ -51,7 +63,7 @@ export const work = {
   },
 };
 
-const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "blackMetal", "chainDogPark", "boardGarden"];
+const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "chainPlayground", "blackMetal", "chainDogPark", "boardGarden", "chainCourtWide"];
 // Three photos per city page, rotated so neighboring cities do not show the same set.
 export function fencePhotosFor(index) {
   return [0, 1, 2].map((k) => work[order[(index * 3 + k * 2) % order.length]]);
