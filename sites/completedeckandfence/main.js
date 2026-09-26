@@ -8,8 +8,6 @@ const SITE = {
   formEndpoint: "",
 };
 
-document.documentElement.classList.add("js");
-
 // ── Contact details ─────────────────────────
 const digits = SITE.phone.replace(/\D/g, "");
 document.querySelectorAll("[data-phone]").forEach((el) => {
@@ -40,7 +38,7 @@ menuBtn.addEventListener("click", () => setMenu(menuBtn.getAttribute("aria-expan
 nav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
-// Header shadow and the mobile CTA react to what is on screen, not to scroll events.
+// The header rule and the mobile CTA react to what is on screen, not to scroll events.
 const mobileCta = document.querySelector("[data-mobile-cta]");
 const seen = { top: true, hero: true, estimate: false };
 const sync = () => {
@@ -52,49 +50,6 @@ const watch = (el, key, opts) =>
 watch(document.querySelector("[data-sentinel]"), "top");
 watch(document.querySelector(".hero"), "hero");
 watch(document.getElementById("estimate"), "estimate", { threshold: 0.05 });
-
-// ── Magnetic buttons (mouse only) ───────────
-const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
-const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (finePointer && !calm) {
-  document.querySelectorAll(".magnetic").forEach((btn) => {
-    let frame = 0;
-    btn.addEventListener("pointermove", (e) => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const r = btn.getBoundingClientRect();
-        btn.style.setProperty("--mx", `${((e.clientX - r.left) / r.width - 0.5) * 12}px`);
-        btn.style.setProperty("--my", `${((e.clientY - r.top) / r.height - 0.5) * 10}px`);
-      });
-    });
-    btn.addEventListener("pointerleave", () => {
-      cancelAnimationFrame(frame);
-      btn.style.setProperty("--mx", "0px");
-      btn.style.setProperty("--my", "0px");
-    });
-  });
-}
-
-// ── Scroll reveals ──────────────────────────
-const revealTargets = [
-  ".section-head", ".service", ".band-title", ".band-side",
-  ".step", ".area-media", ".area-copy", ".estimate-intro", ".planner",
-];
-const inview = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add("is-in");
-    inview.unobserve(entry.target);
-  });
-}, { rootMargin: "0px 0px -8% 0px" });
-
-revealTargets.forEach((sel) => {
-  document.querySelectorAll(sel).forEach((el, i) => {
-    el.setAttribute("data-inview", "");
-    el.style.setProperty("--d", `${Math.min(i, 3) * 90}ms`);
-    inview.observe(el);
-  });
-});
 
 // ── Estimate planner ────────────────────────
 const form = document.querySelector("[data-planner]");

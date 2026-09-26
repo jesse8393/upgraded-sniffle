@@ -14,19 +14,23 @@ python3 -m http.server 4173
 
 Fill in `SITE` at the top of `main.js`:
 
-| Key | What it does |
-| --- | --- |
-| `phone` | Shows click to call links in the nav, estimate section, and footer |
-| `email` | Shows in footer. Used as the form fallback (opens an email) |
-| `formEndpoint` | URL that receives estimate requests as a JSON POST (Formspree, a Supabase edge function, etc) |
+* `phone` shows click to call links in the nav, the estimate section, and the footer.
+* `email` shows in the footer and is the form fallback (it opens an email).
+* `formEndpoint` is a URL that receives estimate requests as a JSON POST (Formspree, a Supabase edge function, and so on).
 
 Empty values stay hidden, so nothing fake ever shows.
 
-Also replace or confirm:
+Then work through the "Unconfirmed, needs the owner" list in `PRODUCT.md`. The big ones:
 
-* **Photos** in `assets/` are cropped from AI concept images. Swap in real project photos (keep the file names or update `index.html`).
-* **Service lists** under Decks and Fences. Confirm they match what the crew actually offers.
-* **Service area.** Add specific cities once confirmed.
+* Photos in `assets/` are cropped from AI concept images and carry a "Concept image" label. Swap in real project photos and remove the labels.
+* Confirm the service lists under Custom decks and Privacy fences.
+* Add specific towns to the service area once confirmed.
+
+## Design rules
+
+* `PRODUCT.md` covers who the site is for, the brand, the tone, and what to avoid.
+* `DESIGN.md` covers colors, type, spacing, motion, and components.
+* `node tools/slop-check.mjs` fails on dashes in visible copy, hype words, and banned CSS patterns. Run it before every deploy.
 
 ## Deploy
 
@@ -36,6 +40,7 @@ Point any static host at this folder (Vercel, Netlify, Cloudflare Pages). On Ver
 
 * `index.html`: page markup, SEO meta, LocalBusiness structured data
 * `styles.css`: design tokens and layout
-* `main.js`: contact config, mobile menu, scroll reveals, estimate form
+* `main.js`: contact config, mobile menu, estimate form
 * `fonts/`: self hosted Archivo, Instrument Sans, Newsreader (SIL Open Font License)
 * `assets/`: logo variants, favicon mark, photos
+* `tools/slop-check.mjs`: the anti slop checker
