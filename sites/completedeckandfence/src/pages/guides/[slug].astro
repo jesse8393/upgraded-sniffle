@@ -45,9 +45,6 @@ const article = {
     <div class="wrap guide-figure-wrap">
       <figure class="guide-figure">
         <Picture src={image.src} formats={["avif", "webp"]} quality={55} widths={[480, 800, 1200]} sizes="(max-width: 1240px) 100vw, 1160px" alt={image.alt} loading="eager" fetchpriority="high" />
-        {image.illustration
-          ? <figcaption class="tag">Illustration</figcaption>
-          : <figcaption class="guide-caption">A project we built: {image.caption.charAt(0).toLowerCase() + image.caption.slice(1)}</figcaption>}
       </figure>
     </div>
   )}

@@ -1,5 +1,5 @@
 // AI generated images for types the owner has no project photo of yet.
-// Always shown with an "Illustration" label so they are never mistaken for our work.
+// Used only on guide pages, never in project galleries or on service or city pages.
 import compositeDeck from "../assets/photos/illustrations/composite-deck.jpg";
 import cedarFence from "../assets/photos/illustrations/cedar-fence.jpg";
 import steppedFence from "../assets/photos/illustrations/stepped-fence-slope.jpg";
