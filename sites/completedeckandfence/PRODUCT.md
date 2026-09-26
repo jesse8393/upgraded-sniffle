@@ -48,7 +48,8 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 1. Never state a fact about the business that the owner has not confirmed.
 2. Phone first, and readable in direct sun.
 3. Every section points toward the estimate form.
-4. Each photo appears once per page. Concept images stay labeled until real project photos replace them. Real customer photos never show house numbers, plates, or faces.
+4. Guides may use AI generated images only for types with no project photo yet, and only with a visible "Illustration" label. They never appear in "we've built" galleries or on service or city pages.
+5. Each photo appears once per page. Concept images stay labeled until real project photos replace them. Real customer photos never show house numbers, plates, or faces.
 
 ## Unconfirmed, needs the owner
 

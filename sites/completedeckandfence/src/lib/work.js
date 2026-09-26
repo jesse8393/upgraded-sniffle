@@ -15,6 +15,7 @@ import whiteDeckSide from "../assets/photos/work/white-deck-porch-side.jpg";
 import chainDriveGate from "../assets/photos/work/chain-link-drive-gate.jpg";
 import shadowbox from "../assets/photos/work/shadowbox-dumpster-enclosure.jpg";
 import coveredInside from "../assets/photos/work/covered-deck-inside.jpg";
+import chainCourtClose from "../assets/photos/work/chain-link-court-close.jpg";
 import coveredDeck from "../assets/photos/work/covered-deck-stairs.jpg";
 
 export const work = {
@@ -88,6 +89,11 @@ export const work = {
     caption: "Black chain link fence with a drive gate",
     alt: "Black chain link fence along a yard with a double drive gate across a gravel driveway",
   },
+  chainCourtClose: {
+    src: chainCourtClose,
+    caption: "Black chain link fence around a court, up close",
+    alt: "Close view through a new black chain link fence of a concrete court with blue lines, trees behind it",
+  },
   coveredDeck: {
     src: coveredDeck,
     caption: "Covered deck with stairs and wood railings",
@@ -105,7 +111,7 @@ export const work = {
   },
 };
 
-const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "chainPlayground", "blackMetal", "chainDogPark", "boardGarden", "chainCourtWide", "chainDriveGate", "shadowbox"];
+const order = ["woodPrivacy", "vinylPrivacy", "chainCourt", "horizontalBoard", "chainPlayground", "blackMetal", "chainDogPark", "boardGarden", "chainCourtWide", "chainDriveGate", "shadowbox", "chainCourtClose"];
 // Three photos per city page, rotated so neighboring cities do not show the same set.
 export function fencePhotosFor(index) {
   return [0, 1, 2].map((k) => work[order[(index * 3 + k * 2) % order.length]]);

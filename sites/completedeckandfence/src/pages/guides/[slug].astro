@@ -5,6 +5,8 @@ import Sections from "../../components/Sections.astro";
 import Faqs from "../../components/Faqs.astro";
 import Toc from "../../components/Toc.astro";
 import EstimateSection from "../../components/EstimateSection.astro";
+import { Picture } from "astro:assets";
+import { guideImages } from "../../lib/illustrations.js";
 import { SITE, paths, guides, getGuideContent, breadcrumbSchema, faqSchema, absolute, BUSINESS_ID, PUBLISHED } from "../../lib/site.js";
 
 export function getStaticPaths() {
@@ -16,6 +18,7 @@ const page = getGuideContent(slug);
 const crumbs = [{ name: "Home", href: "/" }, { name: "Guides", href: paths.guides }, { name: guide.title, href: paths.guide(slug) }];
 const serviceHub = guide.service === "fence" ? { href: paths.fences, label: "Fences across Middle Tennessee" } : { href: paths.decks, label: "Decks across Middle Tennessee" };
 const more = guides.filter((g) => g.slug !== slug && (g.service === guide.service || g.service === "both" || guide.service === "both") && getGuideContent(g.slug)).slice(0, 4);
+const image = guideImages[slug];
 const project = guide.service === "fence" ? "Fence" : guide.service === "deck" ? "Deck" : "";
 const article = {
   "@type": "Article",
@@ -37,6 +40,17 @@ const article = {
       <p class="page-lede">{page.dek}</p>
     </div>
   </section>
+
+  {image && (
+    <div class="wrap guide-figure-wrap">
+      <figure class="guide-figure">
+        <Picture src={image.src} formats={["avif", "webp"]} quality={55} widths={[480, 800, 1200]} sizes="(max-width: 1240px) 100vw, 1160px" alt={image.alt} loading="eager" fetchpriority="high" />
+        {image.illustration
+          ? <figcaption class="tag">Illustration</figcaption>
+          : <figcaption class="guide-caption">A project we built: {image.caption.charAt(0).toLowerCase() + image.caption.slice(1)}</figcaption>}
+      </figure>
+    </div>
+  )}
 
   <div class="wrap article-layout">
     <article class="article-body">
