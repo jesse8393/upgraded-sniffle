@@ -17,6 +17,7 @@ import shadowbox from "../assets/photos/work/shadowbox-dumpster-enclosure.jpg";
 import coveredInside from "../assets/photos/work/covered-deck-inside.jpg";
 import chainCourtClose from "../assets/photos/work/chain-link-court-close.jpg";
 import shadowboxGates from "../assets/photos/work/shadowbox-enclosure-gates.jpg";
+import gazeboPool from "../assets/photos/work/gazebo-pool-deck.jpg";
 import coveredDeck from "../assets/photos/work/covered-deck-stairs.jpg";
 
 export const work = {
@@ -99,6 +100,11 @@ export const work = {
     src: shadowboxGates,
     caption: "Shadowbox wood enclosure with double gates",
     alt: "New shadowbox style wood enclosure with double gates and black strap hinges around a dumpster at a townhome community",
+  },
+  gazeboPool: {
+    src: gazeboPool,
+    caption: "Wood gazebo with a metal roof by a pool",
+    alt: "New wood gazebo with a dark metal roof and knee braces on a concrete pool deck at an apartment community",
   },
   coveredDeck: {
     src: coveredDeck,
