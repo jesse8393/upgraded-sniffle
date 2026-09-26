@@ -53,12 +53,12 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 ## Unconfirmed, needs the owner
 
 * Phone number, email, and where estimate requests should go.
-* Exact services. The owner's project photos show wood privacy fences with a cap board, horizontal board fences, vinyl privacy fences, black metal fences, and board fences with walk gates. Still unconfirmed: repairs, composite decking, picket fences, and drive gates.
+* Exact services. The owner's project photos show wood privacy fences with a cap board, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences (including a court and an apartment dog park), rail fences, and a covered deck with stairs. Still unconfirmed: repairs, composite decking, picket fences, and drive gates.
 * Service area towns.
 * Whether estimates are free.
 * The steps that follow when someone reaches out.
 * License, insurance, years in business, and reviews that can be shown.
-* Real deck photos. Five real fence photos are in; the deck pages still use a labeled concept image.
+* More deck photos. One real covered deck photo is in and leads the decks page.
 * Where each fence photo was taken, so photos can be captioned with their town.
 * Whether the crew takes repair work, since the estimate form offers a Repair option.
 * The privacy policy wording, which promises the form data is not sold or shared.

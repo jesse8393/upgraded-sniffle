@@ -517,6 +517,7 @@ button, input, textarea { font: inherit; color: inherit; }
   .work-grid[data-count="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .work-grid[data-count="3"] li:first-child { grid-column: auto; }
 }
+@media (min-width: 900px) { .work-grid[data-count="6"] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .work-grid[data-count="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .article-layout + .work { padding-top: clamp(16px, 3vw, 40px); }
 .work-grid figure { display: grid; gap: 12px; border-top: 2px solid var(--ink); padding-top: 14px; }

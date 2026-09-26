@@ -1,5 +1,5 @@
 ---
 import ServiceHub from "../components/ServiceHub.astro";
-import photo from "../assets/photos/deck-hero.jpg";
+import { work } from "../lib/work.js";
 ---
-<ServiceHub service="deck" photo={photo} photoAlt="Stained wood deck with black railings and wide steps behind a white two story home" concept />
+<ServiceHub service="deck" photo={work.coveredDeck.src} photoAlt={work.coveredDeck.alt} />

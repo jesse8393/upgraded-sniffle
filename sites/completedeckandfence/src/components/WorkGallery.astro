@@ -5,6 +5,7 @@ const count = items.length;
 // Match the image sizes to the grid columns set in global.css.
 const sizesFor = (i) => {
   if (count === 4) return "(max-width: 1099px) 50vw, 25vw";
+  if (count === 6) return "(max-width: 899px) 50vw, 33vw";
   if (count === 3 && i === 0) return "(max-width: 899px) 100vw, 33vw";
   return "(max-width: 899px) 50vw, 33vw";
 };

@@ -42,11 +42,11 @@ Fill in `SITE` at the top of `src/lib/site.js`:
 * `email` shows in the footer and is the form fallback (it opens an email).
 * `formEndpoint` is a URL that receives estimate requests as a JSON POST.
 
-Empty values stay hidden, so nothing fake ever shows. Then work through the "Unconfirmed, needs the owner" list in `PRODUCT.md`. The biggest items are real deck photos and confirming the service list.
+Empty values stay hidden, so nothing fake ever shows. Then work through the "Unconfirmed, needs the owner" list in `PRODUCT.md`. The biggest items are more deck photos and confirming the service list.
 
 ## Project photos
 
-Real fence photos live in `src/assets/photos/work/`, with captions and alt text in `src/lib/work.js`. They appear on the home page, the fences page, and every fence city page. Before adding a new photo: blur house numbers and license plates, crop out bystanders, and save it without location data. The deck pages still use one labeled concept image until real deck photos arrive.
+Real fence photos live in `src/assets/photos/work/`, with captions and alt text in `src/lib/work.js`. They appear on the home page, the fences page, and every fence city page. Before adding a new photo: blur house numbers and license plates, crop out bystanders, and save it without location data. The decks page leads with the covered deck photo; more deck photos would let deck city pages show a gallery too.
 
 ## Editing content
 

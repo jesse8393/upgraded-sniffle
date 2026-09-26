@@ -10,7 +10,7 @@ export function GET() {
     "",
     "## Services",
     `* [Decks](${SITE.url}${paths.decks}): new decks, replacements, stairs, and railings in wood or composite.`,
-    `* [Fences](${SITE.url}${paths.fences}): wood privacy fences, horizontal board fences, vinyl privacy fences, black metal fences, and board fences with walk gates.`,
+    `* [Fences](${SITE.url}${paths.fences}): wood privacy fences, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences, and rail fences.`,
     "",
     "## Cities",
     ...live.map((c) => `* [${c.name}, TN](${SITE.url}${paths.cityHub(c.slug)}): [decks](${SITE.url}${paths.deckCity(c.slug)}), [fences](${SITE.url}${paths.fenceCity(c.slug)})`),
