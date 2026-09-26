@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { Picture } from "astro:assets";
+import { Picture, getImage } from "astro:assets";
 import Steps from "../components/Steps.astro";
 import Sections from "../components/Sections.astro";
 import Faqs from "../components/Faqs.astro";
@@ -11,6 +11,8 @@ import yardSign from "../assets/photos/yard-sign.jpg";
 import { paths, guides, getPageContent, getGuideContent, getCityContent, faqSchema, citiesByCounty } from "../lib/site.js";
 
 const home = getPageContent("home");
+// Start the hero photo download before the browser reaches the <img>.
+const heroPreload = await getImage({ src: deckHero, format: "avif", quality: 55, widths: [480, 800, 1100, 1400] });
 const groups = citiesByCounty().map((g) => ({ ...g, cities: g.cities.filter((c) => getCityContent(c.slug)) })).filter((g) => g.cities.length);
 const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "deck-cost-middle-tennessee", "fence-on-a-slope"]
   .map((slug) => guides.find((g) => g.slug === slug)).filter((g) => g && getGuideContent(g.slug));
@@ -21,6 +23,7 @@ const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "d
   path="/"
   schema={[faqSchema(home?.faqs)]}
 >
+  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroPreload.srcSet.attribute} imagesizes="(max-width: 900px) 100vw, 55vw" fetchpriority="high" />
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy">
       <p class="kicker rise">Middle Tennessee</p>
@@ -32,7 +35,7 @@ const featuredGuides = ["wood-vs-composite-decking", "privacy-fence-options", "d
       </div>
     </div>
     <figure class="hero-media">
-      <Picture src={deckHero} formats={["avif", "webp"]} quality={62} widths={[480, 720, 960, 1400]} sizes="(max-width: 900px) 100vw, 55vw" alt="Stained wood deck with black railings and wide steps behind a white two story home" loading="eager" fetchpriority="high" />
+      <Picture src={deckHero} formats={["avif", "webp"]} quality={55} widths={[480, 800, 1100, 1400]} sizes="(max-width: 900px) 100vw, 55vw" alt="Stained wood deck with black railings and wide steps behind a white two story home" loading="eager" fetchpriority="high" />
       <span class="c-bracket" aria-hidden="true"></span>
       <figcaption class="tag">Concept image</figcaption>
     </figure>

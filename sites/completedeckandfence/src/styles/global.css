@@ -2,10 +2,10 @@
    The yard sign, scaled up: paper white, sign black, signal red.
    Tokens and rules are documented in DESIGN.md. */
 
-/* Self hosted variable fonts (SIL Open Font License), latin subset */
-@font-face { font-family: "Archivo"; src: url("/fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
-@font-face { font-family: "Instrument Sans"; src: url("/fonts/instrument-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
-@font-face { font-family: "Newsreader"; src: url("/fonts/newsreader-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+/* Self hosted fonts (SIL Open Font License), cut to the weights, widths, and characters the site uses */
+@font-face { font-family: "Archivo"; src: url("/fonts/archivo-latin-wdth-normal.woff2") format("woff2"); font-weight: 700 800; font-stretch: 100% 125%; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("/fonts/instrument-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 400 600; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("/fonts/newsreader-latin-wght-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
 
 /* Hex fallbacks first, OKLCH where supported. Neutrals lean toward the red's hue. */
 :root {
@@ -85,7 +85,7 @@ button, input, textarea { font: inherit; color: inherit; }
 /* ── Type ─────────────────────────────── */
 /* Wide tracked caps, the same treatment as DECK & FENCE in the logo */
 .kicker {
-  font: 800 13px/1 var(--f-display); font-stretch: 125%;
+  font: 800 13px/1.35 var(--f-display); font-stretch: 125%;
   letter-spacing: .2em; text-transform: uppercase;
 }
 .display {
@@ -296,7 +296,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .estimate-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(36px, 6vw, 96px); }
 .estimate-intro { display: grid; gap: 20px; align-content: start; max-width: 36ch; }
 .estimate-intro :focus-visible { outline-color: var(--white); }
-.contact-line a { font-weight: 700; text-underline-offset: 3px; }
+.contact-line a { font-weight: 600; text-underline-offset: 3px; }
 
 .planner { background: var(--white); color: var(--ink); border-radius: var(--r); padding: clamp(22px, 3.4vw, 40px); display: grid; gap: 22px; }
 .field { display: grid; align-content: start; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
@@ -500,7 +500,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .area-county { border-top: 2px solid var(--ink); padding-top: 14px; }
 .area-county ul { list-style: none; padding: 0; }
 .area-row { display: flex; justify-content: space-between; gap: 12px; padding-block: 10px; border-bottom: 1px solid var(--line); }
-.area-city { font-weight: 700; text-decoration: none; }
+.area-city { font-weight: 600; text-decoration: none; }
 .area-links { display: flex; gap: 14px; font-size: 15.5px; }
 .area-links a { color: var(--ink-2); text-underline-offset: 3px; }
 .area-city:hover { text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 3px; }

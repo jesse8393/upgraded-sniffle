@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { Picture } from "astro:assets";
+import { Picture, getImage } from "astro:assets";
 import Breadcrumbs from "./Breadcrumbs.astro";
 import Sections from "./Sections.astro";
 import Faqs from "./Faqs.astro";
@@ -14,6 +14,7 @@ const isDeck = service === "deck";
 const page = getPageContent(isDeck ? "decks" : "fences");
 if (!page) throw new Error(`Missing src/content/pages/${isDeck ? "decks" : "fences"}.json`);
 const path = isDeck ? paths.decks : paths.fences;
+const heroPreload = await getImage({ src: photo, format: "avif", quality: 55, widths: [480, 800, 1100] });
 const h1 = isDeck ? "Deck builders in Middle Tennessee" : "Fence installation in Middle Tennessee";
 const title = isDeck ? "Deck Builders in Middle Tennessee" : "Fence Company in Middle Tennessee";
 const crumbs = [{ name: "Home", href: "/" }, { name: isDeck ? "Decks" : "Fences", href: path }];
@@ -27,6 +28,7 @@ const schema = [
 ];
 ---
 <Base title={title} description={page.description} path={path} schema={schema} current={path} image={photo}>
+  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroPreload.srcSet.attribute} imagesizes="(max-width: 900px) 100vw, 45vw" fetchpriority="high" />
   <section class="page-hero">
     <div class="wrap page-hero-inner">
       <div class="page-hero-copy">
@@ -40,7 +42,7 @@ const schema = [
         </div>
       </div>
       <figure class="page-hero-media">
-        <Picture src={photo} formats={["avif", "webp"]} quality={62} widths={[480, 720, 960, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt={photoAlt} loading="eager" fetchpriority="high" />
+        <Picture src={photo} formats={["avif", "webp"]} quality={55} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 45vw" alt={photoAlt} loading="eager" fetchpriority="high" />
         <figcaption class="tag">Concept image</figcaption>
       </figure>
     </div>
