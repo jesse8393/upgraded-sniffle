@@ -1,0 +1,45 @@
+---
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import EstimateSection from "../../components/EstimateSection.astro";
+import { paths, guides, getGuideContent, breadcrumbSchema } from "../../lib/site.js";
+
+const crumbs = [{ name: "Home", href: "/" }, { name: "Guides", href: paths.guides }];
+const live = guides.filter((g) => getGuideContent(g.slug));
+const groups = [
+  { title: "Decks", list: live.filter((g) => g.service === "deck") },
+  { title: "Fences", list: live.filter((g) => g.service === "fence") },
+  { title: "Decks and fences", list: live.filter((g) => g.service === "both") },
+].filter((g) => g.list.length);
+---
+<Base title="Deck and Fence Guides" description="Plain answers for Middle Tennessee homeowners planning a deck or fence: costs, materials, permits, slopes, dogs, property lines, and HOA approval." path={paths.guides} schema={[breadcrumbSchema(crumbs)]} current={paths.guides}>
+  <section class="page-hero page-hero-plain">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <p class="kicker">Guides</p>
+      <h1 class="page-title">Plan it before you call.</h1>
+      <p class="page-lede">Straight answers to the questions homeowners ask us most, written for Tennessee yards and Tennessee weather.</p>
+    </div>
+  </section>
+  <section class="guide-index">
+    <div class="wrap guide-groups">
+      {groups.map((g) => (
+        <div class="guide-group">
+          <h2 class="related-title">{g.title}</h2>
+          <ul class="guide-rows">
+            {g.list.map((guide) => {
+              const c = getGuideContent(guide.slug);
+              return (
+                <li>
+                  <a href={paths.guide(guide.slug)}>{guide.title}</a>
+                  <p>{c.dek}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+  <EstimateSection />
+</Base>

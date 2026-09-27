@@ -1,0 +1,10 @@
+---
+import { inlineHtml, slugify } from "../lib/site.js";
+const { sections = [] } = Astro.props;
+---
+{sections.map((s) => (
+  <section class="prose-section" id={slugify(s.heading)}>
+    <h2>{s.heading}</h2>
+    {s.paragraphs.map((p) => <p set:html={inlineHtml(p)} />)}
+  </section>
+))}

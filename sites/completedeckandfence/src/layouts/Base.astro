@@ -1,0 +1,147 @@
+---
+import "../styles/global.css";
+import { Image, getImage } from "astro:assets";
+import logoDark from "../assets/brand/logo-dark.png";
+import logoLight from "../assets/brand/logo-light.png";
+import { IMG } from "../lib/images.js";
+import EmailLink from "../components/EmailLink.astro";
+import { work } from "../lib/work.js";
+const defaultPhoto = work.woodPrivacy.src;
+import { SITE, paths, absolute, pageTitle, businessSchema, phoneHref, phoneDisplay, cities, getCityContent } from "../lib/site.js";
+
+const {
+  title,
+  description,
+  path,
+  schema = [],
+  image,
+  noindex = false,
+  estimateHref = "#estimate",
+  current = "",
+  pageType = "WebPage",
+} = Astro.props;
+
+const fullTitle = pageTitle(title);
+if (!description || description.length < 70 || description.length > 160) {
+  throw new Error(`Description for ${path} is ${description?.length ?? 0} characters; keep it between 70 and 160.`);
+}
+const canonical = absolute(path);
+const og = await getImage({ src: image ?? defaultPhoto, width: 1200, height: 630, fit: "cover", format: "jpg" });
+const logoForSchema = await getImage({ src: logoDark, width: 600, format: "png" });
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    businessSchema(absolute(logoForSchema.src), absolute(og.src)),
+    { "@type": "WebSite", "@id": `${SITE.url}/#website`, url: `${SITE.url}/`, name: SITE.name, publisher: { "@id": `${SITE.url}/#business` } },
+    { "@type": pageType, "@id": `${canonical}#webpage`, url: canonical, name: fullTitle, description, isPartOf: { "@id": `${SITE.url}/#website` }, about: { "@id": `${SITE.url}/#business` } },
+    ...schema.filter(Boolean),
+  ],
+};
+const nav = [
+  { href: paths.decks, label: "Decks" },
+  { href: paths.fences, label: "Fences" },
+  { href: paths.areas, label: "Service areas" },
+  { href: paths.guides, label: "Guides" },
+];
+const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) => a.name.localeCompare(b.name));
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{fullTitle}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"}>
+  <meta name="theme-color" content="#1b1615">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content={SITE.name}>
+  <meta property="og:title" content={fullTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={absolute(og.src)}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="/assets/mark.png">
+  <link rel="apple-touch-icon" href="/assets/mark.png">
+  <link rel="sitemap" type="application/xml" href="/sitemap-index.xml">
+  <link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <slot name="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+</head>
+<body>
+  <div class="sentinel" data-sentinel aria-hidden="true"></div>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label={`${SITE.name}, home`}>
+        <Image src={logoDark} widths={IMG.logo.widths} sizes={IMG.logo.sizes} alt={SITE.name} loading="eager" />
+      </a>
+      <nav class="nav" id="site-nav" aria-label="Main">
+        {nav.map((item) => (
+          <a href={item.href} aria-current={current === item.href ? "page" : undefined}>{item.label}</a>
+        ))}
+        {phoneDisplay && <a class="nav-phone" href={phoneHref}>Call {phoneDisplay}</a>}
+        <a class="nav-cta" href={estimateHref}>Get a free estimate</a>
+      </nav>
+      {phoneDisplay && (
+        <a class="header-phone" href={phoneHref} aria-label={`Call ${phoneDisplay}`}>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>
+          <span class="header-phone-num">{phoneDisplay}</span><span class="header-phone-short">Call</span>
+        </a>
+      )}
+      <a class="btn btn-red btn-sm header-cta" href={estimateHref}>Free estimate</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
+        <span class="sr-only">Menu</span><span class="menu-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <Image class="footer-logo" src={logoLight} width={220} densities={[1, 2]} alt={SITE.name} />
+        <p class="tagline">{SITE.tagline}</p>
+        {phoneDisplay && <p><a class="footer-phone" href={phoneHref}>{phoneDisplay}</a></p>}
+        {SITE.email && <p><EmailLink class="footer-email" /></p>}
+      </div>
+      <nav class="footer-col" aria-label="Services">
+        <p class="footer-head">Services</p>
+        <a href={paths.decks}>Decks</a>
+        <a href={paths.trex}>Trex decks</a>
+        <a href={paths.fences}>Fences</a>
+        <a href={paths.guides}>Guides</a>
+        <a href={paths.contact}>Contact</a>
+        <a href={estimateHref}>Get an estimate</a>
+      </nav>
+      <nav class="footer-col footer-cities" aria-label="Cities we serve">
+        <p class="footer-head"><a href={paths.areas}>Service areas</a></p>
+        <div class="footer-city-list">
+          {footerCities.map((c) => <a href={paths.cityHub(c.slug)}>{c.name}</a>)}
+        </div>
+      </nav>
+    </div>
+    <div class="wrap footer-base">
+      <p>&copy; {new Date().getFullYear()} {SITE.name}. Serving {SITE.region}. <span class="footer-legal"><a href={paths.privacy}>Privacy policy</a><a href={paths.terms}>Terms</a></span></p>
+    </div>
+  </footer>
+
+  <div class="mobile-cta" data-mobile-cta>
+    {phoneDisplay && <a class="btn btn-dark mobile-call" href={phoneHref} aria-label={`Call ${phoneDisplay}`}>Call</a>}
+    <a class="btn btn-red btn-block" href={estimateHref}>Get a free estimate</a>
+  </div>
+
+  <script src="../scripts/site.js"></script>
+</body>
+</html>

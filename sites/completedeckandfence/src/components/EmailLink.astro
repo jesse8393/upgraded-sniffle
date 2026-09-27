@@ -1,0 +1,6 @@
+---
+// The site email as a mailto link that wraps after the @ on narrow screens.
+import { SITE, emailUser, emailDomain } from "../lib/site.js";
+const { class: className } = Astro.props;
+---
+{SITE.email && <a class={className} href={`mailto:${SITE.email}`}>{emailUser}@<wbr />{emailDomain}</a>}
