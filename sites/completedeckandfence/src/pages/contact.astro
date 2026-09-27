@@ -15,7 +15,9 @@ const description = phoneDisplay
       <Breadcrumbs items={crumbs} />
       <p class="kicker">Contact</p>
       <h1 class="page-title">Contact {SITE.name}</h1>
-      <p class="page-lede">Call us, or send the form below with a few details about your deck or fence. Either way, we'll talk it through and set up a free estimate.</p>
+      <p class="page-lede">{phoneDisplay
+        ? "Call us, or send the form below with a few details about your deck or fence. Either way, we'll talk it through and set up a free estimate."
+        : "Send the form below with a few details about your deck or fence, and we'll talk it through and set up a free estimate."}</p>
     </div>
   </section>
 
@@ -31,7 +33,7 @@ const description = phoneDisplay
       <div class="contact-way">
         <p class="contact-label">Estimate form</p>
         <a class="text-link" href="#estimate">Send us your project <span class="arrow" aria-hidden="true"></span></a>
-        <p>Where the deck or fence will go, a rough size, and when you'd like to start all help. Not sure yet? That's fine. We can work it out at the estimate.</p>
+        <p>It helps to know where the deck or fence will go, a rough size, and when you'd like to start. Not sure yet? That's fine. We can work it out at the estimate.</p>
       </div>
       <div class="contact-way">
         <p class="contact-label">Where we work</p>

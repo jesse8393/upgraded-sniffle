@@ -9,7 +9,7 @@ export const SITE = {
   url: "https://completedeckandfence.com",
   tagline: "Built for better backyards.",
   region: "Middle Tennessee",
-  phone: "(615) 913 5870", // any format; shown on the page as (615) 913 5870, dialed and marked up as +16159135870
+  phone: "(615) 913 5870", // any US format, e.g. "615 555 0100"; shown as (615) 555 0100, dialed and marked up as +16155550100
   email: "",          // e.g. "hello@completedeckandfence.com"
   // Where the estimate form sends requests: any endpoint that accepts a JSON POST.
   formEndpoint: "/api/estimate/",
@@ -59,7 +59,8 @@ export function pageTitle(text) {
 // One phone number, two forms: phoneDisplay is what people read on every page and in
 // llms.txt; phoneE164 is what the tel: links dial and what the business schema lists.
 export const phoneDigits = SITE.phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
-if (SITE.phone && phoneDigits.length !== 10) throw new Error(`SITE.phone needs a ten digit US number, got "${SITE.phone}"`);
+// A US number: ten digits, and neither the area code nor the exchange starts with 0 or 1.
+if (SITE.phone && !/^[2-9]\d{2}[2-9]\d{6}$/.test(phoneDigits)) throw new Error(`SITE.phone needs a ten digit US number, got "${SITE.phone}"`);
 export const phoneDisplay = phoneDigits ? `(${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3, 6)} ${phoneDigits.slice(6)}` : "";
 export const phoneE164 = phoneDigits ? `+1${phoneDigits}` : "";
 export const phoneHref = phoneE164 ? `tel:${phoneE164}` : "";

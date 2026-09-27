@@ -38,7 +38,7 @@ npm run check:slop      # no dashes, hype words, or banned design patterns
 
 Fill in `SITE` at the top of `src/lib/site.js`:
 
-* `phone` shows click to call links in the header, estimate sections, footer, and structured data.
+* `phone` shows tap to call links in the header, mobile menu, sticky mobile bar, estimate sections, footer, and the contact page, and sets `telephone` in the structured data (as +1 and ten digits). Leave it empty to hide all of them.
 * `email` shows in the footer and is the form fallback (it opens an email).
 * `formEndpoint` is a URL that receives estimate requests as a JSON POST.
 

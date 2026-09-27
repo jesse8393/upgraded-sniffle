@@ -53,10 +53,9 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 
 ## Unconfirmed, needs the owner
 
-* Phone number, email, and where estimate requests should go.
-* Confirmed by the owner: free estimates, deck and fence repairs, and Trex composite deck installation. No Trex program, certification, or partner status is confirmed, so never claim one. The site does not offer porches or gazebos. The service area is the 20 cities in src/data/cities.json near Murfreesboro; Chattanooga is not served.
-* Exact services. The owner's project photos show wood privacy fences with a cap board, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences (including a court and an apartment dog park), rail fences, a chain link double drive gate, and decks (covered, painted white with stairs, wire panel railings, black metal balusters). Still unconfirmed: composite decking installs and picket fences.
-* Service area towns.
+* Email, and the GoHighLevel credentials that estimate requests go to.
+* Confirmed by the owner: the business phone (615) 913 5870, free estimates, deck and fence repairs, and Trex composite deck installation. No Trex program, certification, or partner status is confirmed, so never claim one. The site does not offer porches or gazebos. The service area is the 20 cities in src/data/cities.json near Murfreesboro; Chattanooga is not served.
+* Exact services. The owner's project photos show wood privacy fences with a cap board, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences (including a court and an apartment dog park), rail fences, a chain link double drive gate, and decks (covered, painted white with stairs, wire panel railings, black metal balusters). Still unconfirmed: picket fences.
 * The steps that follow when someone reaches out.
 * License, insurance, years in business, and reviews that can be shown.
 * Five real deck photos are in: the decks page and every deck city page show them.
