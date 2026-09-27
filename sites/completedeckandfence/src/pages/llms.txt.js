@@ -10,6 +10,7 @@ export function GET() {
     "",
     "## Services",
     `* [Decks](${SITE.url}${paths.decks}): new decks, replacements, stairs, and railings in wood or composite.`,
+    `* [Trex decks](${SITE.url}${paths.trex}): Trex composite deck installation, on new decks and on sound existing frames.`,
     `* [Fences](${SITE.url}${paths.fences}): wood privacy fences, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences, and rail fences.`,
     "* Repairs for decks and fences. Estimates are free.",
     "",

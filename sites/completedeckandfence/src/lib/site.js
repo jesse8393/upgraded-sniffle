@@ -33,6 +33,7 @@ export const getPageContent = (name) => pick(pageContent, "pages", name);
 export const paths = {
   home: "/",
   decks: "/decks/",
+  trex: "/trex-decks/",
   fences: "/fences/",
   areas: "/service-areas/",
   guides: "/guides/",
@@ -83,7 +84,7 @@ export function businessSchema(logoUrl, imageUrl) {
     image: imageUrl,
     slogan: SITE.tagline,
     areaServed: cities.map((c) => ({ "@type": "City", name: `${c.name}, TN` })),
-    knowsAbout: ["Deck building", "Deck replacement", "Deck repair", "Fence installation", "Fence repair", "Privacy fences", "Gates"],
+    knowsAbout: ["Deck building", "Deck replacement", "Deck repair", "Trex composite decking", "Fence installation", "Fence repair", "Privacy fences", "Gates"],
   };
   if (phoneDisplay) data.telephone = phoneDisplay;
   if (SITE.email) data.email = SITE.email;

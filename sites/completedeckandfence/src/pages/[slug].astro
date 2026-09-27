@@ -127,7 +127,7 @@ const otherLink = kind === "deck"
       <div class="wrap hub-services-grid">
         <a class="hub-service" href={paths.deckCity(city.slug)}>
           <span class="hub-service-title">Decks in {name}</span>
-          <span class="hub-service-copy">New decks, replacements, stairs, and railings, planned around your yard.</span>
+          <span class="hub-service-copy">New decks, replacements, stairs, and railings in wood or Trex, planned around your yard.</span>
           <span class="text-link as-span">Deck builder in {name} <span class="arrow" aria-hidden="true"></span></span>
         </a>
         <a class="hub-service" href={paths.fenceCity(city.slug)}>
@@ -163,6 +163,7 @@ const otherLink = kind === "deck"
         <ul class="related-list">
           {kind !== "hub" && <li><a href={paths.cityHub(city.slug)}>Decks and fences in {name}</a></li>}
           {kind !== "deck" && <li><a href={paths.deckCity(city.slug)}>Deck builder in {name}</a></li>}
+          {kind !== "fence" && <li><a href={paths.trex}>Trex deck installation</a></li>}
           {kind !== "fence" && <li><a href={paths.fenceCity(city.slug)}>Fence installation in {name}</a></li>}
           <li><a href={kind === "fence" ? paths.fences : paths.decks}>{kind === "fence" ? "Fences" : "Decks"} across Middle Tennessee</a></li>
           <li><a href={paths.areas}>Every city we serve</a></li>

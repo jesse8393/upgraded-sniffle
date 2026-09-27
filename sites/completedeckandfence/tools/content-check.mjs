@@ -18,7 +18,7 @@ const guides = readJson("src/data/guides.json");
 const cityBySlug = Object.fromEntries(cities.map((c) => [c.slug, c]));
 const guideBySlug = Object.fromEntries(guides.map((g) => [g.slug, g]));
 
-const allowedPaths = new Set(["/", "/decks/", "/fences/", "/service-areas/", "/guides/", "#estimate"]);
+const allowedPaths = new Set(["/", "/decks/", "/trex-decks/", "/fences/", "/service-areas/", "/guides/", "#estimate"]);
 for (const c of cities) {
   allowedPaths.add(`/${c.slug}-tn/`);
   allowedPaths.add(`/deck-builder-${c.slug}-tn/`);
@@ -40,7 +40,9 @@ const CLAIMS = [
   [/\b(based|headquartered) (in|out of)\b/i, "where the business is based"],
   [/\bfinancing\b/i, "financing"],
   [/\bsame day\b|\bwithin (an|one|two|a few) (hour|hours|business day|business days)\b/i, "response time"],
-  [/\b(trex|timbertech|azek|fiberon|deckorators|yellawood|wolmanized)\b/i, "product brand"],
+  // Trex is confirmed. Other brands, and any Trex program or certification claim, are not.
+  [/\b(timbertech|azek|fiberon|deckorators|yellawood|wolmanized)\b/i, "product brand"],
+  [/\btrex ?pro\b|\b(certified|authorized|approved|preferred) (trex )?(installer|contractor|builder)|\btrex (certified|authorized|approved|preferred)\b/i, "Trex program claim"],
   [/\$|%|\bpercent\b/i, "price or percentage"],
 ];
 const HYPE = ["elevate", "seamless", "unleash", "transform", "dream", "stunning", "unparalleled", "top notch",
@@ -187,6 +189,8 @@ const PAGE_RULES = {
     linkMust: [["a guide", (h) => h.startsWith("/guides/")]] },
   fences: { words: [1300, 1700], sections: [5, 9], faqs: 5, intro: true, counts: [["fence words", FENCE, 40, 70]], links: [3, 8], descMust: ["fence"],
     linkMust: [["a guide", (h) => h.startsWith("/guides/")]] },
+  "trex-decks": { words: [1000, 1400], sections: [4, 8], faqs: 4, intro: true, counts: [["deck words", DECK, 25, 60], ["Trex", /\btrex\b/gi, 10, 30]], links: [3, 6], descMust: ["Trex"],
+    linkMust: [["a guide", (h) => h.startsWith("/guides/")], ["/decks/", (h) => h === "/decks/"]] },
   "service-areas": { words: [600, 900], sections: [3, 6], faqs: 3, intro: true, counts: [], links: [2, 6] },
   home: { words: [450, 800], sections: [2, 3], faqs: 4, counts: [["deck words", DECK, 6], ["fence words", FENCE, 6]], links: [2, 6] },
 };

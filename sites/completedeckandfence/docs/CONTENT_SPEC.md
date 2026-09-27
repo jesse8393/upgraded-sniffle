@@ -17,7 +17,7 @@ node tools/content-check.mjs pages decks
 
 Inline links use markdown syntax inside a paragraph: `[anchor text](/path/)`. Only these paths are allowed, and the checker rejects anything else.
 
-* `/` home, `/decks/`, `/fences/`, `/service-areas/`, `/guides/`
+* `/` home, `/decks/`, `/trex-decks/`, `/fences/`, `/service-areas/`, `/guides/`
 * `/{city}-tn/` city page, for example `/murfreesboro-tn/`
 * `/deck-builder-{city}-tn/` and `/fence-company-{city}-tn/`
 * `/guides/{slug}/` for any slug in `src/data/guides.json`
@@ -92,7 +92,7 @@ Same shape as a guide without `dek`. Names and targets:
 
 * No dashes of any kind, including hyphens inside words. Write "pressure treated", "board on board", "two story", "low maintenance".
 * No digits, except inside names that already contain them (12 South, Highway 56, I 24) and 811. Spell out small numbers. Never give prices, percentages, measurements, code requirements, or timelines as numbers.
-* Never state a fact about the business that the owner has not confirmed. Confirmed: free estimates and repairs. The service area is the 20 cities in `src/data/cities.json`, all within reach of Murfreesboro. Banned claims include years in business, licensed, insured, bonded, warranty, guarantee, reviews or ratings, awards, family owned, locally owned, where the business is based, crew size, financing, specific response times, and specific product brands we install.
+* Never state a fact about the business that the owner has not confirmed. Confirmed: free estimates, repairs, and Trex composite decking installation (never claim a Trex program, certification, or partner status). The service area is the 20 cities in `src/data/cities.json`, all within reach of Murfreesboro. Banned claims include years in business, licensed, insured, bonded, warranty, guarantee, reviews or ratings, awards, family owned, locally owned, where the business is based, crew size, financing, specific response times, and any product brand other than Trex.
 * Local facts must be widely known and safe: rivers, lakes, counties, terrain, soil, historic districts, growth. No statistics, no permit fees, no setback distances, no height limits, no named officials. When rules matter, say rules vary and tell the reader to confirm with the city or county codes office or their HOA.
 * No hype words: elevate, seamless, unleash, transform, dream, stunning, unparalleled, top notch, world class, state of the art, look no further, nestled, tapestry, delve, testament, effortless, oasis, sanctuary.
 * Plain voice. Short sentences. "You" and "we". Concrete nouns. Do not stack lists of three in every paragraph.
