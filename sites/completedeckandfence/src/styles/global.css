@@ -322,7 +322,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .hp { position: absolute; left: -9999px; }
 .consent { gap: 14px; }
 .field > .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; margin: 0; font-size: 15px; font-weight: 400; line-height: 1.5; color: var(--ink-2); cursor: pointer; }
-.check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); cursor: pointer; }
+.check input { width: 20px; height: 20px; min-height: 0; padding: 0; margin: 2px 0 0; accent-color: var(--ink); cursor: pointer; }
 .check input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
 .consent-links { font-size: 15px; color: var(--ink-2); }
 .consent-links a { color: var(--ink); font-weight: 600; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; }
@@ -347,6 +347,8 @@ button, input, textarea { font: inherit; color: inherit; }
 .footer-base a { text-decoration: underline; text-underline-offset: 3px; }
 .footer-legal { display: inline-flex; flex-wrap: wrap; gap: 6px 18px; margin-left: 6px; }
 .footer-email { overflow-wrap: anywhere; }
+a[href^="tel:"] { white-space: nowrap; }
+.legal a[href^="mailto:"] { overflow-wrap: anywhere; }
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }

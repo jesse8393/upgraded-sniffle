@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EstimateSection from "../components/EstimateSection.astro";
+import EmailLink from "../components/EmailLink.astro";
 import { SITE, paths, phoneDisplay, phoneHref, breadcrumbSchema } from "../lib/site.js";
 
 const crumbs = [{ name: "Home", href: "/" }, { name: "Contact", href: paths.contact }];
@@ -27,7 +28,7 @@ const description = phoneDisplay
         <div class="contact-way">
           <p class="contact-label">Phone</p>
           <a class="contact-phone" href={phoneHref}>{phoneDisplay}</a>
-          <p>Tap the number to call from your phone.{SITE.email && <> Or email <a class="contact-email" href={`mailto:${SITE.email}`}>{SITE.email}</a>.</>}</p>
+          <p>Tap the number to call from your phone.{SITE.email && <> Or email <EmailLink class="contact-email" />.</>}</p>
         </div>
       )}
       <div class="contact-way">

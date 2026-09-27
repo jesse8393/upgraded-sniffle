@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import EmailLink from "../components/EmailLink.astro";
 import { SITE, paths, phoneDisplay, phoneHref, breadcrumbSchema } from "../lib/site.js";
 import { SMS_PROGRAM } from "../lib/sms.js";
 const crumbs = [{ name: "Home", href: "/" }, { name: "Terms", href: paths.terms }];
@@ -34,7 +35,7 @@ const crumbs = [{ name: "Home", href: "/" }, { name: "Terms", href: paths.terms 
     <p>Reply STOP to any message to cancel. After that, you may receive one final text confirming you are unsubscribed, and we will not text you again unless you opt in again. Reply HELP to any message for help.</p>
 
     <h2>Support</h2>
-    <p>For help with {SMS_PROGRAM}, reply HELP{phoneDisplay && <>, call <a href={phoneHref}>{phoneDisplay}</a></>}{SITE.email && <>, or email <a href={`mailto:${SITE.email}`}>{SITE.email}</a></>}.</p>
+    <p>For help with {SMS_PROGRAM}, reply HELP{phoneDisplay && <>, call <a href={phoneHref}>{phoneDisplay}</a></>}{SITE.email && <>, or email <EmailLink /></>}.</p>
 
     <h2>Carriers</h2>
     <p>Carriers are not liable for delayed or undelivered messages.</p>

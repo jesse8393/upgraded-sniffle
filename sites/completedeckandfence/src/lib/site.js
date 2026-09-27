@@ -65,6 +65,8 @@ if (SITE.phone && !/^[2-9]\d{2}[2-9]\d{6}$/.test(phoneDigits)) throw new Error(`
 export const phoneDisplay = phoneDigits ? `(${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3, 6)} ${phoneDigits.slice(6)}` : "";
 export const phoneE164 = phoneDigits ? `+1${phoneDigits}` : "";
 export const phoneHref = phoneE164 ? `tel:${phoneE164}` : "";
+// The email split at the @, so pages can offer a line break there on narrow screens.
+export const [emailUser = "", emailDomain = ""] = SITE.email.split("@");
 
 // Counties in the order the service area page lists them.
 export function citiesByCounty() {

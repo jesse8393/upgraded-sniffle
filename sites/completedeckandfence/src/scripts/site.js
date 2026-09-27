@@ -122,6 +122,18 @@ if (form) {
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(data),
         });
+        if (res.status === 400) {
+          // The server rejected a field the browser let through; point at it.
+          const { fields = [] } = await res.json().catch(() => ({}));
+          let first = null;
+          for (const name of fields) {
+            const input = form.elements[name];
+            if (input instanceof HTMLInputElement) { markField(input, false); first ??= input; }
+          }
+          setStatus("A few details need a second look.", "error");
+          first?.focus();
+          return;
+        }
         if (res.status === 503) {
           if (email) sendByEmail();
           else setStatus("Online requests are not connected yet. Please check back soon.", "error");

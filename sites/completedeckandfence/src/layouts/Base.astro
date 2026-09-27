@@ -4,6 +4,7 @@ import { Image, getImage } from "astro:assets";
 import logoDark from "../assets/brand/logo-dark.png";
 import logoLight from "../assets/brand/logo-light.png";
 import { IMG } from "../lib/images.js";
+import EmailLink from "../components/EmailLink.astro";
 import { work } from "../lib/work.js";
 const defaultPhoto = work.woodPrivacy.src;
 import { SITE, paths, absolute, pageTitle, businessSchema, phoneHref, phoneDisplay, cities, getCityContent } from "../lib/site.js";
@@ -113,7 +114,7 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
         <Image class="footer-logo" src={logoLight} width={220} densities={[1, 2]} alt={SITE.name} />
         <p class="tagline">{SITE.tagline}</p>
         {phoneDisplay && <p><a class="footer-phone" href={phoneHref}>{phoneDisplay}</a></p>}
-        {SITE.email && <p><a class="footer-email" href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
+        {SITE.email && <p><EmailLink class="footer-email" /></p>}
       </div>
       <nav class="footer-col" aria-label="Services">
         <p class="footer-head">Services</p>

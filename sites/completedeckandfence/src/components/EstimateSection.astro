@@ -64,8 +64,8 @@ const options = [
         </div>
         <div class="field">
           <label for="f-phone">Phone</label>
-          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="f-phone-err">
-          <p class="field-error" id="f-phone-err">Please add a phone number we can reach.</p>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required pattern="(\D*\d){10,}\D*" aria-describedby="f-phone-err">
+          <p class="field-error" id="f-phone-err">Please add a ten digit phone number we can reach.</p>
         </div>
       </div>
       <fieldset class="field consent">
