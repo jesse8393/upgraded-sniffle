@@ -1,26 +1,32 @@
 ---
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
-import { SITE, paths, breadcrumbSchema } from "../lib/site.js";
+import { SITE, paths, phoneDisplay, phoneHref, breadcrumbSchema } from "../lib/site.js";
 const crumbs = [{ name: "Home", href: "/" }, { name: "Privacy policy", href: paths.privacy }];
 ---
-<Base title="Privacy Policy" description="How Complete Deck & Fence handles the information you send through the estimate form on this website." path={paths.privacy} schema={[breadcrumbSchema(crumbs)]} estimateHref="/#estimate">
+<Base title="Privacy Policy" description="How Complete Deck & Fence handles the information you send through the estimate form, including your mobile number and text message choices." path={paths.privacy} schema={[breadcrumbSchema(crumbs)]} estimateHref="/#estimate">
   <section class="page-hero page-hero-plain">
     <div class="wrap">
       <Breadcrumbs items={crumbs} />
       <h1 class="page-title">Privacy policy</h1>
+      <p class="page-lede">Last updated September 27, 2026</p>
     </div>
   </section>
   <div class="wrap article-body article-narrow legal">
     <h2>What we collect</h2>
-    <p>When you send an estimate request, we receive what you type into the form: your name, phone number, email address, ZIP code, the kind of project, when you would like to start, any notes, and the page you sent it from.</p>
+    <p>When you send an estimate request, we receive what you type into the form: your name, phone number, email address, ZIP code, the kind of project, when you would like to start, any notes, and the page you sent it from. We also record whether you checked either text message box, and when.</p>
     <h2>How we use it</h2>
-    <p>We use it to answer your request, set up a visit, and talk through your project. We do not sell it, and we do not share it with anyone else except the service that delivers the form to us.</p>
+    <p>We use it to answer your request, set up a visit, and talk through your project. We do not sell it. We share it only with the service providers that help us run the business, such as the system that receives the form and keeps our customer records, and only so they can provide that service to us. This never includes sharing your text message opt in data or consent, as explained below.</p>
+    <h2>Text messages</h2>
+    <p>If you opt in to texts, we use your mobile number only to send the messages you agreed to. No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging originator opt in data and consent will not be shared with any third parties. Reply STOP at any time to stop texts, or HELP for help.</p>
+    <p>Details about the {`${SITE.name} Texts`} program are in our <a href={paths.terms}>Terms and Text Messaging Terms</a>.</p>
     <h2>Cookies and tracking</h2>
     <p>This site does not set its own cookies or run advertising trackers. If that changes, this page will say so before it does.</p>
     <h2>Your choices</h2>
-    <p>You can ask us to update or delete the information you sent at any time.{SITE.email ? <> Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</> : " Send the request through the estimate form and tell us what you want changed."}</p>
+    <p>You can ask us to update or delete the information you sent at any time. You can stop texts at any time by replying STOP.{SITE.email ? <> To ask about your information, email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</> : " To ask about your information, send the request through the estimate form and tell us what you want changed."}</p>
     <h2>Changes to this policy</h2>
-    <p>If this policy changes, the new version will be posted on this page.</p>
+    <p>If this policy changes, the new version will be posted on this page with a new date.</p>
+    <h2>Contact us</h2>
+    <p>{phoneDisplay && <>Call <a href={phoneHref}>{phoneDisplay}</a>{SITE.email ? " or email " : "."}</>}{SITE.email && <><a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</>}</p>
   </div>
 </Base>

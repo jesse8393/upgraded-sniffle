@@ -27,7 +27,7 @@ const description = phoneDisplay
         <div class="contact-way">
           <p class="contact-label">Phone</p>
           <a class="contact-phone" href={phoneHref}>{phoneDisplay}</a>
-          <p>Tap the number to call from your phone.</p>
+          <p>Tap the number to call from your phone.{SITE.email && <> Or email <a class="contact-email" href={`mailto:${SITE.email}`}>{SITE.email}</a>.</>}</p>
         </div>
       )}
       <div class="contact-way">

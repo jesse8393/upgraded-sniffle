@@ -98,6 +98,18 @@ if (form) {
     const data = Object.fromEntries(new FormData(form));
     if (data.company) return; // a bot filled the hidden field
     delete data.company;
+    // Unchecked boxes are left out of FormData, so send both text consents as true or false.
+    for (const name of ["sms_transactional_consent", "sms_marketing_consent"]) data[name] = form.elements[name]?.checked === true;
+
+    const sendByEmail = () => {
+      const body = Object.entries(data)
+        .map(([k, v]) => [k, typeof v === "boolean" ? (v ? "yes" : "no") : v])
+        .filter(([, v]) => v)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join("\n");
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Estimate request: ${data.project}`)}&body=${encodeURIComponent(body)}`;
+      setStatus("Your email app should open with the details filled in.", "ok");
+    };
 
     const button = form.querySelector("[data-submit]");
 
@@ -111,7 +123,8 @@ if (form) {
           body: JSON.stringify(data),
         });
         if (res.status === 503) {
-          setStatus("Online requests are not connected yet. Please check back soon.", "error");
+          if (email) sendByEmail();
+          else setStatus("Online requests are not connected yet. Please check back soon.", "error");
           return;
         }
         if (!res.ok) throw new Error(String(res.status));
@@ -126,9 +139,7 @@ if (form) {
     }
 
     if (email) {
-      const body = Object.entries(data).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join("\n");
-      window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Estimate request: ${data.project}`)}&body=${encodeURIComponent(body)}`;
-      setStatus("Your email app should open with the details filled in.", "ok");
+      sendByEmail();
       return;
     }
 

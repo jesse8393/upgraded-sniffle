@@ -18,7 +18,7 @@ const guides = readJson("src/data/guides.json");
 const cityBySlug = Object.fromEntries(cities.map((c) => [c.slug, c]));
 const guideBySlug = Object.fromEntries(guides.map((g) => [g.slug, g]));
 
-const allowedPaths = new Set(["/", "/decks/", "/trex-decks/", "/fences/", "/contact/", "/service-areas/", "/guides/", "#estimate"]);
+const allowedPaths = new Set(["/", "/decks/", "/trex-decks/", "/fences/", "/contact/", "/terms/", "/privacy-policy/", "/service-areas/", "/guides/", "#estimate"]);
 for (const c of cities) {
   allowedPaths.add(`/${c.slug}-tn/`);
   allowedPaths.add(`/deck-builder-${c.slug}-tn/`);

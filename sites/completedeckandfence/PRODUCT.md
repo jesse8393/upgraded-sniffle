@@ -53,8 +53,8 @@ Plain, confident, neighborly. Short sentences. Sound like the crew lead on a sit
 
 ## Unconfirmed, needs the owner
 
-* Email, and the GoHighLevel credentials that estimate requests go to.
-* Confirmed by the owner: the business phone (615) 913 5870, free estimates, deck and fence repairs, and Trex composite deck installation. No Trex program, certification, or partner status is confirmed, so never claim one. The site does not offer porches or gazebos. The service area is the 20 cities in src/data/cities.json near Murfreesboro; Chattanooga is not served.
+* The GoHighLevel credentials that estimate requests go to.
+* Confirmed by the owner: the business phone (615) 913 5870, the email completedeckandfence@gmail.com, the Complete Deck & Fence Texts program (estimate and project texts, plus offers only for people who opt in), free estimates, deck and fence repairs, and Trex composite deck installation. No Trex program, certification, or partner status is confirmed, so never claim one. The site does not offer porches or gazebos. The service area is the 20 cities in src/data/cities.json near Murfreesboro; Chattanooga is not served.
 * Exact services. The owner's project photos show wood privacy fences with a cap board, horizontal board fences, vinyl privacy fences, black metal fences, black chain link fences (including a court and an apartment dog park), rail fences, a chain link double drive gate, and decks (covered, painted white with stairs, wire panel railings, black metal balusters). Still unconfirmed: picket fences.
 * The steps that follow when someone reaches out.
 * License, insurance, years in business, and reviews that can be shown.

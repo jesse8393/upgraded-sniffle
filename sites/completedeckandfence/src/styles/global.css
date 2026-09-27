@@ -320,6 +320,12 @@ button, input, textarea { font: inherit; color: inherit; }
 .chips.is-invalid .chip span { border-color: var(--red); }
 
 .hp { position: absolute; left: -9999px; }
+.consent { gap: 14px; }
+.field > .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; margin: 0; font-size: 15px; font-weight: 400; line-height: 1.5; color: var(--ink-2); cursor: pointer; }
+.check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); cursor: pointer; }
+.check input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+.consent-links { font-size: 15px; color: var(--ink-2); }
+.consent-links a { color: var(--ink); font-weight: 600; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .form-status { font-size: 16px; min-height: 1.2em; }
 .form-status.is-error { color: var(--red-press); font-weight: 600; }
 .form-status.is-ok { color: var(--ok); font-weight: 600; }
@@ -339,6 +345,8 @@ button, input, textarea { font: inherit; color: inherit; }
 .footer-base { padding-bottom: 28px; font-size: var(--t-sm); }
 .footer-base p { border-top: 1px solid rgb(255 253 252 / .12); padding-top: 22px; }
 .footer-base a { text-decoration: underline; text-underline-offset: 3px; }
+.footer-legal { display: inline-flex; flex-wrap: wrap; gap: 6px 18px; margin-left: 6px; }
+.footer-email { overflow-wrap: anywhere; }
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }
@@ -379,7 +387,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .page-title { font: 800 clamp(38px, 5.4vw, 68px)/.98 var(--f-display); letter-spacing: -.034em; max-width: 16ch; }
 .page-title-guide { max-width: 20ch; }
 .page-lede { font-size: clamp(18px, 1.5vw, 20px); color: var(--ink-2); max-width: 62ch; }
-.page-lede a, .prose-section a, .faq a { color: var(--ink); text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; font-weight: 500; }
+.page-lede a, .prose-section a, .faq a, .legal a { color: var(--ink); text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; font-weight: 500; }
 .page-hero-plain .page-lede { margin-top: 18px; }
 .page-hero-plain .kicker { margin-bottom: 16px; }
 .page-hero-media { position: relative; }
@@ -538,5 +546,6 @@ button, input, textarea { font: inherit; color: inherit; }
 .contact-label { font: 800 12px/1 var(--f-display); font-stretch: 125%; letter-spacing: .18em; text-transform: uppercase; }
 .contact-phone { justify-self: start; font: 800 clamp(30px, 3.4vw, 40px)/1.05 var(--f-display); letter-spacing: -.02em; text-decoration: none; font-variant-numeric: tabular-nums; }
 .contact-grid:not(:has(.contact-phone)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.contact-email { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .contact-phone:hover { text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 3px; text-underline-offset: 6px; }
 @media (max-width: 860px) { .contact-grid, .contact-grid:not(:has(.contact-phone)) { grid-template-columns: minmax(0, 1fr); } }

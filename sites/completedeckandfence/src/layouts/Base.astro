@@ -113,7 +113,7 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
         <Image class="footer-logo" src={logoLight} width={220} densities={[1, 2]} alt={SITE.name} />
         <p class="tagline">{SITE.tagline}</p>
         {phoneDisplay && <p><a class="footer-phone" href={phoneHref}>{phoneDisplay}</a></p>}
-        {SITE.email && <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
+        {SITE.email && <p><a class="footer-email" href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
       </div>
       <nav class="footer-col" aria-label="Services">
         <p class="footer-head">Services</p>
@@ -132,7 +132,7 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
       </nav>
     </div>
     <div class="wrap footer-base">
-      <p>&copy; {new Date().getFullYear()} {SITE.name}. Serving {SITE.region}. <a href={paths.privacy}>Privacy policy</a></p>
+      <p>&copy; {new Date().getFullYear()} {SITE.name}. Serving {SITE.region}. <span class="footer-legal"><a href={paths.privacy}>Privacy policy</a><a href={paths.terms}>Terms</a></span></p>
     </div>
   </footer>
 

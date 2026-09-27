@@ -1,5 +1,6 @@
 ---
-import { SITE, phoneHref, phoneDisplay } from "../lib/site.js";
+import { SITE, paths, phoneHref, phoneDisplay } from "../lib/site.js";
+import { SMS_CONSENT } from "../lib/sms.js";
 const {
   project = "",
   heading = "Let's plan your backyard.",
@@ -49,24 +50,30 @@ const options = [
           <p class="field-error" id="f-name-err">Please add your name.</p>
         </div>
         <div class="field">
-          <label for="f-phone">Phone</label>
-          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="f-phone-err">
-          <p class="field-error" id="f-phone-err">Please add a phone number we can reach.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field">
           <label for="f-email">Email</label>
           <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-err">
           <p class="field-error" id="f-email-err">Please check that email address.</p>
         </div>
+      </div>
+      <div class="row">
         <div class="field">
           <label for="f-zip">ZIP code</label>
           <input id="f-zip" name="zip" autocomplete="postal-code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" required aria-describedby="f-zip-err f-zip-help">
           <p class="help" id="f-zip-help">So we can confirm we serve your area.</p>
           <p class="field-error" id="f-zip-err">Please enter a five digit ZIP code.</p>
         </div>
+        <div class="field">
+          <label for="f-phone">Phone</label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="f-phone-err">
+          <p class="field-error" id="f-phone-err">Please add a phone number we can reach.</p>
+        </div>
       </div>
+      <fieldset class="field consent">
+        <legend>Text messages <span class="opt">(optional)</span></legend>
+        <label class="check"><input type="checkbox" name="sms_transactional_consent" value="yes"><span>{SMS_CONSENT.transactional}</span></label>
+        <label class="check"><input type="checkbox" name="sms_marketing_consent" value="yes"><span>{SMS_CONSENT.marketing}</span></label>
+        <p class="consent-links">See our <a href={paths.privacy}>Privacy Policy</a> and <a href={paths.terms}>Terms</a>.</p>
+      </fieldset>
       <div class="field">
         <label for="f-notes">Tell us about it <span class="opt">(optional)</span></label>
         <textarea id="f-notes" name="notes" rows="4" placeholder="Rough size, materials, anything else we should know"></textarea>

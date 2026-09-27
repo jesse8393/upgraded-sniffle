@@ -10,7 +10,7 @@ export const SITE = {
   tagline: "Built for better backyards.",
   region: "Middle Tennessee",
   phone: "(615) 913 5870", // any US format, e.g. "615 555 0100"; shown as (615) 555 0100, dialed and marked up as +16155550100
-  email: "",          // e.g. "hello@completedeckandfence.com"
+  email: "completedeckandfence@gmail.com",
   // Where the estimate form sends requests: any endpoint that accepts a JSON POST.
   formEndpoint: "/api/estimate/",
 };
@@ -39,6 +39,7 @@ export const paths = {
   guides: "/guides/",
   contact: "/contact/",
   privacy: "/privacy-policy/",
+  terms: "/terms/",
   cityHub: (slug) => `/${slug}-tn/`,
   deckCity: (slug) => `/deck-builder-${slug}-tn/`,
   fenceCity: (slug) => `/fence-company-${slug}-tn/`,

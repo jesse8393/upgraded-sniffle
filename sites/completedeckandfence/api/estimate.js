@@ -16,8 +16,14 @@
 //   RESEND_API_KEY, LEAD_TO_EMAIL, and LEAD_FROM_EMAIL (a sender on a verified domain)
 //
 // Each request goes to every destination that is set up. The visitor sees the thank
-// you message when at least one of them accepts it. With none set up, the form tells
-// visitors online requests are not connected yet.
+// you message when at least one of them accepts it. With none set up, this returns 503
+// and the form opens the visitor's email app addressed to SITE.email instead.
+//
+// Text consent: the form always sends sms_transactional_consent and sms_marketing_consent
+// as true or false. Each yes adds a matching tag in GoHighLevel, and the note on the
+// contact records the time, the page, and the exact wording the visitor agreed to.
+
+import { SMS_CONSENT } from "../src/lib/sms.js";
 
 const MAX = { name: 120, phone: 40, email: 160, zip: 10, notes: 3000, project: 40, timeline: 40, page: 200 };
 const clean = (v, n) => String(v ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n);
@@ -27,6 +33,9 @@ const GHL_BASE = "https://services.leadconnectorhq.com";
 const GHL_TAG = "website estimate";
 const GHL_SOURCE = "Website";
 const GHL_STAGE_NAME = "new lead";
+// Added only when the visitor checked the matching box, so GoHighLevel can filter on them.
+const GHL_SMS_TAGS = { transactional: "sms transactional consent", marketing: "sms marketing consent" };
+const checked = (v) => v === true || v === "yes" || v === "on" || v === "true";
 const TIMEOUT_MS = 8000;
 
 export default async function handler(req, res) {
@@ -39,6 +48,10 @@ export default async function handler(req, res) {
   if (body.company) return res.status(200).json({ ok: true }); // honeypot filled: quietly drop
 
   const lead = Object.fromEntries(Object.entries(MAX).map(([k, n]) => [k, clean(body[k], n)]));
+  // Both text boxes are optional and unchecked by default; anything but an explicit yes is a no.
+  lead.smsTransactional = checked(body.sms_transactional_consent);
+  lead.smsMarketing = checked(body.sms_marketing_consent);
+  lead.receivedAt = new Date().toISOString();
   const problems = [];
   if (!lead.project) problems.push("project");
   if (!lead.name) problems.push("name");
@@ -65,10 +78,23 @@ function detailRows(lead) {
   return [
     ["Project", lead.project], ["Start", lead.timeline || "Not given"], ["Name", lead.name],
     ["Phone", lead.phone], ["Email", lead.email], ["ZIP", lead.zip], ["Notes", lead.notes || "None"], ["Sent from", lead.page],
+    ["Texts about the estimate (sms_transactional_consent)", lead.smsTransactional ? "Yes" : "No"],
+    ["Texts with offers (sms_marketing_consent)", lead.smsMarketing ? "Yes" : "No"],
+    ["Received", lead.receivedAt],
   ];
 }
 
-// GoHighLevel: create or update the contact, tag it, save the details as a note,
+// A record of exactly what the visitor agreed to, kept with the contact in GoHighLevel.
+function consentRecord(lead) {
+  const lines = [];
+  if (lead.smsTransactional) lines.push(`Opted in to estimate and project texts at ${lead.receivedAt} on ${lead.page || "the website"}. Wording shown: "${SMS_CONSENT.transactional}"`);
+  if (lead.smsMarketing) lines.push(`Opted in to offer texts at ${lead.receivedAt} on ${lead.page || "the website"}. Wording shown: "${SMS_CONSENT.marketing}"`);
+  if (!lines.length) lines.push("Did not opt in to texts.");
+  return lines.join("\n\n");
+}
+
+// GoHighLevel: create or update the contact, tag it (plus a tag for each text box checked),
+// save the details and the text consent record as a note,
 // and open an opportunity in the New lead stage. The request counts as delivered
 // once the contact exists, so a visitor is never told to send it again after that.
 async function sendToGhl(lead, env) {
@@ -92,8 +118,12 @@ async function sendToGhl(lead, env) {
 
   const note = detailRows(lead).map(([k, v]) => `${k}: ${v}`).join("\n");
   const followUps = [
-    ["tag", () => ghl("POST", `/contacts/${contactId}/tags`, { tags: [GHL_TAG] })],
-    ["note", () => ghl("POST", `/contacts/${contactId}/notes`, { body: `Website estimate request\n\n${note}` })],
+    ["tag", () => ghl("POST", `/contacts/${contactId}/tags`, { tags: [
+      GHL_TAG,
+      ...(lead.smsTransactional ? [GHL_SMS_TAGS.transactional] : []),
+      ...(lead.smsMarketing ? [GHL_SMS_TAGS.marketing] : []),
+    ] })],
+    ["note", () => ghl("POST", `/contacts/${contactId}/notes`, { body: `Website estimate request\n\n${note}\n\nText message consent\n${consentRecord(lead)}` })],
     ["opportunity", async () => {
       const stage = await stageLookup;
       if (stage.error) throw stage.error;
