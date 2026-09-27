@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import EstimateSection from "../components/EstimateSection.astro";
+import { SITE, paths, phoneDisplay, phoneHref, breadcrumbSchema } from "../lib/site.js";
+
+const crumbs = [{ name: "Home", href: "/" }, { name: "Contact", href: paths.contact }];
+const description = phoneDisplay
+  ? `Call ${SITE.name} at ${phoneDisplay}, or send your project for a free deck or fence estimate in Murfreesboro and nearby Middle Tennessee.`
+  : `Send ${SITE.name} your project for a free deck or fence estimate in Murfreesboro, Nashville, Franklin, and nearby Middle Tennessee.`;
+---
+<Base title="Contact Us" description={description} path={paths.contact} schema={[breadcrumbSchema(crumbs)]} current={paths.contact} pageType="ContactPage">
+  <section class="page-hero page-hero-plain">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <p class="kicker">Contact</p>
+      <h1 class="page-title">Contact {SITE.name}</h1>
+      <p class="page-lede">Call us, or send the form below with a few details about your deck or fence. Either way, we'll talk it through and set up a free estimate.</p>
+    </div>
+  </section>
+
+  <section class="contact-ways" aria-label="Ways to reach us">
+    <div class="wrap contact-grid">
+      {phoneDisplay && (
+        <div class="contact-way">
+          <p class="contact-label">Phone</p>
+          <a class="contact-phone" href={phoneHref}>{phoneDisplay}</a>
+          <p>Tap the number to call from your phone.</p>
+        </div>
+      )}
+      <div class="contact-way">
+        <p class="contact-label">Estimate form</p>
+        <a class="text-link" href="#estimate">Send us your project <span class="arrow" aria-hidden="true"></span></a>
+        <p>Where the deck or fence will go, a rough size, and when you'd like to start all help. Not sure yet? That's fine. We can work it out at the estimate.</p>
+      </div>
+      <div class="contact-way">
+        <p class="contact-label">Where we work</p>
+        <a class="text-link" href={paths.areas}>See every city we serve <span class="arrow" aria-hidden="true"></span></a>
+        <p>We build decks and fences in cities around Murfreesboro, from Nashville and Franklin to Lebanon, Shelbyville, and Cookeville.</p>
+      </div>
+    </div>
+  </section>
+
+  <EstimateSection heading="Tell us about your project." />
+</Base>

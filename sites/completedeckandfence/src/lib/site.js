@@ -9,7 +9,7 @@ export const SITE = {
   url: "https://completedeckandfence.com",
   tagline: "Built for better backyards.",
   region: "Middle Tennessee",
-  phone: "",          // any format, e.g. "615 555 0100"; shown everywhere as (615) 555 0100
+  phone: "(615) 913 5870", // any format; shown on the page as (615) 913 5870, dialed and marked up as +16159135870
   email: "",          // e.g. "hello@completedeckandfence.com"
   // Where the estimate form sends requests: any endpoint that accepts a JSON POST.
   formEndpoint: "/api/estimate/",
@@ -37,6 +37,7 @@ export const paths = {
   fences: "/fences/",
   areas: "/service-areas/",
   guides: "/guides/",
+  contact: "/contact/",
   privacy: "/privacy-policy/",
   cityHub: (slug) => `/${slug}-tn/`,
   deckCity: (slug) => `/deck-builder-${slug}-tn/`,
@@ -55,11 +56,13 @@ export function pageTitle(text) {
   throw new Error(`Title over 60 characters: "${text}"`);
 }
 
-// One phone format everywhere: visible links, the call button, llms.txt, and the business schema.
-export const phoneDigits = SITE.phone.replace(/\D/g, "").slice(-10);
+// One phone number, two forms: phoneDisplay is what people read on every page and in
+// llms.txt; phoneE164 is what the tel: links dial and what the business schema lists.
+export const phoneDigits = SITE.phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
 if (SITE.phone && phoneDigits.length !== 10) throw new Error(`SITE.phone needs a ten digit US number, got "${SITE.phone}"`);
 export const phoneDisplay = phoneDigits ? `(${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3, 6)} ${phoneDigits.slice(6)}` : "";
-export const phoneHref = phoneDigits ? `tel:+1${phoneDigits}` : "";
+export const phoneE164 = phoneDigits ? `+1${phoneDigits}` : "";
+export const phoneHref = phoneE164 ? `tel:${phoneE164}` : "";
 
 // Counties in the order the service area page lists them.
 export function citiesByCounty() {
@@ -86,7 +89,7 @@ export function businessSchema(logoUrl, imageUrl) {
     areaServed: cities.map((c) => ({ "@type": "City", name: `${c.name}, TN` })),
     knowsAbout: ["Deck building", "Deck replacement", "Deck repair", "Trex composite decking", "Fence installation", "Fence repair", "Privacy fences", "Gates"],
   };
-  if (phoneDisplay) data.telephone = phoneDisplay;
+  if (phoneE164) data.telephone = phoneE164;
   if (SITE.email) data.email = SITE.email;
   return data;
 }

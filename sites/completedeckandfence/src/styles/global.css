@@ -142,17 +142,24 @@ button, input, textarea { font: inherit; color: inherit; }
   transition: border-color .3s;
 }
 .site-header.is-scrolled { border-color: var(--line); }
-.header-inner { height: var(--header-h); display: flex; align-items: center; gap: 32px; }
+.header-inner { height: var(--header-h); display: flex; align-items: center; gap: clamp(16px, 2.2vw, 32px); }
 .brand img { width: clamp(150px, 16vw, 200px); height: auto; }
-.nav { display: flex; gap: 32px; margin-left: auto; }
+.nav { display: flex; gap: clamp(18px, 2.2vw, 32px); margin-left: auto; }
 .nav a { font-size: 16px; font-weight: 500; text-decoration: none; position: relative; padding: 6px 0; }
 .nav a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease-out); }
 .nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
-.menu-btn, .nav-cta { display: none; }
+.menu-btn, .nav-cta, .nav-phone { display: none; }
+.header-phone { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.header-phone svg { flex: none; color: var(--red); }
+.header-phone:hover .header-phone-num { text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.header-phone-short { display: none; }
 
 @media (max-width: 900px) {
   :root { --header-h: 68px; }
   .header-cta { display: none; }
+  .header-inner { gap: 10px; }
+  .header-phone ~ .menu-btn { margin-left: 0; }
+  .header-phone { margin-left: auto; height: 44px; padding: 0 14px; border: 1.5px solid var(--ink); border-radius: var(--r); font-size: 15px; }
   .menu-btn {
     display: grid; place-items: center; margin-left: auto;
     width: 46px; height: 46px; background: transparent; border: 0; cursor: pointer;
@@ -177,6 +184,7 @@ button, input, textarea { font: inherit; color: inherit; }
   .nav.is-open { opacity: 1; transform: none; visibility: visible; }
   .nav a { font: 700 26px/1 var(--f-display); letter-spacing: -.02em; padding: 16px 0; border-bottom: 1px solid var(--line); }
   .nav a::after { display: none; }
+  .nav .nav-phone { display: block; }
   .nav .nav-cta { display: flex; justify-content: center; margin-top: 20px; border: 0; border-radius: var(--r); background: var(--red); color: var(--white); font: 600 17px/1 var(--f-body); padding: 18px; }
 }
 
@@ -515,3 +523,19 @@ button, input, textarea { font: inherit; color: inherit; }
 @media (max-width: 700px) { .guide-figure img { aspect-ratio: 4 / 3; } }
 .fine-print { margin-top: 32px; color: var(--muted); font-size: var(--t-sm); }
 .page-hero-plain .hero-actions { margin-top: 24px; }
+@media (max-width: 480px) {
+  .header-phone { padding: 0 12px; }
+  .header-phone-num { display: none; }
+  .header-phone-short { display: inline; }
+}
+.footer-phone { color: var(--white); font-weight: 600; font-size: 18px; font-variant-numeric: tabular-nums; }
+
+/* ── Contact page ─────────────────────── */
+.contact-ways { padding-block: clamp(40px, 6vw, 72px); }
+.contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); }
+.contact-way { display: grid; gap: 12px; align-content: start; border-top: 2px solid var(--ink); padding-top: 18px; }
+.contact-way p:last-child { color: var(--ink-2); }
+.contact-label { font: 800 12px/1 var(--f-display); font-stretch: 125%; letter-spacing: .18em; text-transform: uppercase; }
+.contact-phone { font: 800 clamp(30px, 3.4vw, 40px)/1.05 var(--f-display); letter-spacing: -.02em; text-decoration: none; font-variant-numeric: tabular-nums; }
+.contact-phone:hover { text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+@media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }

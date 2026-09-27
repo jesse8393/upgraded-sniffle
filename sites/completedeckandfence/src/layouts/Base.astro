@@ -17,6 +17,7 @@ const {
   noindex = false,
   estimateHref = "#estimate",
   current = "",
+  pageType = "WebPage",
 } = Astro.props;
 
 const fullTitle = pageTitle(title);
@@ -31,7 +32,7 @@ const graph = {
   "@graph": [
     businessSchema(absolute(logoForSchema.src), absolute(og.src)),
     { "@type": "WebSite", "@id": `${SITE.url}/#website`, url: `${SITE.url}/`, name: SITE.name, publisher: { "@id": `${SITE.url}/#business` } },
-    { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: fullTitle, description, isPartOf: { "@id": `${SITE.url}/#website` }, about: { "@id": `${SITE.url}/#business` } },
+    { "@type": pageType, "@id": `${canonical}#webpage`, url: canonical, name: fullTitle, description, isPartOf: { "@id": `${SITE.url}/#website` }, about: { "@id": `${SITE.url}/#business` } },
     ...schema.filter(Boolean),
   ],
 };
@@ -89,6 +90,12 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
         {phoneDisplay && <a class="nav-phone" href={phoneHref}>Call {phoneDisplay}</a>}
         <a class="nav-cta" href={estimateHref}>Get a free estimate</a>
       </nav>
+      {phoneDisplay && (
+        <a class="header-phone" href={phoneHref} aria-label={`Call ${phoneDisplay}`}>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>
+          <span class="header-phone-num">{phoneDisplay}</span><span class="header-phone-short">Call</span>
+        </a>
+      )}
       <a class="btn btn-red btn-sm header-cta" href={estimateHref}>Free estimate</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu>
         <span class="sr-only">Menu</span><span class="menu-lines" aria-hidden="true"></span>
@@ -105,7 +112,7 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
       <div class="footer-brand">
         <Image class="footer-logo" src={logoLight} width={220} densities={[1, 2]} alt={SITE.name} />
         <p class="tagline">{SITE.tagline}</p>
-        {phoneDisplay && <p><a href={phoneHref}>{phoneDisplay}</a></p>}
+        {phoneDisplay && <p><a class="footer-phone" href={phoneHref}>{phoneDisplay}</a></p>}
         {SITE.email && <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>}
       </div>
       <nav class="footer-col" aria-label="Services">
@@ -114,6 +121,7 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
         <a href={paths.trex}>Trex decks</a>
         <a href={paths.fences}>Fences</a>
         <a href={paths.guides}>Guides</a>
+        <a href={paths.contact}>Contact</a>
         <a href={estimateHref}>Get an estimate</a>
       </nav>
       <nav class="footer-col footer-cities" aria-label="Cities we serve">
@@ -129,7 +137,7 @@ const footerCities = cities.filter((c) => getCityContent(c.slug)).sort((a, b) =>
   </footer>
 
   <div class="mobile-cta" data-mobile-cta>
-    {phoneDisplay && <a class="btn btn-dark mobile-call" href={phoneHref}>Call</a>}
+    {phoneDisplay && <a class="btn btn-dark mobile-call" href={phoneHref} aria-label={`Call ${phoneDisplay}`}>Call</a>}
     <a class="btn btn-red btn-block" href={estimateHref}>Get a free estimate</a>
   </div>
 

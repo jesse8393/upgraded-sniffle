@@ -23,6 +23,7 @@ export function GET() {
     "## Contact",
     phoneDisplay ? `Phone: ${phoneDisplay}` : `Request an estimate at ${SITE.url}/#estimate`,
     ...(SITE.email ? [`Email: ${SITE.email}`] : []),
+    `Contact page: ${SITE.url}${paths.contact}`,
     "",
   ];
   return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
