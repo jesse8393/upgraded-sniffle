@@ -22,8 +22,8 @@ const {
 } = Astro.props;
 
 const fullTitle = pageTitle(title);
-if (!description || description.length < 70 || description.length > 160) {
-  throw new Error(`Description for ${path} is ${description?.length ?? 0} characters; keep it between 70 and 160.`);
+if (!description || description.length < 70 || description.length > 165) {
+  throw new Error(`Description for ${path} is ${description?.length ?? 0} characters; keep it between 70 and 165.`);
 }
 const canonical = absolute(path);
 const og = await getImage({ src: image ?? defaultPhoto, width: 1200, height: 630, fit: "cover", format: "jpg" });

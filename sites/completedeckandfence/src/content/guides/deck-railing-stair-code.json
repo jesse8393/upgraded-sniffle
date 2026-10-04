@@ -1,0 +1,202 @@
+{
+  "slug": "deck-railing-stair-code",
+  "description": "When a deck needs a railing, how tall it must be, baluster spacing, stair and handrail rules. The code basics Middle Tennessee inspectors check, in plain words.",
+  "dek": "Railings and stairs protect people from falls, so they get some of the closest attention during inspections. The rules are not complicated once you see them laid out. Here are the basics most Middle Tennessee codes offices work from, and the questions to ask before your deck is drawn.",
+  "sections": [
+    {
+      "heading": "Where these rules come from",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Most cities and counties in Tennessee that enforce building codes base their residential rules on the International Residential Code, a national model code, with local changes. Codes offices around Middle Tennessee are not all on the same edition of that code, and each one can add its own amendments. The numbers below are the common baseline that appears in local handouts across the state, but your codes office has the final word. Some offices amend the stair and handrail rules in particular, so riser, tread, and handrail numbers can differ from what you read here. Ask which edition your office uses and whether it has any local changes to railings or stairs."
+        },
+        {
+          "type": "p",
+          "text": "If you are still figuring out whether your deck needs a permit at all, start with our guide to [deck permits in Tennessee](/guides/deck-permits-tennessee/)."
+        }
+      ]
+    },
+    {
+      "heading": "When a deck needs a railing",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Code calls a deck railing a guard. Under the common rule, a guard is required on open sides of a deck or porch when the walking surface is more than 30 inches above the floor or ground below. Recent editions of the model code measure that drop at any point within 36 inches out from the edge, so a deck that sits low near the house but over a slope at the outer edge can still need a guard."
+        },
+        {
+          "type": "p",
+          "text": "Even when a low deck does not require a railing, many homeowners add one anyway for kids, pets, or older family members. That choice is yours, but if you add one, build it to the same standard."
+        }
+      ]
+    },
+    {
+      "heading": "How tall a deck railing must be",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "On a deck, porch, or raised floor that requires a guard, the common minimum height is **36 inches**, measured from the deck surface to the top of the railing. Along the open side of a stair, guards are measured from the line of the stair nosings, and the common minimum there is **34 inches**."
+        },
+        {
+          "type": "p",
+          "text": "Those are minimums. Some homeowners prefer a taller railing on a high deck, and some railing systems come in 42 inch heights. Check with your HOA as well, since some neighborhoods set rules on railing style and color."
+        }
+      ]
+    },
+    {
+      "heading": "Baluster spacing",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "The gaps in a railing are limited so a small child cannot slip through. The common rules are written as the size of a sphere that must not pass through any opening:"
+        },
+        {
+          "type": "table",
+          "head": [
+            "Location",
+            "Opening must not pass a sphere of"
+          ],
+          "rows": [
+            [
+              "Deck and porch guards",
+              "4 inches"
+            ],
+            [
+              "Guards on the open sides of stair treads",
+              "4 3/8 inches"
+            ],
+            [
+              "The triangle formed by the riser, tread, and bottom rail of a stair guard",
+              "6 inches"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "In practice, that means balusters set close enough that a 4 inch ball will not fit between them. Keep an eye on the gap under the bottom rail too. It counts as an opening."
+        }
+      ]
+    },
+    {
+      "heading": "How strong a railing has to be",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "A railing that looks right can still fail if it is not attached well. Local handouts commonly require guards and handrails to resist a concentrated load of **200 pounds** applied at any point. That force is what someone leaning or falling against the railing can put on it."
+        },
+        {
+          "type": "p",
+          "text": "Most of that strength comes from how the posts attach to the deck frame. Some codes offices hand out the American Wood Council's prescriptive deck guide, known as DCA 6, which shows tested ways to fasten guard posts to the joists and rim joist. A post held on with a couple of nails or screws through a thin rim board is a common weak spot on older decks."
+        },
+        {
+          "type": "p",
+          "text": "Manufactured railing systems, such as aluminum, composite, or cable railings, are usually tested as a complete assembly. Install them exactly as the maker's instructions say, including the post mounts and blocking. Mixing parts or skipping blocking can void the tested strength."
+        }
+      ]
+    },
+    {
+      "heading": "Stair rules",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Deck stairs follow the same basic rules as stairs inside a house. The common baseline includes:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "**Width:** at least 36 inches.",
+            "**Risers:** no more than 7 3/4 inches tall.",
+            "**Treads:** at least 10 inches deep.",
+            "**Consistency:** risers and treads that stay nearly the same size from top to bottom, since an odd step is what trips people.",
+            "**Headroom:** at least 6 feet 8 inches of clear height above the stairs."
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Stairs also need solid footing at the bottom. A stringer resting on loose gravel or a paver that settles into the clay will pull the stairs out of level over time. Your codes office may want a landing or a pad at the bottom of the stairs."
+        }
+      ]
+    },
+    {
+      "heading": "Handrails on deck stairs",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "A handrail is commonly required on at least one side of any stair with **four or more risers**. The usual rules for the handrail itself:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "**Height:** between **34 and 38 inches**, measured straight up from the line of the stair nosings.",
+            "**Grip:** a shape a hand can wrap around. A round rail is commonly allowed between 1 1/4 and 2 inches across. A flat 2x6 cap on top of a railing usually does not count as a graspable handrail.",
+            "**Continuity:** the rail runs the full length of the stair.",
+            "**Ends:** returned to a post or wall, or ended in a newel post, so clothing and bags do not catch on it.",
+            "**Wall clearance:** at least 1 1/2 inches between a wall and the rail."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Lighting at the stairs",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Some local handouts, such as Franklin's deck guide, call for a light at the top of exterior stairs that lights the stairs and landing, with a switch inside the house. Electrical work usually needs its own permit, so plan the light with the rest of the deck instead of adding it later."
+        }
+      ]
+    },
+    {
+      "heading": "Older decks and new railings",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "If you are replacing railings or stairs on an existing deck, expect the new work to follow today's rules. Railings built years ago often have wider baluster gaps or shorter heights than current code allows. A railing or stair rebuild is a good time to look at the rest of the structure too, especially the ledger connection to the house. Our guide on [signs your deck is done](/guides/signs-you-need-a-new-deck/) covers what to check."
+        }
+      ]
+    },
+    {
+      "heading": "Questions to ask before your deck is drawn",
+      "blocks": [
+        {
+          "type": "ol",
+          "items": [
+            "Which edition of the residential code does your office use, and are there local changes to guards or stairs?",
+            "Does my deck height require a guard on every side, including over a slope?",
+            "Will the stairs need a landing or pad at the bottom?",
+            "Does the stair need a handrail on one side or both?",
+            "Is a stair light required, and will it need an electrical permit?",
+            "Does my HOA set rules on railing height, style, or color?"
+          ]
+        }
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "How high does a deck have to be to need a railing?",
+      "a": "Under the common rule, a guard is required where the deck surface is more than 30 inches above the ground below, measured within 36 inches of the edge in recent editions of the code. Confirm the rule with your codes office, since local amendments can differ."
+    },
+    {
+      "q": "How far apart can deck balusters be?",
+      "a": "The common rule is that a 4 inch sphere must not pass through any opening in a deck guard. On the open sides of stair treads the limit is 4 3/8 inches, and in the triangle at the bottom of a stair guard it is 6 inches."
+    },
+    {
+      "q": "Do deck stairs need a handrail?",
+      "a": "A handrail is commonly required on at least one side of any stair with four or more risers, mounted between 34 and 38 inches above the stair nosings. Shorter stairs may not require one, but a handrail is still a good idea."
+    }
+  ],
+  "keepReading": [
+    {
+      "title": "Do you need a permit for a deck in Tennessee?",
+      "href": "/guides/deck-permits-tennessee/"
+    },
+    {
+      "title": "Repair or replace? Signs your deck is done",
+      "href": "/guides/signs-you-need-a-new-deck/"
+    },
+    {
+      "title": "Wood vs composite decking in Tennessee",
+      "href": "/guides/wood-vs-composite-decking/"
+    }
+  ],
+  "closing": "Planning a new deck or a railing rebuild? [Request a free estimate](/contact/) and we will design it around the code that applies at your address."
+}

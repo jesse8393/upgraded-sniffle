@@ -123,17 +123,19 @@ export function serviceSchema({ name, serviceType, city, url, description }) {
 }
 
 // Inline links in content use [text](/path/). Everything else is escaped.
-export const stripLinks = (s = "") => s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1");
+export const stripLinks = (s = "") => s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1").replace(/\*\*(.+?)\*\*/g, "$1");
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+// **bold** is also supported, for owner supplied guides.
+const textHtml = (s) => escapeHtml(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 export function inlineHtml(s = "") {
   let out = "";
   let last = 0;
   for (const m of s.matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)) {
-    out += escapeHtml(s.slice(last, m.index));
+    out += textHtml(s.slice(last, m.index));
     out += `<a href="${escapeHtml(m[2])}">${escapeHtml(m[1])}</a>`;
     last = m.index + m[0].length;
   }
-  return out + escapeHtml(s.slice(last));
+  return out + textHtml(s.slice(last));
 }
 export const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 

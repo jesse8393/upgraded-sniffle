@@ -220,9 +220,25 @@ function runGuide(slug) {
   if (!g) return results.push({ label: slug, fail: [`unknown guide ${slug}`], warn: [], stats: {} });
   const data = load(`src/content/guides/${slug}.json`);
   if (!data) return results.push({ label: `guide ${slug}`, fail: ["file missing"], warn: [], stats: {} });
+  if (g.verbatim) return results.push(checkVerbatim(`guide ${slug}`, data));
   const r = checkPage(`guide ${slug}`, data, guideRules(g));
   r.group = "guide";
   results.push(r);
+}
+// Owner supplied guides are published word for word, so the writing targets do not apply.
+// They still must have no dashes, a description, and links that resolve.
+function checkVerbatim(label, data) {
+  const fail = [];
+  const texts = [data.description, data.dek, data.closing,
+    ...data.sections.flatMap((s) => [s.heading, ...(s.paragraphs || []), ...(s.blocks || []).flatMap((b) =>
+      b.type === "table" ? [...b.head, ...b.rows.flat()] : b.items || [b.text])]),
+    ...data.faqs.flatMap((f) => [f.q, f.a]), ...(data.keepReading || []).map((k) => k.title)].filter(Boolean);
+  for (const t of texts) if (/[-\u2010-\u2015]/.test(plain(t))) fail.push(`dash in: ${plain(t).slice(0, 60)}`);
+  const hrefs = [...texts.flatMap(links).map((l) => l.href), ...(data.keepReading || []).map((k) => k.href)];
+  for (const h of hrefs) if (!/^https:\/\//.test(h) && !allowedPaths.has(h)) fail.push(`link to a path that does not exist: ${h}`);
+  if (!data.description || data.description.length > 165) fail.push("description missing or over 165 characters");
+  if (!data.faqs.length) fail.push("no quick answers");
+  return { label, fail, warn: ["owner supplied, checked for dashes and links only"], stats: { sections: data.sections.length, links: hrefs.length }, group: "guide" };
 }
 function runPage(name) {
   const rules = PAGE_RULES[name];

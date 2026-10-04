@@ -1,10 +1,26 @@
 ---
 import { inlineHtml, slugify } from "../lib/site.js";
 const { sections = [] } = Astro.props;
+// A section holds either plain paragraphs or, for owner supplied guides, a list of
+// blocks: p, h3, ul, ol, and table.
 ---
 {sections.map((s) => (
   <section class="prose-section" id={slugify(s.heading)}>
     <h2>{s.heading}</h2>
-    {s.paragraphs.map((p) => <p set:html={inlineHtml(p)} />)}
+    {s.paragraphs && s.paragraphs.map((p) => <p set:html={inlineHtml(p)} />)}
+    {s.blocks && s.blocks.map((b) =>
+      b.type === "h3" ? <h3 set:html={inlineHtml(b.text)} />
+      : b.type === "ul" ? <ul>{b.items.map((i) => <li set:html={inlineHtml(i)} />)}</ul>
+      : b.type === "ol" ? <ol>{b.items.map((i) => <li set:html={inlineHtml(i)} />)}</ol>
+      : b.type === "table" ? (
+        <div class="table-wrap">
+          <table>
+            <thead><tr>{b.head.map((h) => <th scope="col" set:html={inlineHtml(h)} />)}</tr></thead>
+            <tbody>{b.rows.map((r) => <tr>{r.map((c) => <td set:html={inlineHtml(c)} />)}</tr>)}</tbody>
+          </table>
+        </div>
+      )
+      : <p set:html={inlineHtml(b.text)} />
+    )}
   </section>
 ))}

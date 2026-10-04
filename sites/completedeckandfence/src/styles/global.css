@@ -551,3 +551,21 @@ a[href^="tel:"] { white-space: nowrap; }
 .contact-email { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .contact-phone:hover { text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 3px; text-underline-offset: 6px; }
 @media (max-width: 860px) { .contact-grid, .contact-grid:not(:has(.contact-phone)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── Guide extras: subheads, lists, tables, closing line ── */
+.prose-section h3 { font: 800 clamp(20px, 2vw, 23px)/1.15 var(--f-display); letter-spacing: -.015em; margin: 28px 0 10px; }
+.prose-section ul, .prose-section ol { margin: 14px 0 0; padding-left: 1.3em; color: var(--ink-2); display: grid; gap: 8px; }
+.prose-section ul { list-style: disc; }
+.prose-section ol { list-style: decimal; }
+.prose-section li::marker { color: var(--red); font-weight: 700; }
+.prose-section strong { color: var(--ink); font-weight: 700; }
+.prose-section * + p, .prose-section ul + p, .prose-section ol + p, .prose-section .table-wrap + p { margin-top: 14px; }
+.table-wrap { margin-top: 18px; overflow-x: auto; border-top: 2px solid var(--ink); }
+.table-wrap table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.table-wrap th, .table-wrap td { text-align: left; vertical-align: top; padding: 12px 14px 12px 0; border-bottom: 1px solid var(--line); }
+.table-wrap th { font-weight: 700; color: var(--ink); }
+.table-wrap td { color: var(--ink-2); }
+.table-wrap td:last-child { white-space: nowrap; font-weight: 600; color: var(--ink); }
+.guide-closing { padding-block: 0 clamp(40px, 5vw, 64px); }
+.guide-closing p { font: 600 clamp(19px, 1.8vw, 22px)/1.4 var(--f-body); max-width: 60ch; }
+.guide-closing a { color: var(--ink); text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; }

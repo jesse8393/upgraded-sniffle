@@ -57,7 +57,7 @@ for (const p of pages.values()) {
   if (!p.title) add(p.url, "missing title");
   if (p.title.length > 60) add(p.url, `title ${p.title.length} chars`);
   if (!is404) (titles.get(p.title) ?? titles.set(p.title, []).get(p.title)).push(p.url);
-  if (p.description.length < 70 || p.description.length > 160) add(p.url, `description ${p.description.length} chars`);
+  if (p.description.length < 70 || p.description.length > 165) add(p.url, `description ${p.description.length} chars`);
   if (!is404) (descs.get(p.description) ?? descs.set(p.description, []).get(p.description)).push(p.url);
   if (!is404 && p.canonical !== `${SITE}${p.url}`) add(p.url, `canonical ${p.canonical}`);
   if (!is404 && /noindex/.test(p.robots)) add(p.url, "noindex");

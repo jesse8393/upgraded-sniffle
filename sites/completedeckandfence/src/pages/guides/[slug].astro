@@ -8,7 +8,7 @@ import EstimateSection from "../../components/EstimateSection.astro";
 import { Picture } from "astro:assets";
 import { IMG } from "../../lib/images.js";
 import { guideImages } from "../../lib/illustrations.js";
-import { SITE, paths, guides, getGuideContent, breadcrumbSchema, faqSchema, absolute, BUSINESS_ID, PUBLISHED } from "../../lib/site.js";
+import { SITE, paths, guides, getGuideContent, breadcrumbSchema, faqSchema, absolute, inlineHtml, BUSINESS_ID, PUBLISHED } from "../../lib/site.js";
 
 export function getStaticPaths() {
   return guides.filter((g) => getGuideContent(g.slug)).map((g) => ({ params: { slug: g.slug }, props: { slug: g.slug } }));
@@ -36,7 +36,7 @@ const article = {
   <section class="page-hero page-hero-plain">
     <div class="wrap">
       <Breadcrumbs items={crumbs} />
-      <p class="kicker">{guide.service === "deck" ? "Deck guide" : guide.service === "fence" ? "Fence guide" : "Deck and fence guide"}</p>
+      <p class="kicker">{guide.eyebrow ?? (guide.service === "deck" ? "Deck guide" : guide.service === "fence" ? "Fence guide" : "Deck and fence guide")}</p>
       <h1 class="page-title page-title-guide">{guide.title}</h1>
       <p class="page-lede">{page.dek}</p>
     </div>
@@ -62,7 +62,11 @@ const article = {
     <div class="wrap related-grid related-grid-two">
       <div>
         <h2 class="related-title">Keep reading</h2>
-        <ul class="related-list">{more.map((g) => <li><a href={paths.guide(g.slug)}>{g.title}</a></li>)}</ul>
+        <ul class="related-list">
+          {page.keepReading
+            ? page.keepReading.map((k) => <li><a href={k.href}>{k.title}</a></li>)
+            : more.map((g) => <li><a href={paths.guide(g.slug)}>{g.title}</a></li>)}
+        </ul>
       </div>
       <div>
         <h2 class="related-title">Ready to plan yours?</h2>
@@ -74,6 +78,12 @@ const article = {
       </div>
     </div>
   </section>
+
+  {page.closing && (
+    <div class="wrap guide-closing">
+      <p set:html={inlineHtml(page.closing)} />
+    </div>
+  )}
 
   <EstimateSection project={project} />
 </Base>
