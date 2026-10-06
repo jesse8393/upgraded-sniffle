@@ -31,7 +31,15 @@ const PIPELINE_NAME = "deck & fence jobs";
 const STAGE_NAME = "new lead";
 const BASE_TAGS = ["website lead", "estimate request"];
 const SMS_TAGS = { transactional: "sms consent transactional", marketing: "sms consent marketing" };
-const FIELD_NAMES = { project: "project type", timeline: "timeline", notes: ["notes", "project notes"] };
+// Custom field names in GoHighLevel, matched without case; the first name found wins.
+const FIELD_NAMES = { project: ["project type"], timeline: ["project timeline", "timeline"], notes: ["notes", "project notes"] };
+// Form answers that differ from the GoHighLevel dropdown options. Anything not listed is sent
+// as is. Only the custom fields use these; the note and tags keep the visitor's own answer.
+const FIELD_OPTIONS = {
+  project: { "Deck and fence": "Deck and fence together" },
+  timeline: { "Next 1 to 3 months": "Within 3 months" },
+};
+export const fieldOption = (field, answer) => FIELD_OPTIONS[field]?.[answer] ?? answer;
 const TIMEOUT_MS = 8000;
 const MIN_FILL_MS = 3000;
 const RATE = { max: 5, windowMs: 10 * 60 * 1000 };
@@ -146,8 +154,8 @@ async function sendToGhl(lead, env) {
 
   const fields = await fieldsLookup;
   const customFields = [
-    fields.project && { id: fields.project, field_value: lead.project },
-    fields.timeline && lead.timeline && { id: fields.timeline, field_value: lead.timeline },
+    fields.project && { id: fields.project, field_value: fieldOption("project", lead.project) },
+    fields.timeline && lead.timeline && { id: fields.timeline, field_value: fieldOption("timeline", lead.timeline) },
     fields.notes && lead.notes && { id: fields.notes, field_value: lead.notes },
   ].filter(Boolean);
 
@@ -258,8 +266,8 @@ async function resolveFields(ghl, loc) {
   const data = await ghl("GET", `/locations/${encodeURIComponent(loc)}/customFields`);
   const byName = new Map((data.customFields || []).map((f) => [String(f.name || "").trim().toLowerCase(), f.id]));
   return (cachedFields = {
-    project: byName.get(FIELD_NAMES.project),
-    timeline: byName.get(FIELD_NAMES.timeline),
+    project: FIELD_NAMES.project.map((n) => byName.get(n)).find(Boolean),
+    timeline: FIELD_NAMES.timeline.map((n) => byName.get(n)).find(Boolean),
     notes: FIELD_NAMES.notes.map((n) => byName.get(n)).find(Boolean),
   });
 }
