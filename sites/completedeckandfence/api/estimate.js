@@ -36,6 +36,7 @@ const TIMEOUT_MS = 8000;
 const MIN_FILL_MS = 3000;
 const RATE = { max: 5, windowMs: 10 * 60 * 1000 };
 const BACKUP_TO = "completedeckandfence@gmail.com";
+const TEST_LEAD_NAME = "website test lead";
 
 // Per IP rate limit. It lives in the warm function instance, which is enough to stop a
 // burst from one address; it is not a shared counter across every instance.
@@ -180,6 +181,8 @@ async function sendToGhl(lead, env) {
     lead.project.toLowerCase(),
     ...(lead.smsTransactional ? [SMS_TAGS.transactional] : []),
     ...(lead.smsMarketing ? [SMS_TAGS.marketing] : []),
+    // The live check submits this exact name; the tag lets the owner find and delete it.
+    ...(lead.name.toLowerCase() === TEST_LEAD_NAME ? ["test"] : []),
   ];
   const note = `Website estimate request\n\n${rowsText(answerRows(lead))}\n\nText message consent record\n${rowsText(consentRows(lead))}${fieldsNote}`;
 
