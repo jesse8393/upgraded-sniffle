@@ -64,13 +64,13 @@ node tools/content-check.mjs pages decks
 
 ### Estimate form
 
-`api/estimate.js` receives the form. Set these in Vercel under Project Settings, Environment Variables. They stay on the server and never reach the browser.
+`api/estimate.js` receives the form and puts every valid request straight into GoHighLevel. Set these in Vercel under Project Settings, Environment Variables. They stay on the server and never reach the browser.
 
-* `GHL_PRIVATE_TOKEN`: a GoHighLevel private integration token with the contacts and opportunities read and write scopes
+* `GHL_PRIVATE_TOKEN`: a GoHighLevel private integration token with contacts.readonly, contacts.write, opportunities.readonly, opportunities.write, and locations/customFields.readonly
 * `GHL_LOCATION_ID`: the GoHighLevel sub account id
-* `GHL_PIPELINE_ID`, `GHL_STAGE_ID`: optional. Without them the form uses the first pipeline with a stage named New lead.
+* `RESEND_API_KEY`: optional. When set, every submission is also emailed to completedeckandfence@gmail.com as a backup.
 
-Each request creates or updates the contact with lead source Website, adds the tag website estimate, saves the details as a note, and opens an opportunity in New lead. Email through Resend still works alongside it with `RESEND_API_KEY` and `LEAD_TO_EMAIL`.
+Each request creates or updates the contact (source Website Estimate Form), adds the tags website lead, estimate request, the project type, and a tag for each text box checked, fills the Project Type and Timeline custom fields, opens an opportunity in the New Lead stage of the Deck & Fence Jobs pipeline (or adds a note when one is already open), and saves a note with every answer and the text consent record. The visitor then lands on /thank-you/. If GoHighLevel cannot take the request, the form asks them to call or text instead. There is no email app fallback.
 
 After launch, follow `docs/BACKLINKS.md` for Search Console, Google Business Profile, citations, and links.
 

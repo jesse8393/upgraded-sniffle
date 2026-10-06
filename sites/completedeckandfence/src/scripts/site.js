@@ -35,8 +35,11 @@ watch(estimate, "estimate", { threshold: 0.05 });
 const form = document.querySelector("[data-planner]");
 if (form) {
   const status = form.querySelector("[data-status]");
-  const endpoint = form.dataset.endpoint || "";
-  const email = form.dataset.email || "";
+  const endpoint = form.dataset.endpoint;
+  const thanks = form.dataset.thanks;
+  const failure = form.dataset.failure;
+  // The server turns away forms sent within a few seconds of the page loading.
+  const loadedAt = Date.now();
 
   // Links marked with a project type preselect it in the form.
   document.querySelectorAll("[data-project]").forEach((link) => {
@@ -96,66 +99,44 @@ if (form) {
       return;
     }
     const data = Object.fromEntries(new FormData(form));
-    if (data.company) return; // a bot filled the hidden field
-    delete data.company;
     // Unchecked boxes are left out of FormData, so send both text consents as true or false.
     for (const name of ["sms_transactional_consent", "sms_marketing_consent"]) data[name] = form.elements[name]?.checked === true;
-
-    const sendByEmail = () => {
-      const body = Object.entries(data)
-        .map(([k, v]) => [k, typeof v === "boolean" ? (v ? "yes" : "no") : v])
-        .filter(([, v]) => v)
-        .map(([k, v]) => `${k}: ${v}`)
-        .join("\n");
-      window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Estimate request: ${data.project}`)}&body=${encodeURIComponent(body)}`;
-      setStatus("Your email app should open with the details filled in.", "ok");
-    };
+    data.elapsed_ms = Date.now() - loadedAt;
 
     const button = form.querySelector("[data-submit]");
-
-    if (endpoint) {
-      button.setAttribute("aria-busy", "true");
-      setStatus("Sending your request…");
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data),
-        });
-        if (res.status === 400) {
-          // The server rejected a field the browser let through; point at it.
-          const { fields = [] } = await res.json().catch(() => ({}));
-          let first = null;
-          for (const name of fields) {
-            const input = form.elements[name];
-            if (input instanceof HTMLInputElement) { markField(input, false); first ??= input; }
-          }
-          setStatus("A few details need a second look.", "error");
-          first?.focus();
-          return;
-        }
-        if (res.status === 503) {
-          if (email) sendByEmail();
-          else setStatus("Online requests are not connected yet. Please check back soon.", "error");
-          return;
-        }
-        if (!res.ok) throw new Error(String(res.status));
-        form.reset();
-        setStatus("Thank you. We got your request and will be in touch soon.", "ok");
-      } catch {
-        setStatus("Something went wrong sending that. Please try again in a moment.", "error");
-      } finally {
-        button.removeAttribute("aria-busy");
+    button.setAttribute("aria-busy", "true");
+    button.disabled = true;
+    setStatus("Sending your request…");
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        window.location.assign(thanks);
+        return;
       }
-      return;
+      if (res.status === 400) {
+        // The server rejected a field the browser let through; point at it.
+        const { fields = [] } = await res.json().catch(() => ({}));
+        let first = null;
+        for (const name of fields) {
+          const input = form.elements[name];
+          if (input instanceof HTMLInputElement) { markField(input, false); first ??= input; }
+        }
+        if (first) {
+          setStatus("A few details need a second look.", "error");
+          first.focus();
+          return;
+        }
+      }
+      setStatus(failure, "error");
+    } catch {
+      setStatus(failure, "error");
+    } finally {
+      button.removeAttribute("aria-busy");
+      button.disabled = false;
     }
-
-    if (email) {
-      sendByEmail();
-      return;
-    }
-
-    setStatus("Online requests are not connected yet. Please check back soon.", "error");
-    console.warn("Estimate form has no destination. Set SITE.formEndpoint or SITE.email in src/lib/site.js.");
   });
 }

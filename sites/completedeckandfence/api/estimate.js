@@ -1,42 +1,52 @@
-// Receives estimate requests from the site form and sends them to GoHighLevel,
-// and to email too when email is set up. Secrets live only in Vercel environment
-// variables (Project Settings, Environment Variables). Nothing here reaches the browser.
+// Receives estimate requests from the site form and puts every valid one straight into
+// GoHighLevel. Secrets live only in Vercel environment variables (Project Settings,
+// Environment Variables). Nothing here reaches the browser, and the token is never logged.
 //
-// GoHighLevel (the CRM):
-//   GHL_PRIVATE_TOKEN   private integration token. Scopes: contacts.write,
-//                       contacts.readonly, opportunities.write, opportunities.readonly
+// Required:
+//   GHL_PRIVATE_TOKEN   private integration token. Scopes: contacts.readonly, contacts.write,
+//                       opportunities.readonly, opportunities.write, locations/customFields.readonly
 //   GHL_LOCATION_ID     the sub account (location) id
 // Optional:
-//   GHL_PIPELINE_ID     pipeline to create opportunities in. Without it, the first
-//                       pipeline with a stage named "New lead" is used.
-//   GHL_STAGE_ID        stage id, if you want to skip the lookup by name
 //   GHL_API_VERSION     API version header, 2021-07-28 by default
+//   RESEND_API_KEY      when set, every submission is also emailed as a backup to
+//                       LEAD_TO_EMAIL (default completedeckandfence@gmail.com), sent from
+//                       LEAD_FROM_EMAIL (a sender on a domain verified in Resend)
 //
-// Email through Resend, optional:
-//   RESEND_API_KEY, LEAD_TO_EMAIL, and LEAD_FROM_EMAIL (a sender on a verified domain)
-//
-// Each request goes to every destination that is set up. The visitor sees the thank
-// you message when at least one of them accepts it. With none set up, this returns 503
-// and the form opens the visitor's email app addressed to SITE.email instead.
-//
-// Text consent: the form always sends sms_transactional_consent and sms_marketing_consent
-// as true or false. Each yes adds a matching tag in GoHighLevel, and the note on the
-// contact records the time, the page, and the exact wording the visitor agreed to.
+// For each request: create or update the contact, add its tags, open an opportunity in the
+// "New Lead" stage of the "Deck & Fence Jobs" pipeline (or add a note when one is already
+// open), and save a note with every answer plus the text consent record. The visitor gets
+// 200 only once the contact exists in GoHighLevel; anything else is an error, and the page
+// asks them to call or text instead. There is no email app fallback.
 
 import { SMS_CONSENT } from "../src/lib/sms.js";
 
 const MAX = { name: 120, phone: 40, email: 160, zip: 10, notes: 3000, project: 40, timeline: 40, page: 200 };
 const clean = (v, n) => String(v ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n);
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const checked = (v) => v === true || v === "yes" || v === "on" || v === "true";
 
 const GHL_BASE = "https://services.leadconnectorhq.com";
-const GHL_TAG = "website estimate";
-const GHL_SOURCE = "Website";
-const GHL_STAGE_NAME = "new lead";
-// Added only when the visitor checked the matching box, so GoHighLevel can filter on them.
-const GHL_SMS_TAGS = { transactional: "sms transactional consent", marketing: "sms marketing consent" };
-const checked = (v) => v === true || v === "yes" || v === "on" || v === "true";
+const SOURCE = "Website Estimate Form";
+const PIPELINE_NAME = "deck & fence jobs";
+const STAGE_NAME = "new lead";
+const BASE_TAGS = ["website lead", "estimate request"];
+const SMS_TAGS = { transactional: "sms consent transactional", marketing: "sms consent marketing" };
+const FIELD_NAMES = { project: "project type", timeline: "timeline", notes: ["notes", "project notes"] };
 const TIMEOUT_MS = 8000;
+const MIN_FILL_MS = 3000;
+const RATE = { max: 5, windowMs: 10 * 60 * 1000 };
+const BACKUP_TO = "completedeckandfence@gmail.com";
+
+// Per IP rate limit. It lives in the warm function instance, which is enough to stop a
+// burst from one address; it is not a shared counter across every instance.
+const hits = new Map();
+function rateLimited(ip, now) {
+  const recent = (hits.get(ip) || []).filter((t) => now - t < RATE.windowMs);
+  recent.push(now);
+  hits.set(ip, recent);
+  if (hits.size > 5000) for (const [k, v] of hits) if (now - v.at(-1) > RATE.windowMs) hits.delete(k);
+  return recent.length > RATE.max;
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -47,103 +57,164 @@ export default async function handler(req, res) {
   const body = typeof req.body === "string" ? safeParse(req.body) : req.body || {};
   if (body.company) return res.status(200).json({ ok: true }); // honeypot filled: quietly drop
 
+  // Sent by the page script: how long the form was open before it was sent.
+  const elapsed = Number(body.elapsed_ms);
+  if (!Number.isFinite(elapsed) || elapsed < MIN_FILL_MS) return res.status(400).json({ ok: false, error: "too_fast" });
+
+  const now = Date.now();
+  const ip = clientIp(req);
+  if (rateLimited(ip, now)) return res.status(429).json({ ok: false, error: "rate_limited" });
+
   const lead = Object.fromEntries(Object.entries(MAX).map(([k, n]) => [k, clean(body[k], n)]));
-  // Both text boxes are optional and unchecked by default; anything but an explicit yes is a no.
   lead.smsTransactional = checked(body.sms_transactional_consent);
   lead.smsMarketing = checked(body.sms_marketing_consent);
-  lead.receivedAt = new Date().toISOString();
+  lead.receivedAt = new Date(now).toISOString();
+  lead.ip = ip;
+  lead.userAgent = clean(req.headers?.["user-agent"], 300);
+  const digits = lead.phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
   const problems = [];
   if (!lead.project) problems.push("project");
   if (!lead.name) problems.push("name");
-  if (lead.phone.replace(/\D/g, "").length < 10) problems.push("phone");
+  if (digits.length !== 10) problems.push("phone");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) problems.push("email");
   if (!/^\d{5}$/.test(lead.zip)) problems.push("zip");
   if (problems.length) return res.status(400).json({ ok: false, error: "invalid", fields: problems });
+  lead.phoneE164 = `+1${digits}`;
+  const [firstName, ...rest] = lead.name.split(/\s+/);
+  lead.firstName = firstName;
+  lead.lastName = rest.join(" ");
 
   const env = process.env;
-  const destinations = [];
-  if (env.GHL_PRIVATE_TOKEN && env.GHL_LOCATION_ID) destinations.push(["gohighlevel", () => sendToGhl(lead, env)]);
-  if (env.RESEND_API_KEY && env.LEAD_TO_EMAIL) destinations.push(["email", () => sendEmail(lead, env)]);
-  if (!destinations.length) return res.status(503).json({ ok: false, error: "not_configured" });
+  const backup = env.RESEND_API_KEY
+    ? sendBackupEmail(lead, env).catch((err) => console.error("estimate backup email failed:", err.message))
+    : null;
 
-  const results = await Promise.allSettled(destinations.map(([, send]) => send()));
-  results.forEach((r, i) => {
-    if (r.status === "rejected") console.error(`estimate ${destinations[i][0]} failed:`, r.reason?.message || r.reason);
-  });
-  if (results.some((r) => r.status === "fulfilled")) return res.status(200).json({ ok: true });
-  return res.status(502).json({ ok: false, error: "send_failed" });
+  if (!env.GHL_PRIVATE_TOKEN || !env.GHL_LOCATION_ID) {
+    console.error("estimate not delivered: GHL_PRIVATE_TOKEN or GHL_LOCATION_ID is not set");
+    await backup;
+    return res.status(503).json({ ok: false, error: "not_configured" });
+  }
+
+  try {
+    await sendToGhl(lead, env);
+  } catch (err) {
+    console.error("estimate gohighlevel failed:", err.message);
+    await backup;
+    return res.status(502).json({ ok: false, error: "send_failed" });
+  }
+  await backup;
+  return res.status(200).json({ ok: true });
 }
 
-function detailRows(lead) {
+function clientIp(req) {
+  const h = req.headers || {};
+  return clean(String(h["x-forwarded-for"] || h["x-real-ip"] || req.socket?.remoteAddress || "unknown").split(",")[0], 64);
+}
+
+function answerRows(lead) {
   return [
-    ["Project", lead.project], ["Start", lead.timeline || "Not given"], ["Name", lead.name],
-    ["Phone", lead.phone], ["Email", lead.email], ["ZIP", lead.zip], ["Notes", lead.notes || "None"], ["Sent from", lead.page],
-    ["Texts about the estimate (sms_transactional_consent)", lead.smsTransactional ? "Yes" : "No"],
-    ["Texts with offers (sms_marketing_consent)", lead.smsMarketing ? "Yes" : "No"],
-    ["Received", lead.receivedAt],
+    ["Project", lead.project], ["When to start", lead.timeline || "Not given"], ["Name", lead.name],
+    ["Phone", lead.phone], ["Email", lead.email], ["ZIP", lead.zip], ["Notes", lead.notes || "None"],
   ];
 }
 
-// A record of exactly what the visitor agreed to, kept with the contact in GoHighLevel.
-function consentRecord(lead) {
-  const lines = [];
-  if (lead.smsTransactional) lines.push(`Opted in to estimate and project texts at ${lead.receivedAt} on ${lead.page || "the website"}. Wording shown: "${SMS_CONSENT.transactional}"`);
-  if (lead.smsMarketing) lines.push(`Opted in to offer texts at ${lead.receivedAt} on ${lead.page || "the website"}. Wording shown: "${SMS_CONSENT.marketing}"`);
-  if (!lines.length) lines.push("Did not opt in to texts.");
-  return lines.join("\n\n");
+// Proof of opt in for the texting registration: the exact wording shown, the answer, when,
+// where, and from which browser.
+function consentRows(lead) {
+  return [
+    ["Text box 1 wording", SMS_CONSENT.transactional],
+    ["Text box 1 checked (sms_transactional_consent)", lead.smsTransactional ? "Yes" : "No"],
+    ["Text box 2 wording", SMS_CONSENT.marketing],
+    ["Text box 2 checked (sms_marketing_consent)", lead.smsMarketing ? "Yes" : "No"],
+    ["Submitted (UTC)", lead.receivedAt],
+    ["Page", lead.page || "Not given"],
+    ["IP address", lead.ip],
+    ["User agent", lead.userAgent || "Not given"],
+  ];
 }
 
-// GoHighLevel: create or update the contact, tag it (plus a tag for each text box checked),
-// save the details and the text consent record as a note,
-// and open an opportunity in the New lead stage. The request counts as delivered
-// once the contact exists, so a visitor is never told to send it again after that.
+const rowsText = (rows) => rows.map(([k, v]) => `${k}: ${v}`).join("\n");
+
 async function sendToGhl(lead, env) {
   const ghl = ghlClient(env);
-  const stageLookup = resolveStage(ghl, env).catch((err) => ({ error: err }));
+  const loc = env.GHL_LOCATION_ID;
 
-  const digits = lead.phone.replace(/\D/g, "").slice(-10);
-  const [firstName, ...rest] = lead.name.split(/\s+/);
-  const upsert = await ghl("POST", "/contacts/upsert", {
-    locationId: env.GHL_LOCATION_ID,
-    firstName,
-    lastName: rest.join(" ") || undefined,
+  // Lookups run alongside the upsert. A failed lookup never blocks the contact.
+  const fieldsLookup = resolveFields(ghl, loc).catch((err) => { console.error("gohighlevel custom fields lookup failed:", err.message); return {}; });
+  const stageLookup = resolveStage(ghl, loc).catch((err) => ({ error: err }));
+
+  const fields = await fieldsLookup;
+  const customFields = [
+    fields.project && { id: fields.project, field_value: lead.project },
+    fields.timeline && lead.timeline && { id: fields.timeline, field_value: lead.timeline },
+    fields.notes && lead.notes && { id: fields.notes, field_value: lead.notes },
+  ].filter(Boolean);
+
+  const contact = {
+    locationId: loc,
+    firstName: lead.firstName,
+    lastName: lead.lastName || undefined,
     name: lead.name,
     email: lead.email,
-    phone: `+1${digits}`,
+    phone: lead.phoneE164,
     postalCode: lead.zip,
-    source: GHL_SOURCE,
-  });
+    source: SOURCE,
+  };
+  let upsert;
+  let fieldsNote = "";
+  try {
+    upsert = await ghl("POST", "/contacts/upsert", customFields.length ? { ...contact, customFields } : contact);
+  } catch (err) {
+    // A custom field value GoHighLevel will not accept must not cost us the lead.
+    if (!customFields.length || ![400, 422].includes(err.status)) throw err;
+    console.error("gohighlevel upsert with custom fields failed, saving without them:", err.message);
+    fieldsNote = "\n\nCustom fields were not saved because GoHighLevel rejected them; the answers above are the record.";
+    upsert = await ghl("POST", "/contacts/upsert", contact);
+  }
   const contactId = upsert?.contact?.id;
   if (!contactId) throw new Error("gohighlevel upsert returned no contact id");
 
-  const note = detailRows(lead).map(([k, v]) => `${k}: ${v}`).join("\n");
-  const followUps = [
-    ["tag", () => ghl("POST", `/contacts/${contactId}/tags`, { tags: [
-      GHL_TAG,
-      ...(lead.smsTransactional ? [GHL_SMS_TAGS.transactional] : []),
-      ...(lead.smsMarketing ? [GHL_SMS_TAGS.marketing] : []),
-    ] })],
-    ["note", () => ghl("POST", `/contacts/${contactId}/notes`, { body: `Website estimate request\n\n${note}\n\nText message consent\n${consentRecord(lead)}` })],
+  // Added with the tags endpoint so tags already on a returning contact are kept.
+  const tags = [
+    ...BASE_TAGS,
+    lead.project.toLowerCase(),
+    ...(lead.smsTransactional ? [SMS_TAGS.transactional] : []),
+    ...(lead.smsMarketing ? [SMS_TAGS.marketing] : []),
+  ];
+  const note = `Website estimate request\n\n${rowsText(answerRows(lead))}\n\nText message consent record\n${rowsText(consentRows(lead))}${fieldsNote}`;
+
+  const steps = [
+    ["tags", () => ghl("POST", `/contacts/${contactId}/tags`, { tags })],
+    ["note", () => ghl("POST", `/contacts/${contactId}/notes`, { body: note })],
     ["opportunity", async () => {
       const stage = await stageLookup;
       if (stage.error) throw stage.error;
+      const open = await ghl("GET", `/opportunities/search?${new URLSearchParams({ location_id: loc, pipeline_id: stage.pipelineId, contact_id: contactId, status: "open" })}`);
+      const existing = (open.opportunities || [])[0];
+      if (existing) {
+        return ghl("POST", `/contacts/${contactId}/notes`, {
+          body: `Another website estimate request came in at ${lead.receivedAt} (${lead.project}, ${lead.zip}). An open opportunity already exists in this pipeline${existing.name ? `: ${existing.name}` : ""}, so no second one was created.`,
+        });
+      }
       return ghl("POST", "/opportunities/", {
-        locationId: env.GHL_LOCATION_ID,
+        locationId: loc,
         pipelineId: stage.pipelineId,
         pipelineStageId: stage.stageId,
         contactId,
-        name: `${lead.name}, ${lead.project}, ${lead.zip}`,
+        name: `${lead.name} ${lead.project} estimate`,
         status: "open",
-        source: GHL_SOURCE,
+        source: SOURCE,
       });
     }],
   ];
-  const settled = await Promise.allSettled(followUps.map(([, run]) => run()));
+  const settled = await Promise.allSettled(steps.map(([, run]) => run()));
   settled.forEach((r, i) => {
-    if (r.status === "rejected") console.error(`gohighlevel ${followUps[i][0]} failed for contact ${contactId}:`, r.reason?.message || r.reason);
+    if (r.status === "rejected") console.error(`gohighlevel ${steps[i][0]} failed for contact ${contactId}:`, r.reason?.message || r.reason);
   });
+  return contactId;
 }
 
+// Every call is retried once on a network error, a timeout, 429, or a 5xx.
 function ghlClient(env) {
   const headers = {
     Authorization: `Bearer ${env.GHL_PRIVATE_TOKEN}`,
@@ -151,7 +222,7 @@ function ghlClient(env) {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
-  return async (method, path, payload) => {
+  const once = async (method, path, payload) => {
     const r = await fetch(GHL_BASE + path, {
       method,
       headers,
@@ -159,39 +230,60 @@ function ghlClient(env) {
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     const text = await r.text();
-    // Error bodies can echo request data, so log only the status and a short excerpt.
-    if (!r.ok) throw new Error(`gohighlevel ${method} ${path.split("?")[0]} ${r.status} ${text.slice(0, 200)}`);
+    if (!r.ok) {
+      // Error bodies can echo request data, so keep only a short excerpt. Headers are never logged.
+      const err = new Error(`gohighlevel ${method} ${path.split("?")[0]} ${r.status} ${text.slice(0, 200)}`);
+      err.status = r.status;
+      throw err;
+    }
     return text ? safeParse(text) : {};
+  };
+  return async (method, path, payload) => {
+    try {
+      return await once(method, path, payload);
+    } catch (err) {
+      if (err.status && err.status !== 429 && err.status < 500) throw err;
+      return once(method, path, payload);
+    }
   };
 }
 
-// Stage ids stay the same between requests, so a warm function keeps the lookup.
-let cachedStage = null;
-async function resolveStage(ghl, env) {
-  if (env.GHL_PIPELINE_ID && env.GHL_STAGE_ID) return { pipelineId: env.GHL_PIPELINE_ID, stageId: env.GHL_STAGE_ID };
-  if (cachedStage) return cachedStage;
-  const data = await ghl("GET", `/opportunities/pipelines?locationId=${encodeURIComponent(env.GHL_LOCATION_ID)}`);
-  const pipelines = (data.pipelines || []).filter((p) => !env.GHL_PIPELINE_ID || p.id === env.GHL_PIPELINE_ID);
-  for (const p of pipelines) {
-    const stage = (p.stages || []).find((s) => s.name?.trim().toLowerCase() === GHL_STAGE_NAME);
-    if (stage) return (cachedStage = { pipelineId: p.id, stageId: stage.id });
-  }
-  throw new Error(`gohighlevel has no stage named "New lead"${env.GHL_PIPELINE_ID ? " in GHL_PIPELINE_ID" : ""}`);
+// Field and stage ids rarely change, so a warm function keeps them.
+let cachedFields = null;
+async function resolveFields(ghl, loc) {
+  if (cachedFields) return cachedFields;
+  const data = await ghl("GET", `/locations/${encodeURIComponent(loc)}/customFields`);
+  const byName = new Map((data.customFields || []).map((f) => [String(f.name || "").trim().toLowerCase(), f.id]));
+  return (cachedFields = {
+    project: byName.get(FIELD_NAMES.project),
+    timeline: byName.get(FIELD_NAMES.timeline),
+    notes: FIELD_NAMES.notes.map((n) => byName.get(n)).find(Boolean),
+  });
 }
 
-async function sendEmail(lead, env) {
-  const rows = detailRows(lead);
-  const text = rows.map(([k, v]) => `${k}: ${v}`).join("\n");
-  const html = `<table>${rows.map(([k, v]) => `<tr><td><b>${k}</b></td><td>${escapeHtml(v).replace(/\n/g, "<br>")}</td></tr>`).join("")}</table>`;
+let cachedStage = null;
+async function resolveStage(ghl, loc) {
+  if (cachedStage) return cachedStage;
+  const data = await ghl("GET", `/opportunities/pipelines?locationId=${encodeURIComponent(loc)}`);
+  const pipeline = (data.pipelines || []).find((p) => String(p.name || "").trim().toLowerCase() === PIPELINE_NAME);
+  if (!pipeline) throw new Error('gohighlevel has no pipeline named "Deck & Fence Jobs"');
+  const stage = (pipeline.stages || []).find((s) => String(s.name || "").trim().toLowerCase() === STAGE_NAME);
+  if (!stage) throw new Error('gohighlevel pipeline "Deck & Fence Jobs" has no stage named "New Lead"');
+  return (cachedStage = { pipelineId: pipeline.id, stageId: stage.id });
+}
+
+async function sendBackupEmail(lead, env) {
+  const rows = [...answerRows(lead), ...consentRows(lead)];
+  const html = `<table>${rows.map(([k, v]) => `<tr><td><b>${escapeHtml(k)}</b></td><td>${escapeHtml(String(v)).replace(/\n/g, "<br>")}</td></tr>`).join("")}</table>`;
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       from: env.LEAD_FROM_EMAIL || "Complete Deck & Fence <onboarding@resend.dev>",
-      to: env.LEAD_TO_EMAIL.split(",").map((s) => s.trim()),
+      to: (env.LEAD_TO_EMAIL || BACKUP_TO).split(",").map((s) => s.trim()),
       reply_to: lead.email,
       subject: `Estimate request: ${lead.project} in ${lead.zip} from ${lead.name}`,
-      text,
+      text: rowsText(rows),
       html,
     }),
     signal: AbortSignal.timeout(TIMEOUT_MS),

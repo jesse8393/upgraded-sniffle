@@ -38,6 +38,7 @@ export const paths = {
   areas: "/service-areas/",
   guides: "/guides/",
   contact: "/contact/",
+  thanks: "/thank-you/",
   privacy: "/privacy-policy/",
   terms: "/terms/",
   cityHub: (slug) => `/${slug}-tn/`,

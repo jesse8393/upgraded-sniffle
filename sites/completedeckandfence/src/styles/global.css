@@ -569,3 +569,8 @@ a[href^="tel:"] { white-space: nowrap; }
 .guide-closing { padding-block: 0 clamp(40px, 5vw, 64px); }
 .guide-closing p { font: 600 clamp(19px, 1.8vw, 22px)/1.4 var(--f-body); max-width: 60ch; }
 .guide-closing a { color: var(--ink); text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+/* ── Thank you page ───────────────────── */
+.thanks { padding-block: clamp(48px, 8vw, 112px); }
+.thanks-call { margin-top: 32px; display: grid; gap: 10px; }
+.thanks-call p:last-child { font-size: 20px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }

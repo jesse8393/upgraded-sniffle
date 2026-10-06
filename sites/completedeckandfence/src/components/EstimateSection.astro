@@ -1,6 +1,9 @@
 ---
 import { SITE, paths, phoneHref, phoneDisplay } from "../lib/site.js";
 import { SMS_CONSENT } from "../lib/sms.js";
+const failureMessage = phoneDisplay
+  ? `Something went wrong on our end. Please call or text us at ${phoneDisplay} and we will get you scheduled.`
+  : "Something went wrong on our end. Please try again in a few minutes.";
 const {
   project = "",
   heading = "Let's plan your backyard.",
@@ -21,7 +24,7 @@ const options = [
       {phoneDisplay && <p class="contact-line">Rather talk? Call <a href={phoneHref}>{phoneDisplay}</a></p>}
     </div>
 
-    <form class="planner" name="estimate" method="POST" data-planner data-endpoint={SITE.formEndpoint} data-email={SITE.email} novalidate>
+    <form class="planner" name="estimate" method="POST" data-planner data-endpoint={SITE.formEndpoint} data-thanks={paths.thanks} data-failure={failureMessage} novalidate>
       <p class="hp" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
 
       <fieldset class="field" data-project-field>

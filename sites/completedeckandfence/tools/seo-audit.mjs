@@ -9,6 +9,8 @@ import { join, relative } from "node:path";
 
 const dist = new URL("../dist/", import.meta.url).pathname;
 const SITE = "https://completedeckandfence.com";
+// Pages reached only after an action, such as the form thank you page: noindex, no sitemap, no inbound links needed.
+const PRIVATE = new Set(["/thank-you/"]);
 if (!existsSync(dist)) { console.error("Build first: dist/ is missing."); process.exit(2); }
 
 const files = [];
@@ -60,7 +62,8 @@ for (const p of pages.values()) {
   if (p.description.length < 70 || p.description.length > 165) add(p.url, `description ${p.description.length} chars`);
   if (!is404) (descs.get(p.description) ?? descs.set(p.description, []).get(p.description)).push(p.url);
   if (!is404 && p.canonical !== `${SITE}${p.url}`) add(p.url, `canonical ${p.canonical}`);
-  if (!is404 && /noindex/.test(p.robots)) add(p.url, "noindex");
+  if (PRIVATE.has(p.url)) { if (!/noindex/.test(p.robots)) add(p.url, "private page must be noindex"); }
+  else if (!is404 && /noindex/.test(p.robots)) add(p.url, "noindex");
   if (p.h1s.length !== 1) add(p.url, `${p.h1s.length} H1 tags`);
   if (!p.lang) add(p.url, "missing lang");
   if (!p.viewport) add(p.url, "missing viewport");
@@ -97,6 +100,7 @@ const smFiles = readdirSync(dist).filter((f) => /^sitemap-\d+\.xml$/.test(f));
 const inSitemap = new Set(smFiles.flatMap((f) => [...readFileSync(join(dist, f), "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].replace(SITE, ""))));
 for (const p of pages.values()) {
   if (p.url === "/404/" || p.url === "/404.html") { if (inSitemap.has(p.url)) add(p.url, "404 page is in the sitemap"); continue; }
+  if (PRIVATE.has(p.url)) { if (inSitemap.has(p.url)) add(p.url, "private page is in the sitemap"); continue; }
   if (!inSitemap.has(p.url)) add(p.url, "missing from sitemap");
 }
 
@@ -106,7 +110,7 @@ for (const p of pages.values()) for (const href of new Set(p.links)) {
   const path = href.split("#")[0];
   if (path && path !== p.url && inbound.has(path)) inbound.set(path, inbound.get(path) + 1);
 }
-for (const [u, n] of inbound) if (n === 0 && u !== "/" && u !== "/404/" && u !== "/404.html") add(u, "orphan page, nothing links here");
+for (const [u, n] of inbound) if (n === 0 && u !== "/" && u !== "/404/" && u !== "/404.html" && !PRIVATE.has(u)) add(u, "orphan page, nothing links here");
 
 const summary = {
   pages: pages.size,
