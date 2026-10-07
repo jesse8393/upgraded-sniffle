@@ -1,0 +1,187 @@
+---
+// City pages. Every city in src/data/cities.json gets three pages:
+//   /{city}-tn/               decks and fences overview
+//   /deck-builder-{city}-tn/  deck service page
+//   /fence-company-{city}-tn/ fence service page
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Sections from "../components/Sections.astro";
+import Faqs from "../components/Faqs.astro";
+import Toc from "../components/Toc.astro";
+import Steps from "../components/Steps.astro";
+import EstimateSection from "../components/EstimateSection.astro";
+import WorkGallery from "../components/WorkGallery.astro";
+import { fencePhotosFor, deckPhotosFor } from "../lib/work.js";
+import {
+  cities, cityBySlug, guides, paths, getCityContent, getGuideContent, inlineHtml,
+  breadcrumbSchema, faqSchema, serviceSchema,
+} from "../lib/site.js";
+
+export function getStaticPaths() {
+  const out = [];
+  for (const city of cities) {
+    const content = getCityContent(city.slug);
+    if (!content) continue;
+    out.push({ params: { slug: `${city.slug}-tn` }, props: { kind: "hub", city: city.slug } });
+    out.push({ params: { slug: `deck-builder-${city.slug}-tn` }, props: { kind: "deck", city: city.slug } });
+    out.push({ params: { slug: `fence-company-${city.slug}-tn` }, props: { kind: "fence", city: city.slug } });
+  }
+  return out;
+}
+
+const { kind, city: citySlug } = Astro.props;
+const city = cityBySlug[citySlug];
+const content = getCityContent(citySlug);
+const page = content[kind];
+const name = city.name;
+const nearby = city.nearby.map((s) => cityBySlug[s]).filter((c) => c && getCityContent(c.slug));
+
+const KIND = {
+  hub: {
+    h1: `Decks and fences in ${name}, TN`,
+    title: `${name}, TN Decks and Fences`,
+    path: paths.cityHub(city.slug),
+    crumbs: [{ name: "Home", href: "/" }, { name: "Service areas", href: paths.areas }, { name, href: paths.cityHub(city.slug) }],
+    faqHeading: `${name} deck and fence questions`,
+    cta: "Get an estimate",
+    project: "",
+    current: paths.areas,
+  },
+  deck: {
+    h1: `Deck builder in ${name}, TN`,
+    title: `Deck Builder in ${name}, TN`,
+    path: paths.deckCity(city.slug),
+    crumbs: [{ name: "Home", href: "/" }, { name: "Decks", href: paths.decks }, { name, href: paths.deckCity(city.slug) }],
+    faqHeading: `${name} deck questions`,
+    cta: "Plan your deck",
+    project: "Deck",
+    current: paths.decks,
+  },
+  fence: {
+    h1: `Fence installation in ${name}, TN`,
+    title: `Fence Company in ${name}, TN`,
+    path: paths.fenceCity(city.slug),
+    crumbs: [{ name: "Home", href: "/" }, { name: "Fences", href: paths.fences }, { name, href: paths.fenceCity(city.slug) }],
+    faqHeading: `${name} fence questions`,
+    cta: "Plan your fence",
+    project: "Fence",
+    current: paths.fences,
+  },
+}[kind];
+
+const serviceWord = kind === "deck" ? "deck" : kind === "fence" ? "fence" : null;
+const relatedGuides = guides.filter((g) => getGuideContent(g.slug) && (!serviceWord || g.service === serviceWord || g.service === "both")).slice(0, kind === "hub" ? 6 : 5);
+const schema = [
+  breadcrumbSchema(KIND.crumbs),
+  faqSchema(page.faqs),
+  kind === "hub" ? null : serviceSchema({
+    name: KIND.h1,
+    serviceType: kind === "deck" ? "Deck building" : "Fence installation",
+    city,
+    url: KIND.path,
+    description: page.description,
+  }),
+];
+const otherLink = kind === "deck"
+  ? { href: paths.fenceCity(city.slug), label: `Fences in ${name}` }
+  : kind === "fence"
+    ? { href: paths.deckCity(city.slug), label: `Decks in ${name}` }
+    : { href: paths.fenceCity(city.slug), label: `Fence installation in ${name}` };
+---
+<Base title={KIND.title} description={page.description} path={KIND.path} schema={schema} current={KIND.current}>
+  <section class="page-hero">
+    <div class="wrap page-hero-inner">
+      <div class="page-hero-copy">
+        <Breadcrumbs items={KIND.crumbs} />
+        <p class="kicker">{name}, {city.county}</p>
+        <h1 class="page-title">{KIND.h1}</h1>
+        <p class="page-lede" set:html={inlineHtml(page.intro)} />
+        <div class="hero-actions">
+          {kind === "hub"
+            ? <a class="btn btn-red" href={paths.deckCity(city.slug)}>Decks in {name} <span class="arrow" aria-hidden="true"></span></a>
+            : <a class="btn btn-red" href="#estimate" data-project={kind}>{KIND.cta} <span class="arrow" aria-hidden="true"></span></a>}
+          <a class="btn btn-ghost" href={otherLink.href}>{otherLink.label}</a>
+        </div>
+      </div>
+      <aside class="local-card" aria-label={`Around ${name}`}>
+        <p class="local-head">Around {name}</p>
+        <p class="local-label">Neighborhoods we cover</p>
+        <ul class="local-list">{city.neighborhoods.map((n) => <li>{n.charAt(0).toUpperCase() + n.slice(1)}</li>)}</ul>
+        {nearby.length > 0 && (
+          <>
+            <p class="local-label">Nearby</p>
+            <ul class="local-list">
+              {nearby.map((c) => (
+                <li><a href={kind === "deck" ? paths.deckCity(c.slug) : kind === "fence" ? paths.fenceCity(c.slug) : paths.cityHub(c.slug)}>{c.name}</a></li>
+              ))}
+            </ul>
+          </>
+        )}
+        <p class="local-note">Not on the list? Ask. We work across the {name} area.</p>
+      </aside>
+    </div>
+  </section>
+
+  {kind === "hub" && (
+    <section class="hub-services" aria-label={`Services in ${name}`}>
+      <div class="wrap hub-services-grid">
+        <a class="hub-service" href={paths.deckCity(city.slug)}>
+          <span class="hub-service-title">Decks in {name}</span>
+          <span class="hub-service-copy">New decks, replacements, stairs, and railings in wood or Trex, planned around your yard.</span>
+          <span class="text-link as-span">Deck builder in {name} <span class="arrow" aria-hidden="true"></span></span>
+        </a>
+        <a class="hub-service" href={paths.fenceCity(city.slug)}>
+          <span class="hub-service-title">Fences in {name}</span>
+          <span class="hub-service-copy">Wood, vinyl, metal, and chain link fences, with gates that fit how you use the yard.</span>
+          <span class="text-link as-span">Fence company in {name} <span class="arrow" aria-hidden="true"></span></span>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <div class="wrap article-layout">
+    <article class="article-body">
+      <Sections sections={page.sections} />
+      <Faqs faqs={page.faqs} heading={KIND.faqHeading} id="questions" />
+    </article>
+    <Toc sections={page.sections} faqsId="questions" cta={KIND.cta} />
+  </div>
+
+  {kind === "deck" && <WorkGallery items={deckPhotosFor(cities.findIndex((c) => c.slug === city.slug))} heading="Decks we've built." note="A few decks we have built. Ask what we have built near you." id="work" />}
+  {kind === "fence" && <WorkGallery items={fencePhotosFor(cities.findIndex((c) => c.slug === city.slug))} heading="Fences we've built." note="A few fences we have built. Ask what we have built near you." />}
+
+  <section class="related" aria-label="Related pages">
+    <div class="wrap related-grid">
+      <div>
+        <h2 class="related-title">{serviceWord === "deck" ? "Deck guides" : serviceWord === "fence" ? "Fence guides" : "Guides"}</h2>
+        <ul class="related-list">
+          {relatedGuides.map((g) => <li><a href={paths.guide(g.slug)}>{g.title}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="related-title">More in {name}</h2>
+        <ul class="related-list">
+          {kind !== "hub" && <li><a href={paths.cityHub(city.slug)}>Decks and fences in {name}</a></li>}
+          {kind !== "deck" && <li><a href={paths.deckCity(city.slug)}>Deck builder in {name}</a></li>}
+          {kind !== "fence" && <li><a href={paths.trex}>Trex deck installation</a></li>}
+          {kind !== "fence" && <li><a href={paths.fenceCity(city.slug)}>Fence installation in {name}</a></li>}
+          <li><a href={kind === "fence" ? paths.fences : paths.decks}>{kind === "fence" ? "Fences" : "Decks"} across Middle Tennessee</a></li>
+          <li><a href={paths.areas}>Every city we serve</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="related-title">{kind === "deck" ? "Deck builder nearby" : kind === "fence" ? "Fence company nearby" : "Nearby cities"}</h2>
+        <ul class="related-list">
+          {nearby.map((c) => (
+            <li><a href={kind === "deck" ? paths.deckCity(c.slug) : kind === "fence" ? paths.fenceCity(c.slug) : paths.cityHub(c.slug)}>
+              {kind === "deck" ? `Decks in ${c.name}` : kind === "fence" ? `Fences in ${c.name}` : `${c.name}, TN`}
+            </a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Steps />
+  <EstimateSection project={KIND.project} heading={kind === "hub" ? `Planning a project in ${name}?` : `Let's plan your ${name} ${serviceWord}.`} />
+</Base>

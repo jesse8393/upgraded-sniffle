@@ -1,0 +1,10 @@
+---
+import ServiceHub from "../components/ServiceHub.astro";
+import { work } from "../lib/work.js";
+---
+<ServiceHub
+  service="deck"
+  photo={work.coveredDeck.src}
+  photoAlt={work.coveredDeck.alt}
+  gallery={[work.coveredInside, work.deckWirePool, work.whiteDeckStairs, work.deckBalusters]}
+/>

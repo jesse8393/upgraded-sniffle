@@ -1,0 +1,91 @@
+# Complete Deck & Fence website
+
+The full site for completedeckandfence.com, built with Astro as plain static pages: no server, no database, and almost no JavaScript.
+
+## What gets built
+
+* Home, `/decks/`, `/fences/`, `/service-areas/`, `/guides/`, and a privacy policy
+* For each of the 21 cities in `src/data/cities.json`, three pages:
+  * `/{city}-tn/`, decks and fences in that city
+  * `/deck-builder-{city}-tn/`
+  * `/fence-company-{city}-tn/`
+* Twelve guides at `/guides/{slug}/`, listed in `src/data/guides.json`
+* `sitemap-index.xml`, `robots.txt`, and `llms.txt`
+
+The cities match the ones parkerconstructioncompany.com serves. Every page is written fresh, and none of Parker's text is reused.
+
+## Commands
+
+Run these from this folder:
+
+```sh
+npm install
+npm run dev        # local preview while editing, http://localhost:4321
+npm run build      # builds the site into dist/
+npm run preview    # serves dist/ exactly as it will ship
+```
+
+Before every deploy, build first and then run all three checks:
+
+```sh
+npm run build
+npm run check:content   # word counts, keywords, honesty rules, repeated phrasing
+npm run check:seo       # titles, descriptions, canonicals, H1s, links, sitemap, schema
+npm run check:slop      # no dashes, hype words, or banned design patterns
+```
+
+## Before launch
+
+Fill in `SITE` at the top of `src/lib/site.js`:
+
+* `phone` shows tap to call links in the header, mobile menu, sticky mobile bar, estimate sections, footer, and the contact page, and sets `telephone` in the structured data (as +1 and ten digits). Leave it empty to hide all of them.
+* `email` shows in the footer and is the form fallback (it opens an email).
+* `formEndpoint` is a URL that receives estimate requests as a JSON POST.
+
+Empty values stay hidden, so nothing fake ever shows. Then work through the "Unconfirmed, needs the owner" list in `PRODUCT.md`. The biggest item is confirming the service list.
+
+## Project photos
+
+Real fence photos live in `src/assets/photos/work/`, with captions and alt text in `src/lib/work.js`. They appear on the home page, the fences page, and every fence city page. Before adding a new photo: blur house numbers and license plates, crop out bystanders, and save it without location data. Deck photos appear on the decks page and every deck city page.
+
+## Editing content
+
+All page copy lives in JSON under `src/content/`. The rules for writing it, including word and keyword targets, are in `docs/CONTENT_SPEC.md`. Check a file after editing it:
+
+```sh
+node tools/content-check.mjs cities murfreesboro
+node tools/content-check.mjs guides fence-on-a-slope
+node tools/content-check.mjs pages decks
+```
+
+## Deploy
+
+`vercel.json` is ready for Vercel: set the project Root Directory to `sites/completedeckandfence`. It adds trailing slash redirects, security headers, and long caching for built assets. Any static host works too: build, then publish `dist/`.
+
+### Estimate form
+
+`api/estimate.js` receives the form and puts every valid request straight into GoHighLevel. Set these in Vercel under Project Settings, Environment Variables. They stay on the server and never reach the browser.
+
+* `GHL_PRIVATE_TOKEN`: a GoHighLevel private integration token with contacts.readonly, contacts.write, opportunities.readonly, opportunities.write, and locations/customFields.readonly
+* `GHL_LOCATION_ID`: the GoHighLevel sub account id
+* `RESEND_API_KEY`: optional. When set, every submission is also emailed to completedeckandfence@gmail.com as a backup.
+
+Each request creates or updates the contact (source Website Estimate Form), adds the tags website lead, estimate request, the project type, and a tag for each text box checked, fills the Project Type and Timeline custom fields, opens an opportunity in the New Lead stage of the Deck & Fence Jobs pipeline (or adds a note when one is already open), and saves a note with every answer and the text consent record. The visitor then lands on /thank-you/. If GoHighLevel cannot take the request, the form asks them to call or text instead. There is no email app fallback.
+
+After launch, follow `docs/BACKLINKS.md` for Search Console, Google Business Profile, citations, and links.
+
+## Files
+
+* `src/pages/`: page templates. `[slug].astro` builds all 60 city pages.
+* `src/components/`: shared pieces such as the estimate form, FAQs, and breadcrumbs
+* `src/layouts/Base.astro`: head tags, structured data, header, and footer
+* `src/lib/site.js`: business details, URLs, titles, and structured data helpers
+* `src/lib/images.js`: image widths and sizes for every photo
+* `api/estimate.js`: the estimate form handler
+* `src/content/`: page copy as JSON
+* `src/data/`: city facts and the guide list
+* `src/styles/global.css`, `src/scripts/site.js`: design and behavior
+* `public/fonts/`: self hosted Archivo, Instrument Sans, and Newsreader, subset to the characters the site uses (SIL Open Font License)
+* `tools/`: the content, SEO, and slop checks
+* `PRODUCT.md`, `DESIGN.md`: who the site is for and how it looks
+* `docs/`: the content spec and the backlink plan

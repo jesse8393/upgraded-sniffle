@@ -1,0 +1,90 @@
+---
+import { SITE, paths, phoneHref, phoneDisplay } from "../lib/site.js";
+import { SMS_CONSENT } from "../lib/sms.js";
+const failureMessage = phoneDisplay
+  ? `Something went wrong on our end. Please call or text us at ${phoneDisplay} and we will get you scheduled.`
+  : "Something went wrong on our end. Please try again in a few minutes.";
+const {
+  project = "",
+  heading = "Let's plan your backyard.",
+  intro = "Estimates are free. Tell us a little about the project and we'll get back to you to talk it through.",
+} = Astro.props;
+const options = [
+  ["Deck", "Deck"],
+  ["Fence", "Fence"],
+  ["Deck and fence", "Both"],
+  ["Repair", "Repair"],
+];
+---
+<section class="estimate" id="estimate" aria-labelledby="estimate-title">
+  <div class="wrap estimate-inner">
+    <div class="estimate-intro">
+      <h2 id="estimate-title" class="h2">{heading}</h2>
+      <p>{intro}</p>
+      {phoneDisplay && <p class="contact-line">Rather talk? Call <a href={phoneHref}>{phoneDisplay}</a></p>}
+    </div>
+
+    <form class="planner" name="estimate" method="POST" data-planner data-endpoint={SITE.formEndpoint} data-thanks={paths.thanks} data-failure={failureMessage} novalidate>
+      <p class="hp" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+
+      <fieldset class="field" data-project-field>
+        <legend>What are we building?</legend>
+        <div class="chips">
+          {options.map(([value, label], i) => (
+            <label class="chip"><input type="radio" name="project" value={value} required={i === 0} checked={value === project}><span>{label}</span></label>
+          ))}
+        </div>
+        <p class="field-error">Pick the type of project.</p>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>When would you like to start?</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="timeline" value="As soon as possible"><span>ASAP</span></label>
+          <label class="chip"><input type="radio" name="timeline" value="Next 1 to 3 months"><span>1 to 3 months</span></label>
+          <label class="chip"><input type="radio" name="timeline" value="Just planning"><span>Just planning</span></label>
+        </div>
+      </fieldset>
+
+      <div class="row">
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input id="f-name" name="name" autocomplete="name" required aria-describedby="f-name-err">
+          <p class="field-error" id="f-name-err">Please add your name.</p>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-err">
+          <p class="field-error" id="f-email-err">Please check that email address.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="f-zip">ZIP code</label>
+          <input id="f-zip" name="zip" autocomplete="postal-code" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" required aria-describedby="f-zip-err f-zip-help">
+          <p class="help" id="f-zip-help">So we can confirm we serve your area.</p>
+          <p class="field-error" id="f-zip-err">Please enter a five digit ZIP code.</p>
+        </div>
+        <div class="field">
+          <label for="f-phone">Phone</label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required pattern="(\D*\d){10,}\D*" aria-describedby="f-phone-err">
+          <p class="field-error" id="f-phone-err">Please add a ten digit phone number we can reach.</p>
+        </div>
+      </div>
+      <fieldset class="field consent">
+        <legend>Text messages <span class="opt">(optional)</span></legend>
+        <label class="check"><input type="checkbox" name="sms_transactional_consent" value="yes"><span>{SMS_CONSENT.transactional}</span></label>
+        <label class="check"><input type="checkbox" name="sms_marketing_consent" value="yes"><span>{SMS_CONSENT.marketing}</span></label>
+        <p class="consent-links">See our <a href={paths.privacy}>Privacy Policy</a> and <a href={paths.terms}>Terms</a>.</p>
+      </fieldset>
+      <div class="field">
+        <label for="f-notes">Tell us about it <span class="opt">(optional)</span></label>
+        <textarea id="f-notes" name="notes" rows="4" placeholder="Rough size, materials, anything else we should know"></textarea>
+      </div>
+      <input type="hidden" name="page" value={Astro.url.pathname}>
+
+      <button class="btn btn-red btn-block" type="submit" data-submit>Request my free estimate <span class="arrow" aria-hidden="true"></span></button>
+      <p class="form-status" role="status" aria-live="polite" data-status></p>
+    </form>
+  </div>
+</section>
