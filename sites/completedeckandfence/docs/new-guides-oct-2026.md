@@ -21,7 +21,7 @@ Five new guides, written October 2026. Each one has front matter (slug, title ta
 ---
 slug: /guides/fence-permits-tennessee/
 title: Do You Need a Permit for a Fence in Tennessee?
-meta_description: Some Tennessee cities require a fence permit, while others only set height and placement rules. See how Murfreesboro, Nashville and Rutherford County differ.
+meta_description: Some Tennessee cities require a fence permit, and others only set height and placement rules. See how Murfreesboro, Nashville and Rutherford County differ.
 eyebrow: Fence guide
 primary_keyword: fence permit Tennessee
 secondary_keywords: do I need a permit for a fence, Murfreesboro fence permit, Nashville fence height rules, pool fence requirements Tennessee
@@ -47,34 +47,34 @@ This works the same way it does for decks, which we cover in our guide to [deck 
 
 ## Three nearby places, three different answers
 
-Looking at three neighbors in our service area shows how much the rules can change from one line on the map to the next. These summaries reflect what each office published as of October 2026. Rules change, so confirm with the office before you build.
+Looking at three places side by side shows how much the rules can change from one line on the map to the next. These summaries reflect what each office published as of October 2026. Rules change, so confirm with the office before you build.
 
 ### City of Murfreesboro: a permit is required
 
 Murfreesboro treats a fence as an accessory structure, and the city says a permit is required to build, alter, enlarge, move or demolish one. Homeowners can pull their own fence permit for work at their primary residence. The city also lists a few placement rules worth knowing:
 
 * There is no property line setback for fences, but a fence cannot cross onto a neighbor's land.
-* Fences are not allowed in drainage or utility easements or in the public right of way.
-* Keep the fence three feet away from mechanical equipment, and do not fence in meters.
+* Fences are not allowed in drainage or utility easements or in the public right of way, except that the City Engineer may approve a fence in a drainage easement in some cases with a written agreement.
+* Keep the fence 3 feet away from mechanical equipment, and do not fence in meters.
 
 Applications go through the Murfreesboro Building and Codes Department at City Hall. The fee is based on the value of the work. If you live in the city, see our page on [fence installation in Murfreesboro](/fence-company-murfreesboro-tn/).
 
 ### Unincorporated Rutherford County: a form instead of a permit
 
-Outside city limits in Rutherford County, the county says a building permit is not required for a fence up to 7 feet tall. It does ask homeowners to fill out a Fence Design Guideline Affidavit with the Rutherford County Planning Department before installation starts. That makes it easy to skip by accident, so put it on the list early.
+Outside city limits in Rutherford County, the county says a building permit is not required for a fence up to 7 feet tall. It does require homeowners to fill out a Fence Design Guideline Affidavit with the Rutherford County Planning Department before installation starts. That makes it easy to skip by accident, so put it on the list early.
 
-### Metro Nashville: usually no permit, firm height rules
+### Metro Nashville: a permit for solid fences, firm height rules
 
-In Nashville and most of Davidson County, Metro Codes says residential fences generally do not require a permit. The rules on where a fence can go are specific:
+In February 2026, Metro Council passed an ordinance that requires a permit from Metro Codes before you build a new opaque fence in Nashville and most of Davidson County. That means a fence that blocks more than half the view, such as a solid wood privacy fence. Open styles such as chain link are not covered, and neither are lots zoned AR, AG, R80 or RS80. Metro's fence web page has not been updated yet, so call Metro Codes before you build to confirm the current permit steps and fee. The rules on where a fence can go are specific:
 
 | Where the fence sits | Maximum height listed by Metro Codes |
 |---|---|
-| Solid fence within the 10 foot front setback | 30 inches |
-| Open fence, such as chain link or wrought iron, within the 10 foot front setback | 72 inches |
-| Rest of the front setback | 6 feet |
-| Side or rear setback | 8 feet |
+| Solid fence within 10 feet of the street right of way | 30 inches |
+| Open fence, such as chain link or wrought iron, within 10 feet of the street right of way | 72 inches |
+| Rest of the required front setback | 6 feet |
+| Required side or rear setback | 8 feet |
 
-Metro also requires that cross beams and bracing face the inside of the property, not the street. Corner lots have an added restriction, with no fences allowed in a 35 foot visibility zone. Wood must be painted, stained or preserved, and metal must be made or treated to resist rust. Homes in special overlay districts, such as historic overlays, can have extra steps, including a preservation permit, so ask Metro Codes if your home sits in one. If you are in Nashville, our [Nashville fence page](/fence-company-nashville-tn/) covers how we plan around these rules.
+On most lots, the street right of way starts at the front property line. Metro measures height from the finished grade on the side of the fence with the most exposed height. Metro also requires that cross beams and bracing face the inside of the property, not the street. Corner lots have an added restriction, with no fences allowed in a 35 foot visibility zone. Wood must be painted, stained or preserved, and metal must be made or treated to resist rust. Homes in special overlay districts, such as historic overlays, can have extra steps, including a preservation permit, so ask the Metro Historic Zoning Commission staff, part of the Metro Planning Department, if your home sits in one. If you are in Nashville, our [Nashville fence page](/fence-company-nashville-tn/) covers how we plan around these rules.
 
 ## Height limits and the front yard
 
@@ -88,7 +88,7 @@ If your house sits on a corner, expect extra limits near the intersection. Citie
 
 ## Easements, utilities, and meters
 
-Many lots in newer Middle Tennessee subdivisions have drainage or utility easements along the back or side lines. Some cities, including Murfreesboro, do not allow fences inside those easements without written approval from the city. Where a fence is allowed in an easement, the utility or city may still have the right to remove it to reach their lines, and you may be the one paying to put it back.
+Many lots in newer Middle Tennessee subdivisions have drainage or utility easements along the back or side lines. Murfreesboro, for example, does not allow fences in drainage or utility easements or the public right of way. The one exception the city lists is a drainage easement, where the City Engineer may approve a fence in some cases with a written agreement. Where a fence is allowed in an easement, the utility or city may still have the right to remove it to reach their lines, and you may be the one paying to put it back.
 
 Your plat or survey shows where easements run. Our guide to [fences and property lines in Tennessee](/guides/fence-property-line-tennessee/) walks through finding corner pins, reading a survey, and deciding how close to the line to build.
 
@@ -96,7 +96,7 @@ Before any digging, Tennessee law calls for a locate request through Tennessee 8
 
 ## Pool fences follow stricter rules
 
-A fence that serves as the barrier around a swimming pool is held to a much tighter standard than a yard fence, because it exists to keep small children out. As one local example, Rutherford County's posted pool barrier requirements, based on the 2024 International Swimming Pool and Spa Code, include:
+A fence that serves as the barrier around a swimming pool is held to a much tighter standard than a yard fence, because it exists to keep small children out. As one local example, Rutherford County's posted pool barrier requirements, based on the International Swimming Pool and Spa Code the county has adopted, include:
 
 * A barrier at least 48 inches tall, measured from the ground.
 * No more than 2 inches of clearance under the barrier over grass or mulch, or 4 inches over a hard surface.
@@ -236,7 +236,7 @@ A useful test is to compare the repair estimate with the cost of a new fence. If
 
 ## Permits, HOA rules, and the property line
 
-Repairing a few pickets rarely involves anyone else. Replacing a fence often does. Some cities require a permit to alter or rebuild a fence, and many HOAs want to approve the new design even if it matches the old one. A replacement is also the right time to confirm the property line, since an old fence is not always in the right place. Start with our guides on [fence permits in Tennessee](/guides/fence-permits-tennessee/) and [fences and property lines](/guides/fence-property-line-tennessee/).
+Repairing a few pickets rarely involves anyone else. Replacing a fence often does. Some cities require a permit to alter or rebuild a fence, and many HOAs want to approve the new design even if it matches the old one. A replacement is also the right time to confirm the property line, since an old fence is not always in the right place. Start with our guides on [fence permits in Tennessee](/guides/fence-permits-tennessee/) and [fences and property lines in Tennessee](/guides/fence-property-line-tennessee/).
 
 ## Quick answers
 
@@ -268,7 +268,7 @@ Not sure if your fence can be saved? [Request a free estimate](/contact/) and we
 ---
 slug: /guides/deck-railing-stair-code/
 title: Deck Railing and Stair Code Basics in Tennessee
-meta_description: When a deck needs a railing, how tall it must be, baluster spacing, stair and handrail rules. The code basics Middle Tennessee inspectors check, in plain words.
+meta_description: When a deck needs a railing, how tall it must be, baluster spacing, stair and handrail rules. The code basics Middle Tennessee inspectors check.
 eyebrow: Deck guide
 primary_keyword: deck railing code Tennessee
 secondary_keywords: deck railing height, deck baluster spacing, deck stair code, deck handrail requirements, when does a deck need a railing
@@ -282,7 +282,7 @@ Railings and stairs protect people from falls, so they get some of the closest a
 
 ## Where these rules come from
 
-Most cities and counties in Tennessee that enforce building codes base their residential rules on the International Residential Code, a national model code, with local changes. Codes offices around Middle Tennessee are not all on the same edition of that code, and each one can add its own amendments. The numbers below are the common baseline that appears in local handouts across the state, but your codes office has the final word. Some offices amend the stair and handrail rules in particular, so riser, tread, and handrail numbers can differ from what you read here. Ask which edition your office uses and whether it has any local changes to railings or stairs.
+Most cities and counties in Tennessee that enforce building codes base their residential rules on the International Residential Code, a national model code, with local changes. Codes offices around Middle Tennessee are not all on the same edition of that code, and each one can add its own amendments. The numbers below are the common baseline that appears in local handouts across the state, but your codes office has the final word. Where the State Fire Marshal's Office handles residential permits, the state uses the 2018 International Residential Code, and its state amendments do not change the stair, railing, or handrail rules. Cities and counties that run their own codes departments can make their own changes, so riser, tread, and handrail numbers can still differ from what you read here. Ask which edition your office uses and whether it has any local changes to railings or stairs.
 
 If you are still figuring out whether your deck needs a permit at all, start with our guide to [deck permits in Tennessee](/guides/deck-permits-tennessee/).
 
@@ -314,7 +314,7 @@ In practice, that means balusters set close enough that a 4 inch ball will not f
 
 A railing that looks right can still fail if it is not attached well. Local handouts commonly require guards and handrails to resist a concentrated load of **200 pounds** applied at any point. That force is what someone leaning or falling against the railing can put on it.
 
-Most of that strength comes from how the posts attach to the deck frame. Some codes offices hand out the American Wood Council's prescriptive deck guide, known as DCA 6, which shows tested ways to fasten guard posts to the joists and rim joist. A post held on with a couple of nails or screws through a thin rim board is a common weak spot on older decks.
+Most of that strength comes from how the posts attach to the deck frame. Some codes offices hand out the American Wood Council's prescriptive deck guide, known as DCA 6, which shows tested ways to fasten guard posts to the joists and rim joist. A post held on with a couple of nails or screws through a thin rim joist is a common weak spot on older decks.
 
 Manufactured railing systems, such as aluminum, composite, or cable railings, are usually tested as a complete assembly. Install them exactly as the maker's instructions say, including the post mounts and blocking. Mixing parts or skipping blocking can void the tested strength.
 
@@ -328,7 +328,7 @@ Deck stairs follow the same basic rules as stairs inside a house. The common bas
 * **Consistency:** risers and treads that stay nearly the same size from top to bottom, since an odd step is what trips people.
 * **Headroom:** at least 6 feet 8 inches of clear height above the stairs.
 
-Stairs also need solid footing at the bottom. A stringer resting on loose gravel or a paver that settles into the clay will pull the stairs out of level over time. Your codes office may want a landing or a pad at the bottom of the stairs.
+Stairs also need solid ground at the bottom. The residential code calls for a floor or landing at the top and bottom of every stairway. The landing must be at least as wide as the stairs and, on a straight run, at least 36 inches deep in the direction of travel. The code lets interior stairs skip the top landing in some cases, but that exception does not cover outdoor deck stairs. A stringer resting on loose gravel or on a paver that settles into the clay will pull the stairs out of level over time, so plan a solid landing or pad at the bottom from the start.
 
 ## Handrails on deck stairs
 
@@ -342,7 +342,7 @@ A handrail is commonly required on at least one side of any stair with **four or
 
 ## Lighting at the stairs
 
-Some local handouts, such as Franklin's deck guide, call for a light at the top of exterior stairs that lights the stairs and landing, with a switch inside the house. Electrical work usually needs its own permit, so plan the light with the rest of the deck instead of adding it later.
+The residential code requires a light at the top landing of outdoor stairs (Section R303.8 in the 2018 and 2021 editions). The code text does not say where the switch must go, so ask your codes office what it accepts. Electrical work usually needs its own permit, so plan the light with the rest of the deck instead of adding it later.
 
 ## Older decks and new railings
 
@@ -352,9 +352,9 @@ If you are replacing railings or stairs on an existing deck, expect the new work
 
 1. Which edition of the residential code does your office use, and are there local changes to guards or stairs?
 2. Does my deck height require a guard on every side, including over a slope?
-3. Will the stairs need a landing or pad at the bottom?
+3. What will the landing at the bottom of the stairs be made of, and how large does it need to be?
 4. Does the stair need a handrail on one side or both?
-5. Is a stair light required, and will it need an electrical permit?
+5. What kind of stair light and switch will you accept, and will it need an electrical permit?
 6. Does my HOA set rules on railing height, style, or color?
 
 ## Quick answers
@@ -404,11 +404,11 @@ A deck or fence is a big check to write, and most of the trouble people run into
 In Tennessee, the license a builder needs depends on the total price of your project, including materials and labor, and on the county you live in.
 
 * **Projects of $25,000 or more** require a state contractor's license. The Tennessee Attorney General's office notes that the license is required before bidding or price negotiations on a job that size.
-* **Projects from $3,000 to $24,999** require a state home improvement license in the nine counties that have adopted the home improvement law: Bradley, Davidson, Haywood, Hamilton, Knox, Marion, Robertson, Rutherford, and Shelby. Fencing is one of the types of work this license covers.
+* **Projects from $3,000 to $24,999** require a state home improvement license in the nine counties that have adopted the home improvement law: Bradley, Davidson, Hamilton, Haywood, Knox, Marion, Robertson, Rutherford, and Shelby. Fencing is one of the types of work this license covers.
 
 That means a fence or deck in Murfreesboro, Smyrna, La Vergne, or anywhere else in Rutherford County, or in Nashville and the rest of Davidson County, falls under the home improvement law when the price lands in that range. In other counties, smaller projects may not need a state license, but cities and counties can still require a local business license.
 
-The state also notes that a license is required whether or not your project needs a permit. Electrical work, like deck lighting or outlets, can require its own license and permit no matter the project size.
+A state license depends on the price of the job and the county, not on whether the project needs a permit. Electrical work, like deck lighting or outlets, can require its own license and permit no matter the project size.
 
 ## How to check a license in a few minutes
 
@@ -440,22 +440,22 @@ A reasonable payment plan usually ties each payment to a finished stage, such as
 
 ## Get everything in a written contract
 
-Tennessee law bars taking any payment before a home improvement contract is signed, and the Attorney General's office urges homeowners to get everything in writing. A good contract spells out:
+The Attorney General's office urges homeowners to get everything in writing. A good contract spells out:
 
 * The builder's full business name, address, and license number.
 * A clear description of the work and the materials, including brand, grade, and color where it matters.
 * Start and completion dates, even if approximate.
 * The total price and the payment schedule.
-* How changes are handled. Changes should be priced and signed in writing before the work changes.
+* How changes are handled. Changes should be priced and signed in writing before the changed work starts.
 * Who pulls the permits and who handles HOA approval.
-* Cleanup, haul away of the old deck or fence, and protection of your lawn and driveway.
+* Cleanup, hauling away the old deck or fence, and protection of your lawn and driveway.
 * The workmanship warranty, and the manufacturer warranties on materials.
 
 Do not sign a contract with blank spaces. If something you discussed is not on paper, it is not part of the deal.
 
 ## Ask who pulls the permits
 
-A builder who will not pull permits, or asks you to pull them so the job goes faster, is a red flag. The Attorney General's office lists reluctance to pull permits among the warning signs to watch for. Permits mean an inspector checks the footings, framing, and railings at the stages where problems are easy to fix. Our guide to [deck permits in Tennessee](/guides/deck-permits-tennessee/) explains how inspections work, and our guide to [fence permits](/guides/fence-permits-tennessee/) covers how fence rules vary by city.
+A builder who will not pull permits, or asks you to pull them so the job goes faster, is a red flag. The Attorney General's office lists reluctance to pull permits among the warning signs to watch for. Permits mean an inspector checks the footings, framing, and railings at the stages where problems are easy to fix. Our guide to [deck permits in Tennessee](/guides/deck-permits-tennessee/) explains how inspections work, and our guide to [fence permits in Tennessee](/guides/fence-permits-tennessee/) covers how fence rules vary by city.
 
 ## Questions that show how a builder thinks
 
@@ -472,7 +472,7 @@ Good builders welcome specific questions. A few that reveal a lot:
 
 ## Compare bids line by line
 
-Two bids for the same yard can look far apart until you line them up. Check that both include the same materials, the same height and length, gates, tear out, permits, and cleanup. A low bid that leaves out permits or haul away is not really lower. Our guides to [what drives the cost of a deck](/guides/deck-cost-middle-tennessee/) and [what drives the cost of a fence](/guides/fence-cost-middle-tennessee/) walk through how to compare bids side by side.
+Two bids for the same yard can look far apart until you line them up. Check that both include the same materials, the same height and length, gates, tear out, permits, and cleanup. A low bid that leaves out permits or debris removal is not really lower. Our guides to [what drives the cost of a deck](/guides/deck-cost-middle-tennessee/) and [what drives the cost of a fence](/guides/fence-cost-middle-tennessee/) walk through how to compare bids side by side.
 
 ## Red flags to walk away from
 
@@ -513,7 +513,7 @@ Ready to talk with a builder? [Request a free estimate](/contact/) and ask us an
 ---
 slug: /guides/best-time-to-build-deck-fence/
 title: Best Time to Build a Deck or Fence in Tennessee
-meta_description: Spring rain, summer heat, fall calm, winter planning. How each season affects a deck or fence build in Middle Tennessee, and how to time permits and HOA review.
+meta_description: Spring rain, summer heat, fall calm, winter planning. How seasons affect a deck or fence build in Middle Tennessee, and how to time permits and HOA review.
 eyebrow: Planning guide
 primary_keyword: best time to build a deck
 secondary_keywords: best time to build a fence, when to build a deck in Tennessee, deck building season, fence installation in winter
@@ -561,12 +561,12 @@ Winter shines as a planning season. You can get estimates, settle on materials, 
 
 The build itself is often the shortest part of the timeline. Here is what usually comes before it.
 
-1. **Estimates and design.** Allow time to meet with builders, compare bids, and choose materials. Our guides to [deck costs](/guides/deck-cost-middle-tennessee/) and [fence costs](/guides/fence-cost-middle-tennessee/) help you compare bids.
-2. **HOA approval.** Many review committees meet only on a set schedule, and some want changes before they approve. Our guide to [HOA approval](/guides/hoa-approval-deck-fence/) covers how to get it right the first time.
-3. **Permits.** Review time varies by city and county and by season. Ask your codes office for a typical turnaround. See our guides to [deck permits](/guides/deck-permits-tennessee/) and [fence permits](/guides/fence-permits-tennessee/).
+1. **Estimates and design.** Allow time to meet with builders, compare bids, and choose materials. Our guides to [what drives the cost of a deck](/guides/deck-cost-middle-tennessee/) and [what drives the cost of a fence](/guides/fence-cost-middle-tennessee/) break down the numbers.
+2. **HOA approval.** Many review committees meet only on a set schedule, and some want changes before they approve. Our guide to [getting HOA approval for a fence or deck](/guides/hoa-approval-deck-fence/) covers how to get it right the first time.
+3. **Permits.** Review time varies by city and county and by season. Ask your codes office for a typical turnaround. See our guides to [deck permits in Tennessee](/guides/deck-permits-tennessee/) and [fence permits in Tennessee](/guides/fence-permits-tennessee/).
 4. **Materials.** Common lumber is usually easy to get. Specific composite colors, railing systems, or custom gates can take longer to arrive.
 5. **Utility locates.** Tennessee 811 asks for at least three working days' notice before digging, and the request is valid for fifteen calendar days after the start date on the ticket.
-6. **Inspections.** A deck usually has inspections at the footings, the framing, and the end. Weather and inspector schedules can add a few days between them.
+6. **Inspections.** A deck usually has a footing inspection, a framing inspection, and a final inspection. Weather and inspector schedules can add a few days between them.
 
 Add those up and a spring deck can easily start in winter. A fence is often simpler, but HOA review alone can add weeks.
 
@@ -580,7 +580,7 @@ Composite decking does not need stain, which makes timing simpler for that part 
 
 ## Decks and fences time differently
 
-A fence is usually faster to build than a deck, and some places that require a deck permit usually do not require one for a fence. Nashville is one example. The biggest timing factors for a fence are HOA approval, the property line, and how much rock is under the fence line. A deck takes more planning and inspections, so it benefits most from starting early.
+A fence is usually faster to build than a deck, and some places that require a deck permit do not require a building permit for a fence. Goodlettsville is one example. The biggest timing factors for a fence are HOA approval, the property line, and how much rock is under the fence line. A deck takes more planning and inspections, so it benefits most from starting early.
 
 If you are doing both, building the deck first can make sense, since the fence layout may change around new stairs or a gate. Talk it through with your builder.
 

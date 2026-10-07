@@ -1,6 +1,6 @@
 {
   "slug": "fence-permits-tennessee",
-  "description": "Some Tennessee cities require a fence permit, while others only set height and placement rules. See how Murfreesboro, Nashville and Rutherford County differ.",
+  "description": "Some Tennessee cities require a fence permit, and others only set height and placement rules. See how Murfreesboro, Nashville and Rutherford County differ.",
   "dek": "There is no single statewide answer. Some cities in Middle Tennessee require a fence permit, some counties ask for a simple form instead, and some places need no paperwork at all as long as the fence follows their height and placement rules. Here is how to find out what applies to your yard before the first post goes in.",
   "sections": [
     {
@@ -34,7 +34,7 @@
       "blocks": [
         {
           "type": "p",
-          "text": "Looking at three neighbors in our service area shows how much the rules can change from one line on the map to the next. These summaries reflect what each office published as of October 2026. Rules change, so confirm with the office before you build."
+          "text": "Looking at three places side by side shows how much the rules can change from one line on the map to the next. These summaries reflect what each office published as of October 2026. Rules change, so confirm with the office before you build."
         },
         {
           "type": "h3",
@@ -48,8 +48,8 @@
           "type": "ul",
           "items": [
             "There is no property line setback for fences, but a fence cannot cross onto a neighbor's land.",
-            "Fences are not allowed in drainage or utility easements or in the public right of way.",
-            "Keep the fence three feet away from mechanical equipment, and do not fence in meters."
+            "Fences are not allowed in drainage or utility easements or in the public right of way, except that the City Engineer may approve a fence in a drainage easement in some cases with a written agreement.",
+            "Keep the fence 3 feet away from mechanical equipment, and do not fence in meters."
           ]
         },
         {
@@ -62,15 +62,15 @@
         },
         {
           "type": "p",
-          "text": "Outside city limits in Rutherford County, the county says a building permit is not required for a fence up to 7 feet tall. It does ask homeowners to fill out a Fence Design Guideline Affidavit with the Rutherford County Planning Department before installation starts. That makes it easy to skip by accident, so put it on the list early."
+          "text": "Outside city limits in Rutherford County, the county says a building permit is not required for a fence up to 7 feet tall. It does require homeowners to fill out a Fence Design Guideline Affidavit with the Rutherford County Planning Department before installation starts. That makes it easy to skip by accident, so put it on the list early."
         },
         {
           "type": "h3",
-          "text": "Metro Nashville: usually no permit, firm height rules"
+          "text": "Metro Nashville: a permit for solid fences, firm height rules"
         },
         {
           "type": "p",
-          "text": "In Nashville and most of Davidson County, Metro Codes says residential fences generally do not require a permit. The rules on where a fence can go are specific:"
+          "text": "In February 2026, Metro Council passed an ordinance that requires a permit from Metro Codes before you build a new opaque fence in Nashville and most of Davidson County. That means a fence that blocks more than half the view, such as a solid wood privacy fence. Open styles such as chain link are not covered, and neither are lots zoned AR, AG, R80 or RS80. Metro's fence web page has not been updated yet, so call Metro Codes before you build to confirm the current permit steps and fee. The rules on where a fence can go are specific:"
         },
         {
           "type": "table",
@@ -80,26 +80,26 @@
           ],
           "rows": [
             [
-              "Solid fence within the 10 foot front setback",
+              "Solid fence within 10 feet of the street right of way",
               "30 inches"
             ],
             [
-              "Open fence, such as chain link or wrought iron, within the 10 foot front setback",
+              "Open fence, such as chain link or wrought iron, within 10 feet of the street right of way",
               "72 inches"
             ],
             [
-              "Rest of the front setback",
+              "Rest of the required front setback",
               "6 feet"
             ],
             [
-              "Side or rear setback",
+              "Required side or rear setback",
               "8 feet"
             ]
           ]
         },
         {
           "type": "p",
-          "text": "Metro also requires that cross beams and bracing face the inside of the property, not the street. Corner lots have an added restriction, with no fences allowed in a 35 foot visibility zone. Wood must be painted, stained or preserved, and metal must be made or treated to resist rust. Homes in special overlay districts, such as historic overlays, can have extra steps, including a preservation permit, so ask Metro Codes if your home sits in one. If you are in Nashville, our [Nashville fence page](/fence-company-nashville-tn/) covers how we plan around these rules."
+          "text": "On most lots, the street right of way starts at the front property line. Metro measures height from the finished grade on the side of the fence with the most exposed height. Metro also requires that cross beams and bracing face the inside of the property, not the street. Corner lots have an added restriction, with no fences allowed in a 35 foot visibility zone. Wood must be painted, stained or preserved, and metal must be made or treated to resist rust. Homes in special overlay districts, such as historic overlays, can have extra steps, including a preservation permit, so ask the Metro Historic Zoning Commission staff, part of the Metro Planning Department, if your home sits in one. If you are in Nashville, our [Nashville fence page](/fence-company-nashville-tn/) covers how we plan around these rules."
         }
       ]
     },
@@ -130,7 +130,7 @@
       "blocks": [
         {
           "type": "p",
-          "text": "Many lots in newer Middle Tennessee subdivisions have drainage or utility easements along the back or side lines. Some cities, including Murfreesboro, do not allow fences inside those easements without written approval from the city. Where a fence is allowed in an easement, the utility or city may still have the right to remove it to reach their lines, and you may be the one paying to put it back."
+          "text": "Many lots in newer Middle Tennessee subdivisions have drainage or utility easements along the back or side lines. Murfreesboro, for example, does not allow fences in drainage or utility easements or the public right of way. The one exception the city lists is a drainage easement, where the City Engineer may approve a fence in some cases with a written agreement. Where a fence is allowed in an easement, the utility or city may still have the right to remove it to reach their lines, and you may be the one paying to put it back."
         },
         {
           "type": "p",
@@ -147,7 +147,7 @@
       "blocks": [
         {
           "type": "p",
-          "text": "A fence that serves as the barrier around a swimming pool is held to a much tighter standard than a yard fence, because it exists to keep small children out. As one local example, Rutherford County's posted pool barrier requirements, based on the 2024 International Swimming Pool and Spa Code, include:"
+          "text": "A fence that serves as the barrier around a swimming pool is held to a much tighter standard than a yard fence, because it exists to keep small children out. As one local example, Rutherford County's posted pool barrier requirements, based on the International Swimming Pool and Spa Code the county has adopted, include:"
         },
         {
           "type": "ul",

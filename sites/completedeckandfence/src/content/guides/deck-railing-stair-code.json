@@ -1,6 +1,6 @@
 {
   "slug": "deck-railing-stair-code",
-  "description": "When a deck needs a railing, how tall it must be, baluster spacing, stair and handrail rules. The code basics Middle Tennessee inspectors check, in plain words.",
+  "description": "When a deck needs a railing, how tall it must be, baluster spacing, stair and handrail rules. The code basics Middle Tennessee inspectors check.",
   "dek": "Railings and stairs protect people from falls, so they get some of the closest attention during inspections. The rules are not complicated once you see them laid out. Here are the basics most Middle Tennessee codes offices work from, and the questions to ask before your deck is drawn.",
   "sections": [
     {
@@ -8,7 +8,7 @@
       "blocks": [
         {
           "type": "p",
-          "text": "Most cities and counties in Tennessee that enforce building codes base their residential rules on the International Residential Code, a national model code, with local changes. Codes offices around Middle Tennessee are not all on the same edition of that code, and each one can add its own amendments. The numbers below are the common baseline that appears in local handouts across the state, but your codes office has the final word. Some offices amend the stair and handrail rules in particular, so riser, tread, and handrail numbers can differ from what you read here. Ask which edition your office uses and whether it has any local changes to railings or stairs."
+          "text": "Most cities and counties in Tennessee that enforce building codes base their residential rules on the International Residential Code, a national model code, with local changes. Codes offices around Middle Tennessee are not all on the same edition of that code, and each one can add its own amendments. The numbers below are the common baseline that appears in local handouts across the state, but your codes office has the final word. Where the State Fire Marshal's Office handles residential permits, the state uses the 2018 International Residential Code, and its state amendments do not change the stair, railing, or handrail rules. Cities and counties that run their own codes departments can make their own changes, so riser, tread, and handrail numbers can still differ from what you read here. Ask which edition your office uses and whether it has any local changes to railings or stairs."
         },
         {
           "type": "p",
@@ -85,7 +85,7 @@
         },
         {
           "type": "p",
-          "text": "Most of that strength comes from how the posts attach to the deck frame. Some codes offices hand out the American Wood Council's prescriptive deck guide, known as DCA 6, which shows tested ways to fasten guard posts to the joists and rim joist. A post held on with a couple of nails or screws through a thin rim board is a common weak spot on older decks."
+          "text": "Most of that strength comes from how the posts attach to the deck frame. Some codes offices hand out the American Wood Council's prescriptive deck guide, known as DCA 6, which shows tested ways to fasten guard posts to the joists and rim joist. A post held on with a couple of nails or screws through a thin rim joist is a common weak spot on older decks."
         },
         {
           "type": "p",
@@ -112,7 +112,7 @@
         },
         {
           "type": "p",
-          "text": "Stairs also need solid footing at the bottom. A stringer resting on loose gravel or a paver that settles into the clay will pull the stairs out of level over time. Your codes office may want a landing or a pad at the bottom of the stairs."
+          "text": "Stairs also need solid ground at the bottom. The residential code calls for a floor or landing at the top and bottom of every stairway. The landing must be at least as wide as the stairs and, on a straight run, at least 36 inches deep in the direction of travel. The code lets interior stairs skip the top landing in some cases, but that exception does not cover outdoor deck stairs. A stringer resting on loose gravel or on a paver that settles into the clay will pull the stairs out of level over time, so plan a solid landing or pad at the bottom from the start."
         }
       ]
     },
@@ -140,7 +140,7 @@
       "blocks": [
         {
           "type": "p",
-          "text": "Some local handouts, such as Franklin's deck guide, call for a light at the top of exterior stairs that lights the stairs and landing, with a switch inside the house. Electrical work usually needs its own permit, so plan the light with the rest of the deck instead of adding it later."
+          "text": "The residential code requires a light at the top landing of outdoor stairs (Section R303.8 in the 2018 and 2021 editions). The code text does not say where the switch must go, so ask your codes office what it accepts. Electrical work usually needs its own permit, so plan the light with the rest of the deck instead of adding it later."
         }
       ]
     },
@@ -161,9 +161,9 @@
           "items": [
             "Which edition of the residential code does your office use, and are there local changes to guards or stairs?",
             "Does my deck height require a guard on every side, including over a slope?",
-            "Will the stairs need a landing or pad at the bottom?",
+            "What will the landing at the bottom of the stairs be made of, and how large does it need to be?",
             "Does the stair need a handrail on one side or both?",
-            "Is a stair light required, and will it need an electrical permit?",
+            "What kind of stair light and switch will you accept, and will it need an electrical permit?",
             "Does my HOA set rules on railing height, style, or color?"
           ]
         }

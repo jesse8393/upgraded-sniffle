@@ -1,6 +1,6 @@
 {
   "slug": "best-time-to-build-deck-fence",
-  "description": "Spring rain, summer heat, fall calm, winter planning. How each season affects a deck or fence build in Middle Tennessee, and how to time permits and HOA review.",
+  "description": "Spring rain, summer heat, fall calm, winter planning. How seasons affect a deck or fence build in Middle Tennessee, and how to time permits and HOA review.",
   "dek": "In Middle Tennessee you can build a deck or fence in almost any month. The season still shapes how smoothly the job goes, how long you wait for a crew, and when you can stain the wood. The best time to build usually comes down to one thing: starting the planning early enough that the build lands when you want to use it.",
   "sections": [
     {
@@ -79,12 +79,12 @@
         {
           "type": "ol",
           "items": [
-            "**Estimates and design.** Allow time to meet with builders, compare bids, and choose materials. Our guides to [deck costs](/guides/deck-cost-middle-tennessee/) and [fence costs](/guides/fence-cost-middle-tennessee/) help you compare bids.",
-            "**HOA approval.** Many review committees meet only on a set schedule, and some want changes before they approve. Our guide to [HOA approval](/guides/hoa-approval-deck-fence/) covers how to get it right the first time.",
-            "**Permits.** Review time varies by city and county and by season. Ask your codes office for a typical turnaround. See our guides to [deck permits](/guides/deck-permits-tennessee/) and [fence permits](/guides/fence-permits-tennessee/).",
+            "**Estimates and design.** Allow time to meet with builders, compare bids, and choose materials. Our guides to [what drives the cost of a deck](/guides/deck-cost-middle-tennessee/) and [what drives the cost of a fence](/guides/fence-cost-middle-tennessee/) break down the numbers.",
+            "**HOA approval.** Many review committees meet only on a set schedule, and some want changes before they approve. Our guide to [getting HOA approval for a fence or deck](/guides/hoa-approval-deck-fence/) covers how to get it right the first time.",
+            "**Permits.** Review time varies by city and county and by season. Ask your codes office for a typical turnaround. See our guides to [deck permits in Tennessee](/guides/deck-permits-tennessee/) and [fence permits in Tennessee](/guides/fence-permits-tennessee/).",
             "**Materials.** Common lumber is usually easy to get. Specific composite colors, railing systems, or custom gates can take longer to arrive.",
             "**Utility locates.** Tennessee 811 asks for at least three working days' notice before digging, and the request is valid for fifteen calendar days after the start date on the ticket.",
-            "**Inspections.** A deck usually has inspections at the footings, the framing, and the end. Weather and inspector schedules can add a few days between them."
+            "**Inspections.** A deck usually has a footing inspection, a framing inspection, and a final inspection. Weather and inspector schedules can add a few days between them."
           ]
         },
         {
@@ -115,7 +115,7 @@
       "blocks": [
         {
           "type": "p",
-          "text": "A fence is usually faster to build than a deck, and some places that require a deck permit usually do not require one for a fence. Nashville is one example. The biggest timing factors for a fence are HOA approval, the property line, and how much rock is under the fence line. A deck takes more planning and inspections, so it benefits most from starting early."
+          "text": "A fence is usually faster to build than a deck, and some places that require a deck permit do not require a building permit for a fence. Goodlettsville is one example. The biggest timing factors for a fence are HOA approval, the property line, and how much rock is under the fence line. A deck takes more planning and inspections, so it benefits most from starting early."
         },
         {
           "type": "p",
