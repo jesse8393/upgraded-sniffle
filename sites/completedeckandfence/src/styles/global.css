@@ -231,9 +231,10 @@ button, input, textarea { font: inherit; color: inherit; }
 .service-title { font: 800 clamp(30px, 3.2vw, 40px)/1 var(--f-display); letter-spacing: -.025em; }
 .service p { color: var(--ink-2); max-width: 40ch; }
 .ticks { list-style: none; padding: 0; display: grid; gap: 10px; }
-.ticks li { display: flex; gap: 12px; align-items: baseline; font-weight: 500; }
+/* A block, not flex, so a link inside the text stays inline with it. */
+.ticks li { position: relative; padding-left: 22px; font-weight: 500; }
 /* A tiny version of the logo's C */
-.ticks li::before { content: ""; flex: none; width: 10px; height: 11px; border: 3px solid var(--red); border-right: 0; border-radius: 3px 0 0 3px; transform: translateY(1px); }
+.ticks li::before { content: ""; position: absolute; left: 0; top: 0.3em; width: 10px; height: 11px; border: 3px solid var(--red); border-right: 0; border-radius: 3px 0 0 3px; }
 
 @media (max-width: 760px) {
   .service-cols { grid-template-columns: 1fr; }
