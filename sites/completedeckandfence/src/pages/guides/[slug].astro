@@ -32,7 +32,7 @@ const article = {
   mainEntityOfPage: absolute(paths.guide(slug)),
 };
 ---
-<Base title={guide.title} description={page.description} path={paths.guide(slug)} schema={[breadcrumbSchema(crumbs), faqSchema(page.faqs), article]} current={paths.guides}>
+<Base title={guide.title} brand={false} description={page.description} path={paths.guide(slug)} schema={[breadcrumbSchema(crumbs), faqSchema(page.faqs), article]} current={paths.guides}>
   <section class="page-hero page-hero-plain">
     <div class="wrap">
       <Breadcrumbs items={crumbs} />

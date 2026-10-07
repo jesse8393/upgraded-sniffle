@@ -24,4 +24,9 @@ export const guideImages = {
   "best-fence-for-dogs": real(work.chainDriveGate),
   "fence-property-line-tennessee": real(work.vinylPrivacy),
   "hoa-approval-deck-fence": real(work.blackMetal),
+  "fence-permits-tennessee": real(work.boardGarden),
+  "repair-or-replace-fence": real(work.woodPrivacy),
+  "deck-railing-stair-code": real(work.whiteDeckStairs),
+  "how-to-choose-deck-fence-builder": real(work.deckWirePool),
+  "best-time-to-build-deck-fence": real(work.deckBalusters),
 };

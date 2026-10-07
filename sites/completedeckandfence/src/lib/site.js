@@ -50,12 +50,13 @@ export const absolute = (path) => new URL(path, SITE.url).href;
 
 // Titles stay at 60 characters or fewer so search results never cut them off.
 const BRAND = ` | ${SITE.name}`;
-export function pageTitle(text) {
+// One rule for browser titles: guides use their headline alone, and every other
+// page ends with the business name, so those titles must fit 60 characters with it.
+export function pageTitle(text, { brand = true } = {}) {
   if (!text) return `Decks and Fences in Middle TN${BRAND}`;
-  const full = `${text}${BRAND}`;
+  const full = brand ? `${text}${BRAND}` : text;
   if (full.length <= 60) return full;
-  if (text.length <= 60) return text;
-  throw new Error(`Title over 60 characters: "${text}"`);
+  throw new Error(`Title over 60 characters: "${full}"`);
 }
 
 // One phone number, two forms: phoneDisplay is what people read on every page and in

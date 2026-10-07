@@ -153,7 +153,7 @@ Ready to plan your fence? [Request a free estimate](/contact/) and we will check
 ---
 slug: /guides/repair-or-replace-fence/
 title: Repair or Replace? Signs Your Fence Is Done
-meta_description: Leaning posts, rot at the ground, sagging gates, storm damage. Which fence problems are a quick repair in Middle Tennessee, and which mean it is time to replace?
+meta_description: Leaning posts, rot at the ground, sagging gates, storm damage. Which fence problems are a quick repair in Middle Tennessee, and which mean replacing it?
 eyebrow: Fence guide
 primary_keyword: repair or replace fence
 secondary_keywords: fence repair, leaning fence, sagging fence gate, rotted fence posts, when to replace a wood fence

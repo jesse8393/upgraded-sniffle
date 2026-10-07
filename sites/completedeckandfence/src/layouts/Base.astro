@@ -19,9 +19,10 @@ const {
   estimateHref = "#estimate",
   current = "",
   pageType = "WebPage",
+  brand = true,
 } = Astro.props;
 
-const fullTitle = pageTitle(title);
+const fullTitle = pageTitle(title, { brand });
 if (!description || description.length < 70 || description.length > 165) {
   throw new Error(`Description for ${path} is ${description?.length ?? 0} characters; keep it between 70 and 165.`);
 }
