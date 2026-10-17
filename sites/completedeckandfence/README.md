@@ -5,11 +5,11 @@ The full site for completedeckandfence.com, built with Astro as plain static pag
 ## What gets built
 
 * Home, `/decks/`, `/fences/`, `/service-areas/`, `/guides/`, and a privacy policy
-* For each of the 21 cities in `src/data/cities.json`, three pages:
+* For each of the 20 cities in `src/data/cities.json`, three pages:
   * `/{city}-tn/`, decks and fences in that city
   * `/deck-builder-{city}-tn/`
   * `/fence-company-{city}-tn/`
-* Twelve guides at `/guides/{slug}/`, listed in `src/data/guides.json`
+* Seventeen guides at `/guides/{slug}/`, listed in `src/data/guides.json`
 * `sitemap-index.xml`, `robots.txt`, and `llms.txt`
 
 The cities match the ones parkerconstructioncompany.com serves. Every page is written fresh, and none of Parker's text is reused.
