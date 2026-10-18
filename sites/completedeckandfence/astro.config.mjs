@@ -6,5 +6,5 @@ export default defineConfig({
   trailingSlash: "always",
   build: { format: "directory", inlineStylesheets: "always" },
   compressHTML: true,
-  integrations: [sitemap({ filter: (page) => !page.endsWith("/404/") && !page.endsWith("/thank-you/") })],
+  integrations: [sitemap({ filter: (page) => !page.endsWith("/404/") && !page.endsWith("/thank-you/") && !page.endsWith("/free-estimate/") })],
 });

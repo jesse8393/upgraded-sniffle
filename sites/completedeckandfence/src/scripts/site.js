@@ -6,13 +6,16 @@ const header = document.querySelector("[data-header]");
 const menuBtn = document.querySelector("[data-menu]");
 const nav = document.getElementById("site-nav");
 
-const setMenu = (open) => {
-  menuBtn.setAttribute("aria-expanded", String(open));
-  nav.classList.toggle("is-open", open);
-};
-menuBtn.addEventListener("click", () => setMenu(menuBtn.getAttribute("aria-expanded") !== "true"));
-nav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+// Ad landing pages have no menu, so every step here checks the menu exists.
+if (menuBtn && nav) {
+  const setMenu = (open) => {
+    menuBtn.setAttribute("aria-expanded", String(open));
+    nav.classList.toggle("is-open", open);
+  };
+  menuBtn.addEventListener("click", () => setMenu(menuBtn.getAttribute("aria-expanded") !== "true"));
+  nav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+}
 
 // The header rule and the mobile CTA react to what is on screen, not to scroll events.
 const mobileCta = document.querySelector("[data-mobile-cta]");
@@ -40,6 +43,22 @@ if (form) {
   const failure = form.dataset.failure;
   // The server turns away forms sent within a few seconds of the page loading.
   const loadedAt = Date.now();
+
+  // Campaign tags in the link that brought the visitor here (an ad, for example) ride along with
+  // the request, so each lead shows where it came from. Read from this page's address only;
+  // nothing is stored in the browser.
+  const params = new URLSearchParams(window.location.search);
+  for (const name of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"]) {
+    const input = form.elements[name];
+    const value = params.get(name);
+    if (input && value) input.value = value.slice(0, 300);
+  }
+  // An ad can link to ?project=deck, fence, both, or repair to preselect the project type.
+  const linked = { deck: "Deck", fence: "Fence", both: "Deck and fence", repair: "Repair" }[(params.get("project") || "").toLowerCase()];
+  if (linked) {
+    const radio = form.querySelector(`input[name="project"][value="${linked}"]`);
+    if (radio) radio.checked = true;
+  }
 
   // Links marked with a project type preselect it in the form.
   document.querySelectorAll("[data-project]").forEach((link) => {

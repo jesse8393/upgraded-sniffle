@@ -141,4 +141,20 @@ r = await run(m, { ...lead, timeline: "" }, env, "4.4.5.2");
 assert.deepEqual(fieldsSeen(), [{ id: "f_proj", field_value: "Fence" }]);
 delete plan["GET /locations/loc1/customFields"];
 out.push("falls back to a field named Timeline; no timeline answer sends no timeline field");
+
+// 13 ad landing page: fixed page tag, campaign tags in the note, nothing extra elsewhere
+m = await fresh();
+r = await run(m, { ...lead, name: "Pat Smith", page: "/free-estimate/", utm_source: "facebook", utm_medium: "paid_social", utm_campaign: "Fall fences", utm_content: "privacy ad 1", fbclid: "IwAR0abc" }, env, "3.3.3.1");
+assert.equal(r.status, 200);
+assert.deepEqual(calls.find((c) => c.key === "POST /contacts/c1/tags").body.tags, ["website lead", "estimate request", "fence", "sms consent transactional", "free estimate page"]);
+const lpNote = calls.find((c) => c.key === "POST /contacts/c1/notes").body.body;
+for (const s of ["Page: /free-estimate/", "Where the visitor came from", "Campaign source (utm_source): facebook", "Campaign medium (utm_medium): paid_social", "Campaign name (utm_campaign): Fall fences", "Ad or link (utm_content): privacy ad 1", "Facebook click id (fbclid): IwAR0abc"]) assert.ok(lpNote.includes(s), s);
+assert.ok(!lpNote.includes("utm_term"), "missing tags are left out");
+assert.equal(calls.find((c) => c.key === "POST /contacts/upsert").body.source, "Website Estimate Form");
+// campaign tags cannot create tags of their own, and pages without them get no extra section
+r = await run(m, { ...lead, name: "Pat Smith", utm_source: "spam tag" }, env, "3.3.3.2");
+assert.ok(!calls.find((c) => c.key === "POST /contacts/c1/tags").body.tags.some((t) => t.includes("spam")));
+r = await run(m, { ...lead, name: "Pat Smith" }, env, "3.3.3.3");
+assert.ok(!calls.find((c) => c.key === "POST /contacts/c1/notes").body.body.includes("Where the visitor came from"));
+out.push("landing page lead: free estimate page tag, campaign tags and Facebook click id in the note, source unchanged; no campaign section without tags");
 console.log(out.map((s) => "PASS " + s).join("\n"));

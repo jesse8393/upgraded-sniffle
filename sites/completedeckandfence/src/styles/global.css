@@ -575,3 +575,46 @@ a[href^="tel:"] { white-space: nowrap; }
 .thanks { padding-block: clamp(48px, 8vw, 112px); }
 .thanks-call { margin-top: 32px; display: grid; gap: 10px; }
 .thanks-call p:last-child { font-size: 20px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+
+/* ── Ad landing page (/free-estimate/) ── */
+/* No menu in the header, so the phone moves to the right edge on its own. */
+.site-header.is-focus .header-phone { margin-left: auto; }
+.site-footer.is-focus .footer-grid { grid-template-columns: minmax(0, 1fr); }
+
+.lp-hero { padding-block: clamp(28px, 5vw, 72px) clamp(56px, 7vw, 104px); }
+.lp-hero-inner { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 88px); align-items: center; }
+.lp-copy { container-type: inline-size; display: grid; gap: 22px; justify-items: start; }
+.lp-title { font-size: clamp(44px, 13cqi, 86px); max-width: 11ch; }
+.lp-copy .lede { max-width: 44ch; }
+.lp-ticks { margin-top: 2px; }
+.lp-copy .hero-actions { margin-top: 6px; }
+
+/* Two real photos, one fence and one deck. The inset overlaps the main photo's lower left
+   corner on a paper colored mat, so the pair reads as a single print with no shadow. */
+.lp-media { position: relative; padding: 0 0 clamp(36px, 4.5vw, 64px) clamp(36px, 5vw, 80px); }
+.lp-photo-main { overflow: hidden; border-radius: var(--r-sm); }
+.lp-photo-main img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 55%; animation: settle 1.6s var(--ease-out) both; }
+.lp-photo-inset { position: absolute; left: 0; bottom: 0; width: 46%; padding: 8px; background: var(--paper); border-radius: var(--r); }
+.lp-photo-inset img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-sm); }
+
+@media (max-width: 900px) {
+  .lp-hero-inner { grid-template-columns: minmax(0, 1fr); }
+  .lp-media { padding-left: clamp(28px, 7vw, 56px); }
+  .lp-photo-main img { aspect-ratio: 4 / 3; }
+  .lp-photo-inset { width: 44%; padding: 6px; }
+}
+@media (max-width: 480px) {
+  .lp-copy .hero-actions .btn { flex: 1 1 100%; }
+}
+
+/* Cities as plain chips: no links off the page, and short enough to scan on a phone. */
+.lp-area { background: var(--paper-2); padding-block: clamp(56px, 7vw, 96px); }
+.lp-area-inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 6vw, 96px); align-items: start; }
+.lp-area-head { display: grid; gap: 16px; max-width: 40ch; color: var(--ink-2); }
+.lp-area-head .h2 { color: var(--ink); }
+.lp-cities { list-style: none; padding: 18px 0 0; display: flex; flex-wrap: wrap; gap: 8px; border-top: 2px solid var(--ink); }
+.lp-cities li { padding: 8px 14px; background: var(--paper); border-radius: var(--r-sm); font-weight: 600; font-size: 16px; }
+@media (max-width: 860px) { .lp-area-inner { grid-template-columns: minmax(0, 1fr); } }
+.lp-faq { padding-top: clamp(56px, 7vw, 96px); }
+.lp-close-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 480px) { .lp-close-actions .btn { flex: 1 1 100%; } }

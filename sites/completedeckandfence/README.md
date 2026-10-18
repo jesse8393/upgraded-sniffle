@@ -11,6 +11,7 @@ The full site for completedeckandfence.com, built with Astro as plain static pag
   * `/fence-company-{city}-tn/`
 * Seventeen guides at `/guides/{slug}/`, listed in `src/data/guides.json`
 * `sitemap-index.xml`, `robots.txt`, and `llms.txt`
+* `/free-estimate/`, the landing page for Facebook and Instagram ads. It has no site menu, is not indexed, and stays out of the sitemap. Link ads to `/free-estimate/?project=fence` (or `deck`, `both`, `repair`) to preselect the project. Campaign tags in the link (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, and Meta's `fbclid`) are saved in the GoHighLevel note for each request, and requests from this page get the tag `free estimate page`.
 
 The cities match the ones parkerconstructioncompany.com serves. Every page is written fresh, and none of Parker's text is reused.
 
@@ -59,6 +60,8 @@ node tools/content-check.mjs pages decks
 ```
 
 ## Deploy
+
+Deploys: the Vercel project `completedeckandfence` is connected to this repo (since Oct 18, 2026), with Root Directory `sites/completedeckandfence` and the production branch `claude/website-building-comparison-b5xun6`. Every push to that branch builds and goes live on completedeckandfence.com. Pushes to other branches make preview deployments only.
 
 `vercel.json` is ready for Vercel: set the project Root Directory to `sites/completedeckandfence`. It adds trailing slash redirects, security headers, and long caching for built assets. Any static host works too: build, then publish `dist/`.
 

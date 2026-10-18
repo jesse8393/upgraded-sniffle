@@ -10,7 +10,7 @@ import { join, relative } from "node:path";
 const dist = new URL("../dist/", import.meta.url).pathname;
 const SITE = "https://completedeckandfence.com";
 // Pages reached only after an action, such as the form thank you page: noindex, no sitemap, no inbound links needed.
-const PRIVATE = new Set(["/thank-you/"]);
+const PRIVATE = new Set(["/thank-you/", "/free-estimate/"]);
 if (!existsSync(dist)) { console.error("Build first: dist/ is missing."); process.exit(2); }
 
 const files = [];

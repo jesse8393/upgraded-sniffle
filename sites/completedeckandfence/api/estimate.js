@@ -20,7 +20,19 @@
 
 import { SMS_CONSENT } from "../src/lib/sms.js";
 
-const MAX = { name: 120, phone: 40, email: 160, zip: 10, notes: 3000, project: 40, timeline: 40, page: 200 };
+const MAX = {
+  name: 120, phone: 40, email: 160, zip: 10, notes: 3000, project: 40, timeline: 40, page: 200,
+  // Campaign tags from the link the visitor arrived on, filled in by the page script when present.
+  utm_source: 100, utm_medium: 100, utm_campaign: 150, utm_content: 150, utm_term: 150, fbclid: 300,
+};
+// How each campaign tag is labeled in the note and the backup email.
+const ATTRIBUTION = [
+  ["utm_source", "Campaign source"], ["utm_medium", "Campaign medium"], ["utm_campaign", "Campaign name"],
+  ["utm_content", "Ad or link"], ["utm_term", "Campaign term"], ["fbclid", "Facebook click id"],
+];
+// Requests sent from an ad landing page get a fixed tag, so GoHighLevel can sort them out.
+// Tags never come from what the visitor sends.
+const PAGE_TAGS = { "/free-estimate/": "free estimate page" };
 const clean = (v, n) => String(v ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n);
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const checked = (v) => v === true || v === "yes" || v === "on" || v === "true";
@@ -142,6 +154,11 @@ function consentRows(lead) {
   ];
 }
 
+// Only the campaign tags that arrived. An empty list when the visitor came without any.
+function attributionRows(lead) {
+  return ATTRIBUTION.filter(([key]) => lead[key]).map(([key, label]) => [`${label} (${key})`, lead[key]]);
+}
+
 const rowsText = (rows) => rows.map(([k, v]) => `${k}: ${v}`).join("\n");
 
 async function sendToGhl(lead, env) {
@@ -189,10 +206,13 @@ async function sendToGhl(lead, env) {
     lead.project.toLowerCase(),
     ...(lead.smsTransactional ? [SMS_TAGS.transactional] : []),
     ...(lead.smsMarketing ? [SMS_TAGS.marketing] : []),
+    ...(PAGE_TAGS[lead.page] ? [PAGE_TAGS[lead.page]] : []),
     // The live check submits this exact name; the tag lets the owner find and delete it.
     ...(lead.name.toLowerCase() === TEST_LEAD_NAME ? ["test"] : []),
   ];
-  const note = `Website estimate request\n\n${rowsText(answerRows(lead))}\n\nText message consent record\n${rowsText(consentRows(lead))}${fieldsNote}`;
+  const attribution = attributionRows(lead);
+  const attributionNote = attribution.length ? `\n\nWhere the visitor came from\n${rowsText(attribution)}` : "";
+  const note = `Website estimate request\n\n${rowsText(answerRows(lead))}\n\nText message consent record\n${rowsText(consentRows(lead))}${attributionNote}${fieldsNote}`;
 
   const steps = [
     ["tags", () => ghl("POST", `/contacts/${contactId}/tags`, { tags })],
@@ -284,7 +304,7 @@ async function resolveStage(ghl, loc) {
 }
 
 async function sendBackupEmail(lead, env) {
-  const rows = [...answerRows(lead), ...consentRows(lead)];
+  const rows = [...answerRows(lead), ...consentRows(lead), ...attributionRows(lead)];
   const html = `<table>${rows.map(([k, v]) => `<tr><td><b>${escapeHtml(k)}</b></td><td>${escapeHtml(String(v)).replace(/\n/g, "<br>")}</td></tr>`).join("")}</table>`;
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
