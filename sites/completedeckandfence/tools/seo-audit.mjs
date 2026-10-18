@@ -18,7 +18,8 @@ const files = [];
   for (const f of readdirSync(dir)) {
     const p = join(dir, f);
     if (statSync(p).isDirectory()) walk(p);
-    else if (f.endsWith(".html")) files.push(p);
+    // Search Console verification files are not pages; Google needs them byte for byte.
+    else if (f.endsWith(".html") && !/^google[0-9a-f]+\.html$/.test(f)) files.push(p);
   }
 })(dist);
 
