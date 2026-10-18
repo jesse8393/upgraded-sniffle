@@ -1,0 +1,17 @@
+---
+import { inlineHtml } from "../lib/site.js";
+const { faqs = [], heading = "Questions we hear", id = "questions" } = Astro.props;
+---
+{faqs.length > 0 && (
+  <section class="faqs" id={id} aria-labelledby={`${id}-title`}>
+    <h2 id={`${id}-title`} class="faqs-title">{heading}</h2>
+    <div class="faq-list">
+      {faqs.map((f) => (
+        <div class="faq">
+          <h3>{f.q}</h3>
+          <p set:html={inlineHtml(f.a)} />
+        </div>
+      ))}
+    </div>
+  </section>
+)}

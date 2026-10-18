@@ -1,0 +1,52 @@
+---
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import EmailLink from "../components/EmailLink.astro";
+import { SITE, paths, phoneDisplay, phoneHref, breadcrumbSchema } from "../lib/site.js";
+import { SMS_PROGRAM } from "../lib/sms.js";
+const crumbs = [{ name: "Home", href: "/" }, { name: "Terms", href: paths.terms }];
+---
+<Base title="Terms and Text Messaging Terms" description={`Terms for the ${SITE.name} website and the ${SMS_PROGRAM} program: what we send, how often, costs, and how to stop.`} path={paths.terms} schema={[breadcrumbSchema(crumbs)]} current={paths.terms} estimateHref="/#estimate">
+  <section class="page-hero page-hero-plain">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <h1 class="page-title">Terms and Text Messaging Terms</h1>
+      <p class="page-lede">Last updated October 4, 2026</p>
+    </div>
+  </section>
+  <div class="wrap article-body article-narrow legal">
+    <h2>About these terms</h2>
+    <p>These terms cover this website and the {SMS_PROGRAM} text message program. The guides and pages on this site are general information to help you plan. We confirm the details of your project with you at the estimate.</p>
+
+    <h2>{SMS_PROGRAM}</h2>
+    <p>{SMS_PROGRAM} is the text message program from {SITE.name}. You join it by checking one or both text message boxes on our <a href="/#estimate">estimate form</a>. Both boxes are optional, and consent is not a condition of purchase.</p>
+
+    <h2>Eligibility</h2>
+    <p>You must be at least 18 years old and the account holder or an authorized user of the mobile number you provide to sign up for our texts.</p>
+
+    <h2>What we send</h2>
+    <p>If you check the first box, we text you about your estimate: replies to your request, visit scheduling, reminders, and project updates.</p>
+    <p>If you check the second box, we also send occasional offers and seasonal specials. We send offers only to people who checked that box.</p>
+
+    <h2>How often</h2>
+    <p>Message frequency varies.</p>
+
+    <h2>Cost</h2>
+    <p>Msg &amp; data rates may apply, depending on your mobile plan.</p>
+
+    <h2>How to stop or get help</h2>
+    <p>Reply STOP to any message to cancel. After that, you may receive one final text confirming you are unsubscribed, and we will not text you again unless you opt in again. Reply HELP to any message for help.</p>
+
+    <h2>Support</h2>
+    <p>For help with {SMS_PROGRAM}, reply HELP{phoneDisplay && <>, call <a href={phoneHref}>{phoneDisplay}</a></>}{SITE.email && <>, or email <EmailLink /></>}.</p>
+
+    <h2>Carriers</h2>
+    <p>Carriers are not liable for delayed or undelivered messages.</p>
+
+    <h2>Privacy</h2>
+    <p>We handle your mobile number and the rest of your information as described in our <a href={paths.privacy}>Privacy Policy</a>. No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</p>
+
+    <h2>Changes to these terms</h2>
+    <p>If these terms change, the new version will be posted on this page with a new date.</p>
+  </div>
+</Base>

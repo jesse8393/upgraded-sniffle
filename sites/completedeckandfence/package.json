@@ -1,0 +1,19 @@
+{
+  "name": "completedeckandfence",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:content": "node tools/content-check.mjs all",
+    "check:slop": "node tools/slop-check.mjs",
+    "check:seo": "node tools/seo-audit.mjs",
+    "test:estimate": "node tools/estimate-test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5",
+    "sharp": "^0.35.4"
+  }
+}

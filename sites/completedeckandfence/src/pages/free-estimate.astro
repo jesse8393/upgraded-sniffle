@@ -1,0 +1,136 @@
+---
+// Landing page for paid social ads on Facebook and Instagram.
+// Not indexed and left out of the sitemap. It has no site menu, so the estimate form is the one
+// next step. Ads can link to /free-estimate/?project=fence (or deck, both, repair) to preselect the
+// project, and campaign tags in the link (utm_source and the rest, plus fbclid) are saved with
+// each request in GoHighLevel, along with the tag "free estimate page".
+import Base from "../layouts/Base.astro";
+import { Picture, getImage } from "astro:assets";
+import EstimateSection from "../components/EstimateSection.astro";
+import WorkGallery from "../components/WorkGallery.astro";
+import Steps from "../components/Steps.astro";
+import Faqs from "../components/Faqs.astro";
+import { work } from "../lib/work.js";
+import { IMG, widthsBetween } from "../lib/images.js";
+import { phoneDisplay, phoneHref, cities as allCities, getCityContent } from "../lib/site.js";
+
+const PATH = "/free-estimate/";
+
+// Hero photos: the main photo fills the right column (the left on phones, full width),
+// and the inset sits over its lower left corner at a little under half its width.
+const main = work.woodPrivacy;
+const inset = work.whiteDeckStairs;
+const mainImg = { widths: widthsBetween(380, 1500), sizes: "(max-width: 900px) 92vw, (max-width: 1240px) 42vw, 520px" };
+const insetImg = { widths: widthsBetween(160, 700), sizes: "(max-width: 900px) 42vw, (max-width: 1240px) 19vw, 240px" };
+const heroPreload = await getImage({ src: main.src, format: "avif", quality: 50, widths: mainImg.widths });
+
+// Every city with a live page, in the order cities.json lists them, starting with Murfreesboro.
+const cities = allCities.filter((c) => getCityContent(c.slug));
+const cityCount = cities.length;
+
+const faqs = [
+  {
+    q: "Is the estimate really free?",
+    a: "Yes. Estimates are free, and you see the materials and the price before any work starts.",
+  },
+  {
+    q: "What happens after I send the form?",
+    a: "We reach out within one business day to talk the project through and set up a time to come look at the yard.",
+  },
+  {
+    q: "Do you work in my area?",
+    a: `We build in ${cityCount} cities around Murfreesboro, from Nashville and Franklin out to Cookeville and McMinnville. Put your ZIP code in the form and we will confirm your address is in our area.`,
+  },
+  {
+    q: "Can you fix a fence or deck I already have?",
+    a: "Yes. We repair fences, gates, and decks. Pick Repair in the form and use the notes box to tell us what needs work.",
+  },
+  {
+    q: "Do you install Trex decking?",
+    a: "Yes. We build decks in wood, composite, or Trex decking. Tell us which one you are leaning toward in the notes, or ask us to walk you through the choice.",
+  },
+];
+---
+<Base
+  title="Free Deck and Fence Estimates"
+  description="Free estimates on new fences, new decks, and repairs across Middle Tennessee. Send a few details and we reach out within one business day."
+  path={PATH}
+  image={main.src}
+  noindex
+  focus
+>
+  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroPreload.srcSet.attribute} imagesizes={mainImg.sizes} fetchpriority="high" />
+
+  <section class="lp-hero" aria-labelledby="lp-title">
+    <div class="wrap lp-hero-inner">
+      <div class="lp-copy">
+        <p class="kicker rise">Serving Middle Tennessee</p>
+        <h1 id="lp-title" class="display lp-title rise" style="--d:60ms">Free fence and deck estimates.</h1>
+        <p class="lede rise" style="--d:120ms">Tell us what you want built. We come look at the yard, and you see the materials and the price before any work starts.</p>
+        <ul class="ticks lp-ticks rise" style="--d:160ms">
+          <li>Wood privacy, vinyl, black metal, and chain link fences</li>
+          <li>New decks, replacements, and Trex decking</li>
+          <li>Fence, gate, and deck repairs</li>
+          <li>Serving {cityCount} cities around Murfreesboro</li>
+        </ul>
+        <div class="hero-actions rise" style="--d:200ms">
+          <a class="btn btn-red" href="#estimate">Get my free estimate <span class="arrow" aria-hidden="true"></span></a>
+          {phoneDisplay && <a class="btn btn-ghost" href={phoneHref}>Call {phoneDisplay}</a>}
+        </div>
+      </div>
+      <div class="lp-media">
+        <figure class="lp-photo-main">
+          <Picture src={main.src} formats={["avif", "webp"]} quality={50} widths={mainImg.widths} sizes={mainImg.sizes} alt={main.alt} loading="eager" fetchpriority="high" />
+        </figure>
+        <figure class="lp-photo-inset">
+          <Picture src={inset.src} formats={["avif", "webp"]} quality={58} widths={insetImg.widths} sizes={insetImg.sizes} alt={inset.alt} loading="eager" />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <EstimateSection
+    heading="Tell us about your project."
+    intro="Estimates are free. We reach out within one business day to talk it through and set up a time to see the yard."
+  />
+
+  <WorkGallery
+    items={[work.vinylPrivacy, work.coveredDeck, work.horizontalBoard, work.deckWirePool, work.blackMetal, work.coveredInside]}
+    heading="Fences and decks we've built."
+  />
+
+  <Steps heading="How it works." formAbove />
+
+  <section class="lp-area" aria-labelledby="lp-area-title">
+    <div class="wrap lp-area-inner">
+      <div class="lp-area-head">
+        <h2 id="lp-area-title" class="h2">Where we build.</h2>
+        <p>Not sure we cover your street? Put your ZIP code in the form and we'll let you know.</p>
+      </div>
+      <ul class="lp-cities">
+        {cities.map((c) => <li>{c.name}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <div class="wrap faq-wrap lp-faq">
+    <Faqs faqs={faqs} heading="Questions before you send it" />
+  </div>
+
+  <section class="band lp-close" aria-labelledby="lp-close-title">
+    <div class="band-top">
+      <div class="wrap band-inner">
+        <h2 id="lp-close-title" class="band-title">Make outside<br> feel complete.</h2>
+        <div class="lp-close-actions">
+          <a class="btn btn-red" href="#estimate">Get my free estimate <span class="arrow" aria-hidden="true"></span></a>
+          {phoneDisplay && <a class="btn btn-light" href={phoneHref}>Call {phoneDisplay}</a>}
+        </div>
+      </div>
+    </div>
+    <div class="band-media">
+      <figure class="wrap">
+        <Picture src={work.boardGarden.src} formats={["avif", "webp"]} quality={62} widths={IMG.band.widths} sizes={IMG.band.sizes} alt={work.boardGarden.alt} />
+      </figure>
+    </div>
+  </section>
+</Base>

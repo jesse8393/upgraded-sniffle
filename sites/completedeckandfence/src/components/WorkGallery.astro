@@ -1,0 +1,24 @@
+---
+import { Picture } from "astro:assets";
+import { gallerySizes, galleryWidths } from "../lib/images.js";
+const { items = [], heading = "Fences we've built.", id = "work", note } = Astro.props;
+const count = items.length;
+---
+<section class="work" id={id} aria-labelledby={`${id}-title`}>
+  <div class="wrap">
+    <div class="work-head">
+      <h2 id={`${id}-title`} class="h2">{heading}</h2>
+      {note && <p class="work-note">{note}</p>}
+    </div>
+    <ul class="work-grid" data-count={count}>
+      {items.map((it, i) => (
+        <li>
+          <figure>
+            <Picture src={it.src} formats={["avif", "webp"]} quality={60} widths={galleryWidths} sizes={gallerySizes(count, i)} alt={it.alt} />
+            <figcaption>{it.caption}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

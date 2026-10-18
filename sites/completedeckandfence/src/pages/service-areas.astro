@@ -1,0 +1,53 @@
+---
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Sections from "../components/Sections.astro";
+import Faqs from "../components/Faqs.astro";
+import Steps from "../components/Steps.astro";
+import EstimateSection from "../components/EstimateSection.astro";
+import { paths, getPageContent, getCityContent, citiesByCounty, inlineHtml, breadcrumbSchema, faqSchema } from "../lib/site.js";
+
+const page = getPageContent("service-areas");
+if (!page) throw new Error("Missing src/content/pages/service-areas.json");
+const crumbs = [{ name: "Home", href: "/" }, { name: "Service areas", href: paths.areas }];
+const groups = citiesByCounty().map((g) => ({ ...g, cities: g.cities.filter((c) => getCityContent(c.slug)) })).filter((g) => g.cities.length);
+---
+<Base title="Service Areas in Middle Tennessee" description={page.description} path={paths.areas} schema={[breadcrumbSchema(crumbs), faqSchema(page.faqs)]} current={paths.areas}>
+  <section class="page-hero page-hero-plain">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <p class="kicker">Middle Tennessee</p>
+      <h1 class="page-title">Where we build decks and fences</h1>
+      <p class="page-lede" set:html={inlineHtml(page.intro)} />
+    </div>
+  </section>
+
+  <section class="area-table-wrap" aria-labelledby="area-table-title">
+    <div class="wrap">
+      <h2 id="area-table-title" class="h2">Cities we serve.</h2>
+      <div class="area-table">
+        {groups.map((g) => (
+          <div class="area-county">
+            <p class="county-name">{g.county}</p>
+            <ul>
+              {g.cities.map((c) => (
+                <li class="area-row">
+                  <a class="area-city" href={paths.cityHub(c.slug)}>{c.name}</a>
+                  <span class="area-links"><a href={paths.deckCity(c.slug)}>Decks</a><a href={paths.fenceCity(c.slug)}>Fences</a></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap article-body article-narrow">
+    <Sections sections={page.sections} />
+    <Faqs faqs={page.faqs} heading="Service area questions" id="questions" />
+  </div>
+
+  <Steps />
+  <EstimateSection />
+</Base>

@@ -1,0 +1,12 @@
+---
+import { slugify } from "../lib/site.js";
+const { sections = [], faqsId, cta = "Get an estimate" } = Astro.props;
+---
+<aside class="toc" aria-label="On this page">
+  <p class="toc-head">On this page</p>
+  <ol>
+    {sections.map((s) => <li><a href={`#${slugify(s.heading)}`}>{s.heading}</a></li>)}
+    {faqsId && <li><a href={`#${faqsId}`}>Questions</a></li>}
+  </ol>
+  <a class="btn btn-red btn-block" href="#estimate">{cta}</a>
+</aside>

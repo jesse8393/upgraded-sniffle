@@ -1,0 +1,25 @@
+---
+// Where the estimate form sends people after GoHighLevel has their request.
+// Not indexed and left out of the sitemap.
+import Base from "../layouts/Base.astro";
+import { SITE, paths, phoneDisplay, phoneHref } from "../lib/site.js";
+---
+<Base title="Thank You" description={`Thank you for your estimate request. ${SITE.name} will reach out within one business day.`} path={paths.thanks} noindex estimateHref="/#estimate">
+  <section class="page-hero page-hero-plain thanks">
+    <div class="wrap">
+      <p class="kicker">Request received</p>
+      <h1 class="page-title">Thank you. We got your request.</h1>
+      <p class="page-lede">We reach out within one business day to talk through your project and set up your free estimate.</p>
+      {phoneDisplay && (
+        <div class="thanks-call">
+          <p class="contact-label">Need us sooner?</p>
+          <p>Call or text <a class="contact-phone" href={phoneHref}>{phoneDisplay}</a></p>
+        </div>
+      )}
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="/">Back to the home page <span class="arrow" aria-hidden="true"></span></a>
+        <a class="btn btn-ghost" href={paths.guides}>Read our guides</a>
+      </div>
+    </div>
+  </section>
+</Base>
